@@ -1,6 +1,4 @@
-﻿Imports System.Text
-Imports Nukepayload2.Ra2CodeAnalysis
-Imports Nukepayload2.Ra2CodeAnalysis.AnalysisHelper
+﻿Imports Nukepayload2.Ra2CodeAnalysis.AnalysisHelper
 
 Public Class HelpDataProvider
     Protected Function GetHelpTextFromDic(code As String, dic As Dictionary(Of String, String)) As String
@@ -8,11 +6,7 @@ Public Class HelpDataProvider
         If dic.ContainsKey(code) Then
             Return dic(code)
         Else
-            'If code.IsNumeric Then
-            '    Return "编号或其它数字"
-            'Else
             Return ""
-            'End If
         End If
     End Function
 
@@ -69,13 +63,44 @@ Public Class HelpDataProvider
         Dim tp = TempAnalizeUsage(Key, Value)
         If tp = "String" Then
             For Each mkv In ini.Values
-                For Each kv In mkv.Value
-                    If Not kv.Key.IsNumeric Then
-                        Exit For
-                    End If
-                    If kv.Value.Item1 = Value Then
+                If mkv.Key = "AITriggerTypes" Then
+                    If ini.Values(mkv.Key).ContainsKey(Value) Then
                         Return FormatUsage(Value, mkv.Key)
                     End If
+                Else
+                    For Each kv In mkv.Value
+                        If Not kv.Key.IsNumeric Then
+                            Exit For
+                        End If
+                        If kv.Value.Item1 = Value Then
+                            Return FormatUsage(Value, mkv.Key)
+                        End If
+                    Next
+                End If
+            Next
+        End If
+        Return FormatUsage(Value, tp)
+    End Function
+    Public Function DeepAnalizeFormatUsage(Key As String, Value As String, ini As RulesAnalizer) As String
+        Dim tp = TempAnalizeUsage(Key, Value)
+        If tp = "String" Then
+            For Each mkv In ini.Values
+                For Each kv In mkv.Value
+                    For Each v In kv.Value.Item1.Split(","c)
+                        If v.Trim = Value Then
+                            If kv.Key.IsNumeric Then
+                                Return FormatUsage(Value, mkv.Key)
+                            ElseIf RulesAnalizer.IsWeaponKey(kv.Key)
+                                Return FormatUsage(Value, "Weapon")
+                            Else
+                                For Each Name In {"WarHead", "Projectile", "MetallicDebris", "DeadBodies"}
+                                    If kv.Key = Name Then
+                                        Return FormatUsage(Value, Name)
+                                    End If
+                                Next
+                            End If
+                        End If
+                    Next
                 Next
             Next
         End If

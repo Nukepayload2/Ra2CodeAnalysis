@@ -56,7 +56,7 @@ Public MustInherit Class ImeBase
                 StartPos -= 1
                 Dim ch = TextInBox.Chars(StartPos)
                 If ch = "=" OrElse ch = "," Then IsLeft = False
-                If ch.IsNonSymVisibleChar Then
+                If ch.IsRegisterableChar Then
                     wrd.Add(ch)
                 ElseIf ch <> " "
                     Exit Do

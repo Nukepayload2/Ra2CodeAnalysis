@@ -45,7 +45,7 @@ Namespace AnalysisHelper
                 Do Until StartPos = 0
                     StartPos -= 1
                     Dim ch = Text.Chars(StartPos)
-                    If ch.IsNonSymVisibleChar Then
+                    If ch.IsRegisterableChar Then
                         wrd.Add(ch)
                     Else
                         Exit Do
@@ -56,7 +56,7 @@ Namespace AnalysisHelper
                 Dim RightPart As New StringBuilder
                 Do Until index >= Text.Length
                     Dim ch = Text.Chars(index)
-                    If ch.IsNonSymVisibleChar Then
+                    If ch.IsRegisterableChar Then
                         RightPart.Append(ch)
                     Else
                         Exit Do
@@ -72,8 +72,8 @@ Namespace AnalysisHelper
         ''' <param name="ch"></param>
         ''' <returns></returns>
         <Extension>
-        Function IsNonSymVisibleChar(ch As Char) As Boolean
-            Return New Regex("(\w|_|\.|%)").IsMatch(ch)
+        Function IsRegisterableChar(ch As Char) As Boolean
+            Return New Regex("(\w|_|\.|%|-)").IsMatch(ch)
         End Function
         <Extension>
         Function BitToInt64(n As ULong) As Long

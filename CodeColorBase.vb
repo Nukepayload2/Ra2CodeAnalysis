@@ -8,7 +8,7 @@ Public MustInherit Class CodeColorBase(Of Brush)
     Dim SecKWLst As IList(Of String) = {"^\w+(?=\(Of)", 'VB样式的泛型左侧
         "\w+(?=<)", 'c#样式的泛型左侧
         "(?<=<)\w+(?=>)", 'c#样式的泛型右侧
-        "\w+(?=\s+\w+;)", 'c#样式的单变量声明
+        "\w+(?=\s+.+;)", 'c#样式的单变量声明
         "(?<=(As|Of)\s+)\w+", 'VB样式的单变量声明+泛型右
         "(?<=\w\.)\w+(?=(\s|;))" '最右侧的成员
         }
