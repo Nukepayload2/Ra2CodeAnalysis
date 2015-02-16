@@ -28,6 +28,10 @@ Public Class INIAnalizer
         End If
         If Not String.IsNullOrEmpty(tx) Then
             If tx.StartsWith("[") Then
+                If tx.Length = 1 Then
+                    Result.Fault.Add(New INIAnalizeInfo(ln, "语法错误：空的主键", tx, curMK))
+                    Return
+                End If
                 curMK = tx.Substring(1, tx.Length - 2).Trim
                 If String.IsNullOrWhiteSpace(curMK) Then
                     Result.Fault.Add(New INIAnalizeInfo(ln, "语法错误：空的主键", tx, curMK))

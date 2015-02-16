@@ -55,13 +55,11 @@ Public MustInherit Class ImeBase
             Do Until StartPos = 0
                 StartPos -= 1
                 Dim ch = TextInBox.Chars(StartPos)
-                If ch = "=" Then IsLeft = False
+                If ch = "=" OrElse ch = "," Then IsLeft = False
                 If ch.IsNonSymVisibleChar Then
                     wrd.Add(ch)
-                Else
-                    StartPos += 1
-                    wrd.Reverse()
-                    Return New String(wrd.ToArray)
+                ElseIf ch <> " "
+                    Exit Do
                 End If
             Loop
             StartPos += 1

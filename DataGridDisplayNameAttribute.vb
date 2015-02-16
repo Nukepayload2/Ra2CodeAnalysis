@@ -6,7 +6,7 @@ Public NotInheritable Class DataGridDisplayNameAttribute
     Public ReadOnly Name As String
     Public Shared Function GetValueDicFromType(tp As Type) As Dictionary(Of String, String)
         Dim NameDic As New Dictionary(Of String, String)
-        For Each m As MemberInfo In tp.GetMembers
+        For Each m As MemberInfo In tp.GetProperties
             Dim Attrib = TryCast(GetCustomAttribute(m, GetType(DataGridDisplayNameAttribute)), DataGridDisplayNameAttribute)
             If Attrib IsNot Nothing Then
                 NameDic.Add(m.Name, DirectCast(Attrib, DataGridDisplayNameAttribute).Name)

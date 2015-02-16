@@ -1,10 +1,79 @@
-﻿Imports System.Text.RegularExpressions
+﻿Imports System.Text
+Imports System.Text.RegularExpressions
 
 Namespace AnalysisHelper
     Public Module Extensions
         <Extension>
+        Public Function IsComment(Text As String, Index As Integer) As Boolean
+            Dim StartPos As Integer = Index
+            If String.IsNullOrEmpty(Text) Then
+                Return True
+            End If
+            If StartPos > Text.Length Then
+                Throw New ArgumentOutOfRangeException("Position", "位置位于字符串外侧")
+            End If
+            If StartPos = 0 Then
+                Return False
+            Else
+                Do Until StartPos = 0
+                    Dim ch = Text.Chars(StartPos)
+                    If ch = ";"c Then
+                        Return True
+                    Else
+                        If ch = vbCr OrElse ch = vbLf Then
+                            Exit Do
+                        End If
+                    End If
+                    StartPos -= 1
+                Loop
+                Return False
+            End If
+        End Function
+        <Extension>
+        Public Function SelectWord(Text As String, index As Integer) As String
+            Dim StartPos As Integer = index
+            If String.IsNullOrEmpty(Text) Then
+                Return String.Empty
+            End If
+            If StartPos > Text.Length Then
+                Throw New ArgumentOutOfRangeException("Position", "位置位于字符串外侧")
+            End If
+            If StartPos = 0 Then
+                Return String.Empty
+            Else
+                Dim wrd As New List(Of Char)
+                Do Until StartPos = 0
+                    StartPos -= 1
+                    Dim ch = Text.Chars(StartPos)
+                    If ch.IsNonSymVisibleChar Then
+                        wrd.Add(ch)
+                    Else
+                        Exit Do
+                    End If
+                Loop
+                wrd.Reverse()
+                Dim LeftPart As New String(wrd.ToArray)
+                Dim RightPart As New StringBuilder
+                Do Until index >= Text.Length
+                    Dim ch = Text.Chars(index)
+                    If ch.IsNonSymVisibleChar Then
+                        RightPart.Append(ch)
+                    Else
+                        Exit Do
+                    End If
+                    index += 1
+                Loop
+                Return LeftPart + RightPart.ToString
+            End If
+        End Function
+        ''' <summary>
+        ''' 判断是否是\w,_,%和.
+        ''' </summary>
+        ''' <param name="ch"></param>
+        ''' <returns></returns>
+        <Extension>
         Function IsNonSymVisibleChar(ch As Char) As Boolean
-            Return New Regex("(\w|_|\.)").IsMatch(ch)
+            Return New Regex("(\w|_|\.|%)").IsMatch(ch)
         End Function
         <Extension>
         Function BitToInt64(n As ULong) As Long
