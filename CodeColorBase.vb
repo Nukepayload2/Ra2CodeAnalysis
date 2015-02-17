@@ -1,14 +1,16 @@
 ﻿Imports System.Text.RegularExpressions
 
 Public MustInherit Class CodeColorBase(Of Brush)
-    Dim KWLst As IEnumerable(Of String) = {"Of(?= \w+)", "(?<=\s)As(?=\s)", "(?<=(As|Of)\s+)String", "string(?=\s)",
-        "(?<=<)string(?=>)", "(?<=(As|Of)\s+)Integer", "int(?=\s)", "(?<=<)int(?=>)", "(?<=(As|Of)\s+)Single",
-        "float(?=\s)", "(?<=<)float(?=>)", "(?<=(As|Of)\s+)Boolean", "bool(?=\s)", "Dim(?=\s)", "Const(?=\s)",
-        "const(?=\s)", "Structure(?=\s)", "struct(?=\s)"}
+    Dim KWLst As IEnumerable(Of String) = {"(?<=\s)As(?=\s)",
+        "(?<=<)(bool|float|object|int|string)(?=>)",
+        "(?<=(As|Of)\s+)(Boolean|Integer|Single|String|Object)",
+        "(bool|float|const|struct|object|int|string)(?=\s)",
+        "(Dim|Const|Structure|Of)(?=\s)",
+        "(?<==\s*)(Nothing|null|True|true|False|false)"}
     Dim SecKWLst As IList(Of String) = {"^\w+(?=\(Of)", 'VB样式的泛型左侧
         "\w+(?=<)", 'c#样式的泛型左侧
         "(?<=<)\w+(?=>)", 'c#样式的泛型右侧
-        "\w+(?=\s+.+;)", 'c#样式的单变量声明
+        "(?<=:)\w+(?=\s+[^=]+;)", 'c#样式的单变量声明
         "(?<=(As|Of)\s+)\w+", 'VB样式的单变量声明+泛型右
         "(?<=\w\.)\w+(?=(\s|;))" '最右侧的成员
         }

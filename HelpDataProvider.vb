@@ -37,9 +37,11 @@ Public Class HelpDataProvider
         ElseIf Code.Contains(".")
             Code = Code.Replace("."c, "_"c)
         ElseIf {"yes", "no"}.Contains(Code.ToLowerInvariant)
-            Return "布尔值常量" & vbCrLf & "用法1:Const " & Code & " As " & tp & vbCrLf & "用法2:const " & cs & " " & Code & ";"
+            Return "布尔值常量" & vbCrLf & "用法1:Const " & Code & " As " & tp & " = " & If(Code.ToLowerInvariant = "yes", "True", "False") & vbCrLf & "用法2:const " & cs & " " & Code & " = " & If(Code.ToLowerInvariant = "yes", "true", "false") & ";"
         ElseIf {"true", "false"}.Contains(Code.ToLowerInvariant)
             Return "表示布尔值" & vbCrLf & "用法1:Structure System.Boolean" & vbCrLf & "用法2:struct System.Boolean;"
+        ElseIf Code.ToLowerInvariant = "none"
+            Return "表示空引用" & vbCrLf & "用法1:Const " & Code & " As Object = Nothing" & vbCrLf & "用法2:const object " & Code & " = null;"
         End If
         Return vbCrLf & "用法1:Dim " & Code & " As " & tp & vbCrLf & "用法2:" & cs & " " & Code & ";"
     End Function

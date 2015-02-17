@@ -19,7 +19,7 @@ Public Class RulesAnalizer
         MyBase.New(INIText)
     End Sub
     Public Shared Function IsWeaponKey(Key As String) As Boolean
-        Return {"OccupyWeapon", "EliteOccupyWeapon", "Primary", "Secondary", "ElitePrimary", "EliteSecondary", "DeathWeapon"}.Contains(Key)
+        Return {"OccupyWeapon", "EliteOccupyWeapon", "Primary", "Secondary", "ElitePrimary", "EliteSecondary", "DeathWeapon"}.Contains(Key) OrElse Key.StartsWith("Weapon") OrElse Key.StartsWith("EliteWeapon")
     End Function
     Protected Function CheckInternal() As INIAnalizeResult
         Dim AdvResult As New INIAnalizeResult

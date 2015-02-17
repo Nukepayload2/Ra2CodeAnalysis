@@ -80,12 +80,6 @@ Public MustInherit Class Ra2IniAnalizer
             End If
         Next
     End Sub
-    ''' <summary>
-    ''' 异步获取分析结果
-    ''' </summary>
-    ''' <returns></returns>
-    Public Function CheckAsync() As Task(Of INIAnalizeResult)
-        Return New Task(Of INIAnalizeResult)(AddressOf Check)
-    End Function
+
 
 End Class

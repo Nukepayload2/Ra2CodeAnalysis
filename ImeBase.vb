@@ -1,9 +1,14 @@
 ﻿Imports System.Text
 Imports Nukepayload2.Ra2CodeAnalysis.AnalysisHelper
-
+Public Class ImeItem
+    Public Property Word As String
+    Sub New(Wrd As String)
+        Word = Wrd
+    End Sub
+End Class
 Public MustInherit Class ImeBase
     Protected MustOverride ReadOnly Property SelectPosition As Integer
-    Protected MustOverride ReadOnly Property ImeList As IList
+    MustOverride Property ImeListBinding As IEnumerable
     MustOverride Property ListVisible As Boolean
     Protected MustOverride Property TextInBox As String
     Protected MustOverride Sub SelectAndSetText(Start As Integer, Length As Integer, Text As String)
@@ -17,26 +22,27 @@ Public MustInherit Class ImeBase
         Dim Selected = SelectText(False, StartPos).Replace("*", "")
         SelectAndSetText(StartPos, Selected.Length, CompleteText)
     End Sub
-    Protected Event ItemAddRequired(Item As Object)
-    Private Shared IsRunning As Boolean = False
-    Protected Sub AddItem(Item As Object) Handles Me.ItemAddRequired
-        ImeList.Add(Item)
-    End Sub
     Public Sub ViewList()
-        ImeList.Clear()
+        ImeListBinding = Nothing
         Dim Left As Boolean = False
         Dim sea = GenerateSearch(Left)
         Dim ls = If(Left, LeftVals, RightVals)
-        Dim Que = From i In ls Where i.StartsWith(sea)
+        Dim Que = From i In ls Where i.ToLowerInvariant.StartsWith(sea.ToLowerInvariant) Order By i
+        Dim tmp As New List(Of ImeItem)
         If Left Then
-            For Each it In Que '使用Like触发测试版vbc的bug 
-                RaiseEvent ItemAddRequired(it & "=")
+            For Each it In Que '使用Like触发测试版vbc的bug
+                If Not it.IsUInteger Then
+                    tmp.Add(New ImeItem(it & "="))
+                End If
             Next
         Else
             For Each it In Que '使用Like触发测试版vbc的bug 
-                RaiseEvent ItemAddRequired(it)
+                If Not it.IsUInteger Then
+                    tmp.Add(New ImeItem(it))
+                End If
             Next
         End If
+        ImeListBinding = tmp
         ListVisible = True
     End Sub
     Protected Function SelectText(ByRef IsLeft As Boolean, ByRef StartPos As Integer) As String
