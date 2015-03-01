@@ -68,23 +68,43 @@ Public Class INIAnalizer
             End If
         End If
     End Sub
-    Sub New(INIText As String)
+    Protected TextCompare As Boolean = False
+    Public Async Function ReloadAsync(IniText As String) As Task
+        Await TaskEx.Run(Sub() Reload(IniText))
+    End Function
+    Public Sub Reload(IniText As String)
+        Values.Clear()
+        ConflictValues.Clear()
+        Result.Fault.Clear()
+        Result.Message.Clear()
+        Result.Warning.Clear()
+        Load(IniText)
+    End Sub
+    Private Sub Load(IniText As String)
         Dim curMK As String = String.Empty
-        Dim txs = INIText.Split(CChar(vbLf))
-        For ln As Integer = 0 To txs.Length - 1
-            Dim tx = txs(ln).Trim
-            LineProc(tx, ln, curMK)
-        Next
+        Dim txs = If(TextCompare, IniText.ToLower.Split(CChar(vbLf)), IniText.Split(CChar(vbLf)))
+        SyncLock New Object
+            For ln As Integer = 0 To txs.Length - 1
+                Dim tx = txs(ln).Trim
+                LineProc(tx, ln, curMK)
+            Next
+        End SyncLock
+    End Sub
+    Sub New(INIText As String, Optional Option_Compare_Text As Boolean = False)
+        TextCompare = Option_Compare_Text
+        Load(INIText)
         Debug.WriteLine(Me.GetType.Name & " Initialized.")
     End Sub
     Sub New(INIText As StreamReader)
         Dim curMK As String = String.Empty
         Dim ln As Integer = 0
-        Do While Not INIText.EndOfStream
-            Dim tx = INIText.ReadLine.Trim
-            LineProc(tx, ln, curMK)
-            ln += 1
-        Loop
+        SyncLock New Object
+            Do While Not INIText.EndOfStream
+                Dim tx = INIText.ReadLine.Trim
+                LineProc(tx, ln, curMK)
+                ln += 1
+            Loop
+        End SyncLock
     End Sub
     ''' <summary>
     ''' 把分析的INI重新写出来,这样能去除重复注册,删除所有注释。
@@ -93,13 +113,15 @@ Public Class INIAnalizer
     Public Overrides Function ToString() As String
         Dim sb As New Text.StringBuilder
         sb.AppendLine(";由Nukepayload2.Ra2CodeAnalysis生成")
-        For Each ks In Values.Keys
-            sb.AppendLine()
-            sb.AppendLine("[" & ks & "]")
-            For Each vs In Values(ks)
-                sb.AppendLine(vs.Key & "=" & vs.Value.Item1)
+        SyncLock New Object 'Protect Values
+            For Each ks In Values.Keys
+                sb.AppendLine()
+                sb.AppendLine("[" & ks & "]")
+                For Each vs In Values(ks)
+                    sb.AppendLine(vs.Key & "=" & vs.Value.Item1)
+                Next
             Next
-        Next
+        End SyncLock
         Return sb.ToString
     End Function
 End Class

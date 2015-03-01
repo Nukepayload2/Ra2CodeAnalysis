@@ -7,8 +7,8 @@ Public MustInherit Class Ra2IniAnalizer
     Sub New(INIText As StreamReader)
         MyBase.New(INIText)
     End Sub
-    Sub New(INIText As String)
-        MyBase.New(INIText)
+    Sub New(INIText As String, Optional Option_Compare_Text As Boolean = False)
+        MyBase.New(INIText, Option_Compare_Text)
     End Sub
     Protected Sub TypeCheck(Arr As IEnumerable(Of String), ids As IEnumerable(Of Integer), chk As Func(Of String, Boolean), errtxt As String, lst As IList(Of INIAnalizeInfo), Linenum As Integer, MKName As String)
         For Each n In ids
@@ -80,6 +80,14 @@ Public MustInherit Class Ra2IniAnalizer
             End If
         Next
     End Sub
-
+    Protected ReadOnly Property SPBuildings As IEnumerable(Of String)
+        Get
+            If TextCompare Then
+                Return {"barracks", "radar", "tech", "proc", "power"}
+            Else
+                Return {"BARRACKS", "RADAR", "TECH", "PROC", "POWER"}
+            End If
+        End Get
+    End Property
 
 End Class

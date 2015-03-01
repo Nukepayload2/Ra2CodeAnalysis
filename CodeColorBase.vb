@@ -17,7 +17,10 @@ Public MustInherit Class CodeColorBase(Of Brush)
     Dim Comment As New Regex("^[^用].*$", RegexOptions.Multiline)
     Protected MustOverride Sub SetColor(Color As Brush, Index As Integer, Length As Integer)
     Protected MustOverride Sub ClearEffects()
+    Protected Overridable Sub EndColorInternal()
 
+    End Sub
+    Public MustOverride Sub Color()
     Protected Sub ColorInternal(Code As String, Instructions As Brush, Types As Brush, Comments As Brush)
         ClearEffects()
         Dim ProcessedIns As New List(Of Integer)
@@ -39,5 +42,6 @@ Public MustInherit Class CodeColorBase(Of Brush)
         For Each m As Match In Comment.Matches(Code)
             SetColor(Comments, m.Index, m.Length)
         Next
+        EndColorInternal()
     End Sub
 End Class

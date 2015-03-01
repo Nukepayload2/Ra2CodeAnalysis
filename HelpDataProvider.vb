@@ -61,15 +61,46 @@ Public Class HelpDataProvider
     Public Function TempAnalizeFormatUsage(Key As String, Value As String) As String
         Return FormatUsage(Key, TempAnalizeUsage(Key, Value))
     End Function
-    Public Function DeepAnalizeFormatUsage(Key As String, Value As String, ini As INIAnalizer) As String
+    Public Function GetRulesUsageForIme(Word As String, Helper As RulesHelpProvider, ini As RulesAnalizer) As String
+        Dim hlp = Helper.GetHelpText(Word)
+        If String.IsNullOrEmpty(hlp) Then
+            hlp = DeepAnalizeFormatUsage(Word, Word, ini, False)
+        End If
+        Return hlp
+    End Function
+    Public Function GetUsageForIme(Word As String, Helper As IHelpProvider, ini As INIAnalizer) As String
+        Dim hlp = Helper.GetHelpText(Word)
+        If String.IsNullOrEmpty(hlp) Then
+            hlp = DeepAnalizeFormatUsage(Word, Word, ini)
+        End If
+        Return hlp
+    End Function
+    Public Function DeepAnalizeFormatUsage(Key As String, Value As String, ini As INIAnalizer, Optional textcomp As Boolean = False) As String
         Dim tp = TempAnalizeUsage(Key, Value)
+        If textcomp Then
+            Key = Key.ToLower
+            Value = Value.ToLower
+        End If
         If tp = "String" Then
             For Each mkv In ini.Values
-                If mkv.Key = "AITriggerTypes" Then
+                If mkv.Key = If(textcomp, "aitriggertypes", "AITriggerTypes") Then
                     If ini.Values(mkv.Key).ContainsKey(Value) Then
                         Return FormatUsage(Value, mkv.Key)
                     End If
                 Else
+                    For Each kv In mkv.Value
+                        For Each Name In {"Warhead", "Sequence"}
+                            If textcomp Then
+                                If kv.Key = Name.ToLower AndAlso Value = kv.Value.Item1.ToLower Then
+                                    Return FormatUsage(Value, Name)
+                                End If
+                            Else
+                                If kv.Key = Name AndAlso Value = kv.Value.Item1 Then
+                                    Return FormatUsage(Value, Name)
+                                End If
+                            End If
+                        Next
+                    Next
                     For Each kv In mkv.Value
                         If Not kv.Key.IsNumeric Then
                             Exit For
@@ -83,8 +114,12 @@ Public Class HelpDataProvider
         End If
         Return FormatUsage(Value, tp)
     End Function
-    Public Function DeepAnalizeFormatUsage(Key As String, Value As String, ini As RulesAnalizer) As String
+    Public Function DeepAnalizeFormatUsage(Key As String, Value As String, ini As RulesAnalizer, textcomp As Boolean, Optional CsOverloadTemp As Object = Nothing) As String
         Dim tp = TempAnalizeUsage(Key, Value)
+        If textcomp Then
+            Key = Key.ToLower
+            Value = Value.ToLower
+        End If
         If tp = "String" Then
             For Each mkv In ini.Values
                 For Each kv In mkv.Value
@@ -92,12 +127,18 @@ Public Class HelpDataProvider
                         If v.Trim = Value Then
                             If kv.Key.IsNumeric Then
                                 Return FormatUsage(Value, mkv.Key)
-                            ElseIf RulesAnalizer.IsWeaponKey(kv.Key)
+                            ElseIf RulesAnalizer.IsWeaponKey(kv.Key, textcomp)
                                 Return FormatUsage(Value, "Weapon")
                             Else
-                                For Each Name In {"WarHead", "Projectile", "MetallicDebris", "DeadBodies"}
-                                    If kv.Key = Name Then
-                                        Return FormatUsage(Value, Name)
+                                For Each Name In {"Warhead", "Projectile", "MetallicDebris", "DeadBodies"}
+                                    If textcomp Then
+                                        If kv.Key = Name.ToLower AndAlso Value = kv.Value.Item1.ToLower Then
+                                            Return FormatUsage(Value, Name)
+                                        End If
+                                    Else
+                                        If kv.Key = Name AndAlso Value = kv.Value.Item1 Then
+                                            Return FormatUsage(Value, Name)
+                                        End If
                                     End If
                                 Next
                             End If
@@ -120,7 +161,7 @@ Public Class HelpDataProvider
             ElseIf sp.IsFraction
                 Return "IEnumerable(Of Single)"
             ElseIf sp.Replace("%", "").IsInteger
-                Return "Percentage"
+                Return "IEnumerable(Of Percentage)"
             Else
                 Return "IEnumerable(Of String)"
             End If
