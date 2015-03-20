@@ -87,11 +87,13 @@
     <Compile Include="CodeColorBlock.vb" />
     <Compile Include="CodeColors.vb" />
     <Compile Include="DataGridDisplayNameAttribute.vb" />
+    <Compile Include="MainKeyTreeNodeWriter.vb" />
     <Compile Include="ExpressionCalculator.vb" />
     <Compile Include="Extensions.vb" />
     <Compile Include="HelpDataProvider.vb" />
     <Compile Include="IHelpProvider.vb" />
-    <Compile Include="Imaging.vb" />
+    <Compile Include="IniTreeNodes.vb" />
+    <Compile Include="IniImagingAnalizer.vb" />
     <Compile Include="ImeBase.vb" />
     <Compile Include="INIAnalizeInfo.vb" />
     <Compile Include="INIAnalizer.vb" />
@@ -101,7 +103,9 @@
     <Compile Include="RulesAnalizer.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="RulesHelpProvider.vb" />
+    <Compile Include="Synchronization.vb" />
     <Compile Include="WidenIniAnalysisInfo.vb" />
+    <Compile Include="WritableKeyValuePair.vb" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

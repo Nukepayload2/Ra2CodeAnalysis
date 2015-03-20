@@ -80,7 +80,7 @@ Public Class INIAnalizer
         Result.Warning.Clear()
         Load(IniText)
     End Sub
-    Private Sub Load(IniText As String)
+    Protected Overridable Sub Load(IniText As String)
         Dim curMK As String = String.Empty
         Dim txs = If(TextCompare, IniText.ToLower.Split(CChar(vbLf)), IniText.Split(CChar(vbLf)))
         SyncLock New Object

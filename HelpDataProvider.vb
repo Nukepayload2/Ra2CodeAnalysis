@@ -59,7 +59,7 @@ Public Class HelpDataProvider
     End Function
 
     Public Function TempAnalizeFormatUsage(Key As String, Value As String) As String
-        Return FormatUsage(Key, TempAnalizeUsage(Key, Value))
+        Return FormatUsage(Key, TempAnalizeUsage(Value))
     End Function
     Public Function GetRulesUsageForIme(Word As String, Helper As RulesHelpProvider, ini As RulesAnalizer) As String
         Dim hlp = Helper.GetHelpText(Word)
@@ -76,7 +76,7 @@ Public Class HelpDataProvider
         Return hlp
     End Function
     Public Function DeepAnalizeFormatUsage(Key As String, Value As String, ini As INIAnalizer, Optional textcomp As Boolean = False) As String
-        Dim tp = TempAnalizeUsage(Key, Value)
+        Dim tp = TempAnalizeUsage(Value)
         If textcomp Then
             Key = Key.ToLower
             Value = Value.ToLower
@@ -115,7 +115,7 @@ Public Class HelpDataProvider
         Return FormatUsage(Value, tp)
     End Function
     Public Function DeepAnalizeFormatUsage(Key As String, Value As String, ini As RulesAnalizer, textcomp As Boolean, Optional CsOverloadTemp As Object = Nothing) As String
-        Dim tp = TempAnalizeUsage(Key, Value)
+        Dim tp = TempAnalizeUsage(Value)
         If textcomp Then
             Key = Key.ToLower
             Value = Value.ToLower
@@ -149,7 +149,7 @@ Public Class HelpDataProvider
         End If
         Return FormatUsage(Value, tp)
     End Function
-    Protected Function TempAnalizeUsage(Key As String, Value As String) As String
+    Protected Function TempAnalizeUsage(Value As String) As String
         Dim rig = Value
         If String.IsNullOrEmpty(rig) Then
             Return "String"

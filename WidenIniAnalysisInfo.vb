@@ -37,11 +37,17 @@
         Next
         Return tmp
     End Function
+    <DataGridDisplayName("类型")>
     Public ReadOnly Property InfoType As InfoTypes
+    <DataGridDisplayName("行号")>
     Public ReadOnly Property LineNumber As Integer
+    <DataGridDisplayName("描述")>
     Public ReadOnly Property Description As String
+    <DataGridDisplayName("文本")>
     Public ReadOnly Property Text As String
+    <DataGridDisplayName("主键")>
     Public ReadOnly Property MainKey As String
+    <DataGridDisplayName("文件名")>
     Public ReadOnly Property FileName As FileNames
     Sub New(InfoType As InfoTypes, LineNumber As Integer, Description As String, Text As String, MainKey As String, FileName As FileNames)
         Me.InfoType = InfoType
