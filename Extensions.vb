@@ -1,8 +1,17 @@
-﻿Imports System.Text
+﻿Imports System.Reflection
+Imports System.Text
 Imports System.Text.RegularExpressions
 
 Namespace AnalysisHelper
     Public Module Extensions
+        <Extension>
+        Public Function GetText(Root As IEnumerable(Of Imaging.MainKeyTreeNode), Generator As Type) As String
+            Dim sb As New StringBuilder(";<生成的代码(生成器:=" + If(Generator?.FullName, "null") + ",版本:=" + If(TryCast(Attribute.GetCustomAttribute(Generator.Assembly, GetType(AssemblyFileVersionAttribute)), AssemblyFileVersionAttribute)?.Version, "null").ToString + ")>" & vbCrLf)
+            For Each s In Root
+                sb.AppendLine(s.ToString)
+            Next
+            Return sb.ToString
+        End Function
         <Extension>
         Public Function IsComment(Text As String, Index As Integer) As Boolean
             Dim StartPos As Integer = Index
@@ -106,6 +115,7 @@ Namespace AnalysisHelper
         <Extension>
         Function IsInteger(txt As String) As Boolean
             If txt.StartsWith("-") OrElse txt.StartsWith("+") Then txt = txt.Substring(1)
+            If txt.Length = 0 Then Return False
             Return txt.Length = Aggregate c In From t In txt.ToCharArray Take While t >= "0"c AndAlso t <= "9"c Into Count
         End Function
         <Extension>
@@ -116,6 +126,7 @@ Namespace AnalysisHelper
         End Function
         <Extension>
         Function IsUInteger(txt As String) As Boolean
+            If txt.Length = 0 Then Return False
             Return txt.Length = Aggregate c In From t In txt.ToCharArray Take While t >= "0"c AndAlso t <= "9"c Into Count
         End Function
         <Extension>
@@ -126,9 +137,7 @@ Namespace AnalysisHelper
         <Extension>
         Function IsNumeric(txt As String) As Boolean
             If txt.StartsWith("-") OrElse txt.StartsWith("+") Then txt = txt.Substring(1)
-            If txt.Length = 0 Then
-                Return False
-            End If
+            If txt.Length = 0 Then Return False
             Return txt.Length = Aggregate c In From t In txt.ToCharArray Take While t >= "0"c AndAlso t <= "9"c OrElse t = "." Into Count
         End Function
         <Extension>

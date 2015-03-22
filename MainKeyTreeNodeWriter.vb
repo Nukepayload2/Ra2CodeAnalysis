@@ -29,7 +29,8 @@ Namespace Imaging
         Public Sub SaveWithoutRename()
             mkt.KeyValues.Clear()
             For Each kv In KeyValues
-                mkt.KeyValues.Add(New KeyValuePair(Of KeyTreeNode, ValueTreeNode)(New KeyTreeNode(kv.Key), New ValueTreeNode(kv.Value)))
+                Dim va = New ValueTreeNode(kv.Value)
+                mkt.KeyValues.Add(New KeyValuePair(Of KeyTreeNode, ValueTreeNode)(New KeyTreeNode(kv.Key, va), va))
             Next
         End Sub
     End Class
