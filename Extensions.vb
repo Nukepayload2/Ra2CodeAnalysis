@@ -25,6 +25,7 @@ Namespace AnalysisHelper
                 Return False
             Else
                 Do Until StartPos = 0
+                    StartPos -= 1
                     Dim ch = Text.Chars(StartPos)
                     If ch = ";"c Then
                         Return True
@@ -33,10 +34,50 @@ Namespace AnalysisHelper
                             Exit Do
                         End If
                     End If
-                    StartPos -= 1
                 Loop
                 Return False
             End If
+        End Function
+
+        <Extension>
+        Public Function SelectLine(Text As String, index As Integer) As String
+            If index = -1 Then
+                Return String.Empty
+            End If
+            Dim StartPos As Integer = index
+            If String.IsNullOrEmpty(Text) Then
+                Return String.Empty
+            End If
+            If StartPos > Text.Length Then
+                Throw New ArgumentOutOfRangeException("Position", "位置位于字符串外侧")
+            End If
+            Dim wrd As New List(Of Char)
+            Do Until StartPos = 0
+                StartPos -= 1
+                Dim ch = Text.Chars(StartPos)
+                If ch <> vbCr AndAlso ch <> vbLf Then
+                    wrd.Add(ch)
+                Else
+                    Exit Do
+                End If
+            Loop
+            wrd.Reverse()
+            Dim LeftPart As New String(wrd.ToArray)
+            Dim RightPart As New StringBuilder
+            Do Until index >= Text.Length
+                Dim ch = Text.Chars(index)
+                If ch <> vbCr AndAlso ch <> vbLf Then
+                    RightPart.Append(ch)
+                Else
+                    Exit Do
+                End If
+                index += 1
+            Loop
+            Return LeftPart + RightPart.ToString
+        End Function
+        <Extension>
+        Public Function IsValidValueChar(Text As Char) As Boolean
+            Return Not {ChrW(10), ChrW(13), "="c, ";"c}.Contains(Text)
         End Function
         <Extension>
         Public Function SelectWord(Text As String, index As Integer) As String
@@ -54,7 +95,7 @@ Namespace AnalysisHelper
                 Do Until StartPos = 0
                     StartPos -= 1
                     Dim ch = Text.Chars(StartPos)
-                    If ch.IsRegisterableChar Then
+                    If ch.IsValidValueChar Then
                         wrd.Add(ch)
                     Else
                         Exit Do
@@ -65,14 +106,14 @@ Namespace AnalysisHelper
                 Dim RightPart As New StringBuilder
                 Do Until index >= Text.Length
                     Dim ch = Text.Chars(index)
-                    If ch.IsRegisterableChar Then
+                    If ch.IsValidValueChar Then
                         RightPart.Append(ch)
                     Else
                         Exit Do
                     End If
                     index += 1
                 Loop
-                Return LeftPart + RightPart.ToString
+                Return LeftPart + RightPart.ToString.Trim
             End If
         End Function
         ''' <summary>

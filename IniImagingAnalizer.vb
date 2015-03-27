@@ -16,7 +16,7 @@ Namespace Imaging
         ''' 注意：修改Root会导致分析结果无效
         ''' </summary>
         ''' <returns></returns>
-        Public ReadOnly Property Root As IList(Of MainKeyTreeNode) = TreeRoot
+        Public ReadOnly Property Root As List(Of MainKeyTreeNode) = TreeRoot
 
         ''' <summary>
         ''' 将ini分析结果保存为String
@@ -25,6 +25,7 @@ Namespace Imaging
         Public Overrides Function ToString() As String
             Return Root.GetText(Me.GetType)
         End Function
+
         Protected Overrides Sub Load(IniText As String)
             MyBase.Load(IniText)
             TreeRoot = New List(Of MainKeyTreeNode)
@@ -48,14 +49,12 @@ Namespace Imaging
                     For Each r1 In TreeRoot
                         If r1.Text = v.Text Then
                             r.Register(r1)
-                            r.UnRegister(v)
                             Exit For
                         End If
                     Next
                 Next
             Next
         End Sub
-
     End Class
 
 End Namespace

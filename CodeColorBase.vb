@@ -4,8 +4,8 @@ Public MustInherit Class CodeColorBase(Of Brush)
     Dim KWLst As IEnumerable(Of String) = {"(?<=\s)As(?=\s)",
         "(?<=<)(bool|float|object|int|string)(?=>)",
         "(?<=(As|Of)\s+)(Boolean|Integer|Single|String|Object)",
-        "(bool|float|const|struct|object|int|string)(?=\s)",
-        "(Dim|Const|Structure|Of)(?=\s)",
+        "(bool|float|const|struct|object|int|string|class)(?=\s)",
+        "(Dim|Const|Structure|Of|Class)(?=\s)",
         "(?<==\s*)(Nothing|null|True|true|False|false)"}
     Dim SecKWLst As IList(Of String) = {"^\w+(?=\(Of)", 'VB样式的泛型左侧
         "\w+(?=<)", 'c#样式的泛型左侧

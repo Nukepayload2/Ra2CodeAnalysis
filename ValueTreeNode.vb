@@ -1,4 +1,6 @@
-﻿Namespace Imaging
+﻿Imports System.Text
+
+Namespace Imaging
 
     ''' <summary>
     ''' 值
@@ -10,6 +12,15 @@
         Public Sub AddValue(Item As SubValueTreeNode)
             RenameInternal(Text & "," & Item.Text)
             Vals.Add(Item)
+        End Sub
+        Public Sub RemoveValue(Item As SubValueTreeNode)
+            Vals.Remove(Item)
+            Dim sb As New StringBuilder
+            For Each v In Vals
+                sb.Append(v.Text)
+                sb.Append(","c)
+            Next
+            sb.Remove(sb.Length - 2, 1)
         End Sub
         Sub New(Text As String)
             MyBase.New(Text)

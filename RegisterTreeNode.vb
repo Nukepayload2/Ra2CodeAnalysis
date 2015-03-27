@@ -8,8 +8,9 @@ Namespace Imaging
         Protected RegValues As New List(Of IRegisterable)
         Public ReadOnly Property RegisteredValues As IEnumerable(Of IRegisterable) = RegValues
         Public MustOverride Sub RegisterAndModify(Item As IRegisterable)
+        Public MustOverride Sub UnRegisterAndModify(Item As IRegisterable)
         Protected Function IsRegistered(Item As IRegisterable) As Boolean
-            Return (From r In RegValues Select r.Text).Contains(Item.Text)
+            Return (From r In Item.RegisteredIn Select r.Text).Contains(Text)
         End Function
         Public Sub Register(Item As IRegisterable)
             If Not IsRegistered(Item) Then

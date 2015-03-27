@@ -12,7 +12,13 @@ Public Class HelpDataProvider
 
     Dim vbcs As New Dictionary(Of String, String) From {{"String", "string"}, {"Integer", "int"},
         {"Single", "float"}, {"Boolean", "bool"}, {"Structure", "struct"}}
-    Protected Function FormatUsage(Code As String, tp As String) As String
+    ''' <summary>
+    ''' 格式化用法为vb代码和c#代码
+    ''' </summary>
+    ''' <param name="Code"></param>
+    ''' <param name="tp"></param>
+    ''' <returns></returns>
+    Public Function FormatUsage(Code As String, tp As String, Optional DisableTypeJudgeFormat As Boolean = True) As String
         Dim cs As String
         If vbcs.ContainsKey(tp) Then
             cs = vbcs(tp)
@@ -22,9 +28,13 @@ Public Class HelpDataProvider
                 cs = cs.Replace(k, vbcs(k))
             Next
         End If
-
         If String.IsNullOrEmpty(Code) Then
             Return String.Empty
+        End If
+        If Not DisableTypeJudgeFormat Then
+            If tp.Contains("IEnumerable(Of") Then
+                Return "表示多个可枚举的" & tp.Substring(15, tp.Length - 16) & vbCrLf & "用法1:Dim <VariableName> As " & tp & vbCrLf & "用法2:" & cs & " <VariableName>;"
+            End If
         End If
         If Code.IsInteger Then
             Return "整数常量" & vbCrLf & "用法1:Structure System.Int32" & vbCrLf & "用法2:struct System.Int32;"
@@ -64,7 +74,7 @@ Public Class HelpDataProvider
     Public Function GetRulesUsageForIme(Word As String, Helper As RulesHelpProvider, ini As RulesAnalizer) As String
         Dim hlp = Helper.GetHelpText(Word)
         If String.IsNullOrEmpty(hlp) Then
-            hlp = DeepAnalizeFormatUsage(Word, Word, ini, False)
+            hlp = DeepAnalizeFormatUsage(Word, Word, ini)
         End If
         Return hlp
     End Function
@@ -75,29 +85,19 @@ Public Class HelpDataProvider
         End If
         Return hlp
     End Function
-    Public Function DeepAnalizeFormatUsage(Key As String, Value As String, ini As INIAnalizer, Optional textcomp As Boolean = False) As String
+    Public Function DeepAnalizeType(Value As String, ini As INIAnalizer) As String
         Dim tp = TempAnalizeUsage(Value)
-        If textcomp Then
-            Key = Key.ToLower
-            Value = Value.ToLower
-        End If
         If tp = "String" Then
             For Each mkv In ini.Values
-                If mkv.Key = If(textcomp, "aitriggertypes", "AITriggerTypes") Then
+                If mkv.Key = "AITriggerTypes" Then
                     If ini.Values(mkv.Key).ContainsKey(Value) Then
-                        Return FormatUsage(Value, mkv.Key)
+                        Return mkv.Key
                     End If
                 Else
                     For Each kv In mkv.Value
                         For Each Name In {"Warhead", "Sequence"}
-                            If textcomp Then
-                                If kv.Key = Name.ToLower AndAlso Value = kv.Value.Item1.ToLower Then
-                                    Return FormatUsage(Value, Name)
-                                End If
-                            Else
-                                If kv.Key = Name AndAlso Value = kv.Value.Item1 Then
-                                    Return FormatUsage(Value, Name)
-                                End If
+                            If kv.Key = Name AndAlso Value = kv.Value.Item1 Then
+                                Return Name
                             End If
                         Next
                     Next
@@ -106,39 +106,36 @@ Public Class HelpDataProvider
                             Exit For
                         End If
                         If kv.Value.Item1 = Value Then
-                            Return FormatUsage(Value, mkv.Key)
+                            Return mkv.Key
                         End If
                     Next
                 End If
             Next
         End If
-        Return FormatUsage(Value, tp)
+        Return tp
     End Function
-    Public Function DeepAnalizeFormatUsage(Key As String, Value As String, ini As RulesAnalizer, textcomp As Boolean, Optional CsOverloadTemp As Object = Nothing) As String
+    Public Function DeepAnalizeFormatUsage(Key As String, Value As String, ini As INIAnalizer) As String
+        Return FormatUsage(Value, DeepAnalizeType(Value, ini))
+    End Function
+    <Obsolete("这个重载版本已经过时了,它将不会工作")>
+    Public Function DeepAnalizeType(Value As String, ini As INIAnalizer, textcomp As Boolean, Optional CsOverloadTemp As Object = Nothing) As String
+        Return String.Empty
+    End Function
+    Public Function DeepAnalizeType(Value As String, ini As RulesAnalizer, Optional CsOverloadTemp As Object = Nothing) As String
         Dim tp = TempAnalizeUsage(Value)
-        If textcomp Then
-            Key = Key.ToLower
-            Value = Value.ToLower
-        End If
         If tp = "String" Then
             For Each mkv In ini.Values
                 For Each kv In mkv.Value
                     For Each v In kv.Value.Item1.Split(","c)
                         If v.Trim = Value Then
                             If kv.Key.IsNumeric Then
-                                Return FormatUsage(Value, mkv.Key)
-                            ElseIf RulesAnalizer.IsWeaponKey(kv.Key, textcomp)
-                                Return FormatUsage(Value, "Weapon")
+                                Return mkv.Key
+                            ElseIf RulesAnalizer.IsWeaponKey(kv.Key)
+                                Return "Weapon"
                             Else
                                 For Each Name In {"Warhead", "Projectile", "MetallicDebris", "DeadBodies"}
-                                    If textcomp Then
-                                        If kv.Key = Name.ToLower AndAlso Value = kv.Value.Item1.ToLower Then
-                                            Return FormatUsage(Value, Name)
-                                        End If
-                                    Else
-                                        If kv.Key = Name AndAlso Value = kv.Value.Item1 Then
-                                            Return FormatUsage(Value, Name)
-                                        End If
+                                    If kv.Key = Name AndAlso Value = kv.Value.Item1 Then
+                                        Return Name
                                     End If
                                 Next
                             End If
@@ -147,7 +144,14 @@ Public Class HelpDataProvider
                 Next
             Next
         End If
-        Return FormatUsage(Value, tp)
+        Return tp
+    End Function
+    <Obsolete("这个重载版本已经过时了,它将不会工作")>
+    Public Function DeepAnalizeFormatUsage(Key As String, Value As String, ini As RulesAnalizer, textcomp As Boolean, Optional CsOverloadTemp As Object = Nothing) As String
+        Return String.Empty
+    End Function
+    Public Function DeepAnalizeFormatUsage(Key As String, Value As String, ini As RulesAnalizer, Optional CsOverloadTemp As Object = Nothing) As String
+        Return FormatUsage(Value, DeepAnalizeType(Value, ini))
     End Function
     Protected Function TempAnalizeUsage(Value As String) As String
         Dim rig = Value

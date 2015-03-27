@@ -68,7 +68,6 @@ Public Class INIAnalizer
             End If
         End If
     End Sub
-    Protected TextCompare As Boolean = False
     Public Async Function ReloadAsync(IniText As String) As Task
         Await TaskEx.Run(Sub() Reload(IniText))
     End Function
@@ -82,7 +81,7 @@ Public Class INIAnalizer
     End Sub
     Protected Overridable Sub Load(IniText As String)
         Dim curMK As String = String.Empty
-        Dim txs = If(TextCompare, IniText.ToLower.Split(CChar(vbLf)), IniText.Split(CChar(vbLf)))
+        Dim txs = IniText.Split(CChar(vbLf))
         SyncLock New Object
             For ln As Integer = 0 To txs.Length - 1
                 Dim tx = txs(ln).Trim
@@ -90,8 +89,7 @@ Public Class INIAnalizer
             Next
         End SyncLock
     End Sub
-    Sub New(INIText As String, Optional Option_Compare_Text As Boolean = False)
-        TextCompare = Option_Compare_Text
+    Sub New(INIText As String)
         Load(INIText)
         Debug.WriteLine(Me.GetType.Name & " Initialized.")
     End Sub

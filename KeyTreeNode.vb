@@ -24,6 +24,13 @@ Namespace Imaging
                 ValueNode.AddValue(New SubValueTreeNode(Item.Text))
             End If
         End Sub
+
+        Public Overrides Sub UnRegisterAndModify(Item As IRegisterable)
+            UnRegister(Item)
+            If (From v In ValueNode.Values Select v.Text).Contains(Item.Text) Then
+                ValueNode.RemoveValue(New SubValueTreeNode(Item.Text))
+            End If
+        End Sub
     End Class
 
 End Namespace

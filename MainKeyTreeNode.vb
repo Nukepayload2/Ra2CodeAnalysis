@@ -61,5 +61,17 @@ Namespace Imaging
                 Throw New InvalidOperationException("注册已满")
             End If
         End Sub
+
+        Public Overrides Sub UnRegisterAndModify(Item As IRegisterable)
+            If IsRegistered(Item) Then
+                UnRegister(Item)
+                For Each kv In KeyValues
+                    If kv.Value.Text = Item.Text Then
+                        KeyValues.Remove(kv)
+                        Return
+                    End If
+                Next
+            End If
+        End Sub
     End Class
 End Namespace
