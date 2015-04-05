@@ -1,6 +1,7 @@
 ﻿Imports System.Reflection
 Imports System.Text
 Imports System.Text.RegularExpressions
+Imports Nukepayload2.Ra2CodeAnalysis.Imaging
 
 Namespace AnalysisHelper
     Public Module Extensions
@@ -38,7 +39,13 @@ Namespace AnalysisHelper
                 Return False
             End If
         End Function
-
+        <Extension>
+        Public Function FindOne(Of T As IniTreeNode)(RT As IEnumerable(Of T), ObjName As String) As T
+            For Each mk In RT
+                If mk.Text = ObjName Then Return mk
+            Next
+            Return Nothing
+        End Function
         <Extension>
         Public Function SelectLine(Text As String, index As Integer) As String
             If index = -1 Then

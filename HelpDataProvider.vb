@@ -153,10 +153,10 @@ Public Class HelpDataProvider
     Public Function DeepAnalizeFormatUsage(Key As String, Value As String, ini As RulesAnalizer, Optional CsOverloadTemp As Object = Nothing) As String
         Return FormatUsage(Value, DeepAnalizeType(Value, ini))
     End Function
-    Protected Function TempAnalizeUsage(Value As String) As String
+    Public Function TempAnalizeUsage(Value As String) As String
         Dim rig = Value
         If String.IsNullOrEmpty(rig) Then
-            Return "String"
+            Return "INullable"
         End If
         If rig.Contains(",") Then
             Dim sp = rig.Split(","c).First.Trim

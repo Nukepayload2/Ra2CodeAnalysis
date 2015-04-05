@@ -51,7 +51,7 @@ Namespace Imaging
             If Not IsRegistered(Item) Then
                 Register(Item)
                 Dim keys = From k In KeyValues Select k.Key.Text
-                For i As Integer = 0 To Integer.MaxValue
+                For i As Integer = 1 To Integer.MaxValue
                     If Not keys.Contains(i.ToString) Then
                         Dim v = New ValueTreeNode(Item.Text)
                         KeyValues.Add(New KeyTreeNode(i.ToString, v), v)

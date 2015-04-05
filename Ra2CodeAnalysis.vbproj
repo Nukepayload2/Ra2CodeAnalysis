@@ -87,6 +87,8 @@
     <Compile Include="CodeColorBlock.vb" />
     <Compile Include="CodeColors.vb" />
     <Compile Include="DataGridDisplayNameAttribute.vb" />
+    <Compile Include="IniNamespace.vb" />
+    <Compile Include="IniNamespaceItem.vb" />
     <Compile Include="IRegisterable.vb" />
     <Compile Include="KeyTreeNode.vb" />
     <Compile Include="MainKeyTreeNode.vb" />
@@ -101,6 +103,8 @@
     <Compile Include="INIAnalizeInfo.vb" />
     <Compile Include="INIAnalizer.vb" />
     <Compile Include="INIAnalizeResult.vb" />
+    <Compile Include="QuickFix.vb" />
+    <Compile Include="QuickFixSuggestion.vb" />
     <Compile Include="Ra2IniAnalizer.vb" />
     <Compile Include="RegisterTreeNode.vb" />
     <Compile Include="ResetableDelayTask.vb" />
