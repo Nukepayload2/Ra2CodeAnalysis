@@ -86,8 +86,11 @@
     <Compile Include="CodeColorBase.vb" />
     <Compile Include="CodeColorBlock.vb" />
     <Compile Include="CodeColors.vb" />
+    <Compile Include="CrashAnalizer.vb" />
+    <Compile Include="CrashItem.vb" />
     <Compile Include="DataGridDisplayNameAttribute.vb" />
     <Compile Include="IniNamespace.vb" />
+    <Compile Include="IniNamespaceFile.vb" />
     <Compile Include="IniNamespaceItem.vb" />
     <Compile Include="IRegisterable.vb" />
     <Compile Include="KeyTreeNode.vb" />

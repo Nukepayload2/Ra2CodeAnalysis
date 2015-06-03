@@ -36,11 +36,18 @@ Public Class RulesAnalizer
             MetallicDebris = From d In Values("General")("MetallicDebris").Item1.Split(","c) Select d.Trim
             For Each Record In Values
                 For Each r In Record.Value
+                    Dim wpchk As Action = Sub()
+                                              If Values.ContainsKey(r.Value.Item1) Then
+                                                  UsedWeapons.Add(r.Value.Item1)
+                                              ElseIf r.Value.Item1.ToLower <> "none"
+                                                  AdvResult.Fault.Add(New INIAnalizeInfo(r.Value.Item2, "武器未定义,可导致单位无法开火或建造时发生AccessViolation", r.Value.Item1, Record.Key))
+                                              End If
+                                          End Sub
                     Select Case r.Key
                         Case "SuperWeapon", "SuperWeapon2" 'SW
                             ValueRegistryCheck("SuperWeaponTypes", "超级武器未注册或注册失败,可能导致运行时AccessViolation异常", Record.Key, r, AdvResult.Fault)
                         Case "Warhead" 'WH
-                            ValueRegistryCheck("Warheads", "弹头未注册或注册失败,可能引发潜在Bug", Record.Key, r, AdvResult.Warning)
+                            ValueRegistryCheck("Warheads", "弹头未注册或注册失败.", Record.Key, r, AdvResult.Message)
                         Case "DeadBodies"
                             If DeadBodies.ContainsEachTrim(r.Value.Item1.Split(","c)) Then
                                 Exit Select
@@ -50,9 +57,9 @@ Public Class RulesAnalizer
                             If MetallicDebris.ContainsEachTrim(r.Value.Item1.Split(","c)) Then
                                 Exit Select
                             End If
-                            EachValueRegistryCheck(r, AdvResult.Warning, Record.Key, "碎片动画未正确注册,可能导致动画不起作用", "Animations", "VoxelAnims")
+                            EachValueRegistryCheck(r, AdvResult.Message, Record.Key, "碎片动画未正确注册.", "Animations", "VoxelAnims")
                         Case "AnimList", "Anim", "MetallicDebris", "ExpireAnim", "TrailerAnim", "Explosion"
-                            EachValueRegistryCheck(r, AdvResult.Warning, Record.Key, "动画未正确注册,可能导致动画不起作用", "Animations", "VoxelAnims")
+                            EachValueRegistryCheck(r, AdvResult.Message, Record.Key, "一般的动画未注册或注册失败.", "Animations", "VoxelAnims")
                         Case "Next"
                             ValueRegistryCheck("Animations", "关键动画未注册或注册失败,可导致运行时AccessViolation异常", Record.Key, New KeyValuePair(Of String, Tuple(Of String, Integer))(r.Key, New Tuple(Of String, Integer)(r.Value.Item1, r.Value.Item2)), AdvResult.Fault)
                         Case "Owner", "RequiredHouses", "FactoryOwners", "ForbiddenHouses"
@@ -76,10 +83,7 @@ Public Class RulesAnalizer
                         Case "TiberiumSpawnType" 'Overlay 
                             ValueRegistryCheck("OverlayTypes", "覆盖物未注册或注册失败,可能导致覆盖物无法产生或运行时AccessViolation异常", Record.Key, r, AdvResult.Fault)
                         Case "OccupyWeapon", "EliteOccupyWeapon", "Primary", "Secondary", "ElitePrimary", "EliteSecondary", "DeathWeapon"
-                            If Not Values.ContainsKey(r.Value.Item1) Then
-                                AdvResult.Warning.Add(New INIAnalizeInfo(r.Value.Item2, "武器未定义,可导致单位无法开火或失去一些死亡效果", r.Value.Item1, Record.Key))
-                            End If
-                            UsedWeapons.Add(r.Value.Item1)
+                            wpchk()
                         Case "Verses"
                             Dim spl = r.Value.Item1.Split(","c)
                             If 0 = Aggregate c In From s In spl Where Not s.Contains("%") Into Count Then
@@ -95,19 +99,47 @@ Public Class RulesAnalizer
                             MainKeyRegistryCheck("ParticleSystems", "粒子系统未注册或注册失败,可能导致运行时AccessViolation异常", Record.Key, r, AdvResult.Fault)
                             ValueRegistryCheck("Particles", "粒子未注册或注册失败,可能导致运行时AccessViolation异常", Record.Key, r, AdvResult.Fault)
                         Case Else
-                            If r.Key.StartsWith("EliteWeapon") OrElse r.Key.StartsWith("Weapon") Then
-                                UsedWeapons.Add(r.Value.Item1)
+                            If (r.Key.StartsWith("EliteWeapon") AndAlso r.Key.Length > 11 AndAlso r.Key.Substring(11).IsUInteger) OrElse (r.Key.StartsWith("Weapon") AndAlso r.Key.Length > 6 AndAlso r.Key.Substring(6).IsUInteger) Then
+                                wpchk()
                             End If
                     End Select
                 Next
             Next
 
-            Debug.WriteLine("Check 1 complete")
+            Debug.WriteLine("Generic Check complete.Weapon check begins")
             Dim wp = From u In UsedWeapons Distinct
             Dim lo = From l In LoadWeapons Distinct
             For Each wea In lo
                 If Not wp.Contains(wea.Item2.Item1) Then
                     AdvResult.Fault.Add(New INIAnalizeInfo(wea.Item2.Item2, "武器未挂载,可能导致运行时AccessViolation异常", wea.Item2.Item1, wea.Item1))
+                End If
+            Next
+            For Each w In wp
+                If Values.ContainsKey(w) Then
+                    Dim wpref = Values(w)
+                    If wpref.Count > 0 Then
+                        Dim fir = wpref.First
+                        For Each BasicKey In {"Damage", "Projectile", "Warhead", "Report", "ROF", "Speed", "Range"}
+                            Dim Rec = If({"Projectile", "Warhead"}.Contains(BasicKey), AdvResult.Fault, AdvResult.Warning)
+                            If wpref.ContainsKey(BasicKey) Then
+                                If String.IsNullOrWhiteSpace(wpref(BasicKey).Item1) Then
+                                    AdvResult.Fault.Add(New INIAnalizeInfo(fir.Value.Item2, $"武器的{BasicKey}值为空,可能导致运行时AccessViolation异常", BasicKey, w))
+                                End If
+                                Select Case BasicKey
+                                    Case "Warhead", "Projectile"
+                                        If Not Values.ContainsKey(w) AndAlso w.ToLower <> "none" Then
+                                            AdvResult.Fault.Add(New INIAnalizeInfo(fir.Value.Item2, $"武器的{BasicKey}值不存在于rules中,可能导致运行时AccessViolation异常", BasicKey, w))
+                                        End If
+                                End Select
+                            Else
+                                Rec.Add(New INIAnalizeInfo(fir.Value.Item2, $"武器没有{BasicKey},可能导致运行时AccessViolation异常", BasicKey, w))
+                            End If
+                        Next
+                    Else
+                        AdvResult.Fault.Add(New INIAnalizeInfo(0, $"武器{w}为空,可能导致运行时AccessViolation异常", w, w))
+                    End If
+                Else
+                    AdvResult.Fault.Add(New INIAnalizeInfo(0, $"Internal Check Error: 没有武器{w},注册信息,但是当作已经注册的武器", w, w))
                 End If
             Next
         Catch ex As KeyNotFoundException

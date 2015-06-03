@@ -4,17 +4,17 @@
 ''' </summary>
 Public Class IniNamespace
     Public Items As New List(Of IniNamespaceItem)
-    Public CurrentINITree As IEnumerable(Of MainKeyTreeNode)
-    Protected Sub Load()
+
+
+    Sub New(INITree As IEnumerable(Of MainKeyTreeNode), ini As INIAnalizer, HelpProvider As IHelpProvider)
         Dim hd As New HelpDataProvider
-        For Each mk In CurrentINITree
+        Dim KeyNames As New List(Of String)
+        For Each mk In INITree
             For Each kv In mk.KeyValues
-                Dim tp = hd.TempAnalizeUsage(kv.Value.Text)
+                Dim tp = hd.DeepAnalizeType(kv.Value.Text, ini)
+                Items.Add(New IniNamespaceItem(kv.Key.Text, HelpProvider.GetHelpText(kv.Key.Text), tp))
+                KeyNames.Add(kv.Key.Text)
             Next
         Next
-    End Sub
-    Sub New(INITree As IEnumerable(Of MainKeyTreeNode))
-        CurrentINITree = INITree
-        Load()
     End Sub
 End Class

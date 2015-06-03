@@ -1,4 +1,6 @@
-﻿Public Class WidenIniAnalysisInfo
+﻿Imports System.Text
+
+Public Class WidenIniAnalysisInfo
     Public Enum InfoTypes
         Message
         Warning
@@ -10,7 +12,17 @@
         AI
         Ra2
     End Enum
-    Public Shared Function GetWidenIniAnalysisInfo(Result As INIAnalizeResult, FileName As String) As IEnumerable(Of WidenIniAnalysisInfo)
+    Public Enum AggragateOptions
+        None
+        Message
+        Warning
+        MessageWarning
+        Fault
+        MessageFault
+        WarningFault
+        All
+    End Enum
+    Public Shared Function GetWidenIniAnalysisInfo(Result As INIAnalizeResult, FileName As String, Optional AggOpt As Integer = AggragateOptions.All) As IEnumerable(Of WidenIniAnalysisInfo)
         Dim tmp As New List(Of WidenIniAnalysisInfo)
         Dim curfn As FileNames
         FileName = FileName.ToLower
@@ -25,16 +37,21 @@
         Else
             Throw New ArgumentException("文件名不是受支持的")
         End If
-
-        For Each tp In Result.Message
-            tmp.Add(New WidenIniAnalysisInfo(InfoTypes.Message, tp.LineNumber, tp.Description, tp.LineText, tp.MainKey, curfn))
-        Next
-        For Each tp In Result.Warning
-            tmp.Add(New WidenIniAnalysisInfo(InfoTypes.Warning, tp.LineNumber, tp.Description, tp.LineText, tp.MainKey, curfn))
-        Next
-        For Each tp In Result.Fault
-            tmp.Add(New WidenIniAnalysisInfo(InfoTypes.Error, tp.LineNumber, tp.Description, tp.LineText, tp.MainKey, curfn))
-        Next
+        If CBool(AggOpt And AggragateOptions.Message) Then
+            For Each tp In Result.Message
+                tmp.Add(New WidenIniAnalysisInfo(InfoTypes.Message, tp.LineNumber, tp.Description, tp.LineText, tp.MainKey, curfn))
+            Next
+        End If
+        If CBool(AggOpt And AggragateOptions.Warning) Then
+            For Each tp In Result.Warning
+                tmp.Add(New WidenIniAnalysisInfo(InfoTypes.Warning, tp.LineNumber, tp.Description, tp.LineText, tp.MainKey, curfn))
+            Next
+        End If
+        If CBool(AggOpt And AggragateOptions.Fault) Then
+            For Each tp In Result.Fault
+                tmp.Add(New WidenIniAnalysisInfo(InfoTypes.Error, tp.LineNumber, tp.Description, tp.LineText, tp.MainKey, curfn))
+            Next
+        End If
         Return tmp
     End Function
     <DataGridDisplayName("类型")>

@@ -155,7 +155,7 @@ Public Class HelpDataProvider
     End Function
     Public Function TempAnalizeUsage(Value As String) As String
         Dim rig = Value
-        If String.IsNullOrEmpty(rig) Then
+        If String.IsNullOrEmpty(rig) OrElse rig.ToLower = "none" Then
             Return "INullable"
         End If
         If rig.Contains(",") Then
