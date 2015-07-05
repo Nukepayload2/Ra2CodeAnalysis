@@ -116,6 +116,7 @@
     <Compile Include="RulesHelpProvider.vb" />
     <Compile Include="SubValueTreeNode.vb" />
     <Compile Include="Synchronization.vb" />
+    <Compile Include="ValueConverter.vb" />
     <Compile Include="ValueTreeNode.vb" />
     <Compile Include="WidenIniAnalysisInfo.vb" />
     <Compile Include="WritableKeyValuePair.vb" />

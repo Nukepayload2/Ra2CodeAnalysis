@@ -80,10 +80,10 @@ Public MustInherit Class Ra2IniAnalizer
             End If
         Next
     End Sub
-    Protected ReadOnly Property SPBuildings As IEnumerable(Of String)
+    Public Shared ReadOnly Property SpecialBuildings As ICollection(Of String)
         Get
-            Return {"BARRACKS", "RADAR", "TECH", "PROC", "POWER"}
+            Return {"BARRACKS", "RADAR", "TECH", "PROC", "POWER", "FACTORY"}
         End Get
     End Property
-
+    Public Shared ReadOnly SpecialTags As ICollection(Of String) = {"<all>", "<none>"}
 End Class

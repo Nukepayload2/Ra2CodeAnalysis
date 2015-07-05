@@ -4,7 +4,9 @@
 ''' </summary>
 Public Class IniNamespace
     Public Items As New List(Of IniNamespaceItem)
-
+    Public Const Rules = "http://schemas.nukepayload2.com/ra2codeanalysis/rules"
+    Public Const AI = "http://schemas.nukepayload2.com/ra2codeanalysis/ai"
+    Public Const Art = "http://schemas.nukepayload2.com/ra2codeanalysis/art"
 
     Sub New(INITree As IEnumerable(Of MainKeyTreeNode), ini As INIAnalizer, HelpProvider As IHelpProvider)
         Dim hd As New HelpDataProvider

@@ -159,10 +159,17 @@ Public Class HelpDataProvider
             Return "INullable"
         End If
         If rig.Contains(",") Then
-            Dim sp = rig.Split(","c).First.Trim
+            Dim spa = rig.Split(","c)
+            Dim sp = spa.First.Trim
             If sp.IsInteger Then
+                For Each tp In spa
+                    If Not tp.Trim.IsInteger Then Return "IEnumerable(Of String)"
+                Next
                 Return "IEnumerable(Of Integer)"
             ElseIf sp.IsFraction
+                For Each tp In spa
+                    If Not tp.Trim.IsFraction Then Return "IEnumerable(Of String)"
+                Next
                 Return "IEnumerable(Of Single)"
             ElseIf sp.Replace("%", "").IsInteger
                 Return "IEnumerable(Of Percentage)"

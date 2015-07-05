@@ -74,7 +74,7 @@ Public Class RulesAnalizer
                                     MainKeyRegistryCheck("VehicleTypes", "Category错误或战车未正确注册,可能导致无法正常建造或运行时AccessViolation异常", Record.Key, r, AdvResult.Fault)
                             End Select
                         Case "Prerequisite", "Prerequisite2"
-                            If SPBuildings.ContainsEachTrim(r.Value.Item1.Split(","c)) Then
+                            If SpecialBuildings.ContainsEachTrim(r.Value.Item1.Split(","c)) Then
                                 Exit Select
                             End If
                             EachValueRegistryCheck(r, AdvResult.Warning, Record.Key, "建筑未正确注册,可能导致建造结果不是预期的", "BuildingTypes")

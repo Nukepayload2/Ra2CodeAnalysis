@@ -120,7 +120,7 @@ Namespace AnalysisHelper
                     End If
                     index += 1
                 Loop
-                Return LeftPart + RightPart.ToString.Trim
+                Return LeftPart.Trim + RightPart.ToString.Trim
             End If
         End Function
         ''' <summary>

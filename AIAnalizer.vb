@@ -34,7 +34,7 @@ Public Class AIAnalizer
                             End If
                             TypeCheck(vals, {3, 4, 10, 11, 12, 13, 15, 16, 17}, Function(s) s.Trim.IsUInteger, "AI触发参数第{0}个的类型错误,应为正整数,可导致AI行为异常", AdvResult.Message, r.Value.Item2, "AITriggerTypes")
                             If Not vals(5).Trim.StartsWith("<") Then
-                                If Not SPBuildings.Contains(vals(5)) AndAlso Not RulesUnitsCache.Contains(vals(5)) Then
+                                If Not SpecialBuildings.Contains(vals(5)) AndAlso Not RulesUnitsCache.Contains(vals(5)) Then
                                     ValueRegistryCheck("BuildingTypes", "AI触发使用了未注册的建筑/单位,可导致运行时AccessViolation异常", "AITriggerTypes", vals(5), r.Value.Item2, AdvResult.Fault, rules)
                                 End If
                             End If
