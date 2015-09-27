@@ -121,6 +121,8 @@ Namespace AnalysisHelper
             End Select
         End Function
         Public Function Eval(Expression As String) As Decimal
+            Numbers.Clear()
+            Operators.Clear()
             Dim Seped = Seperate(Expression.Replace("（", "(").Replace("）", ")").ToCharArray)
             For i As Integer = 0 To Seped.Count - 1
                 Dim current = Seped(i)

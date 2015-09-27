@@ -3,6 +3,7 @@
 ''' </summary>
 Public MustInherit Class Ra2IniAnalizer
     Inherits INIAnalizer
+    Public MustOverride ReadOnly Property Name As String
     Public MustOverride Overrides Function Check() As INIAnalizeResult
     Sub New(INIText As StreamReader)
         MyBase.New(INIText)

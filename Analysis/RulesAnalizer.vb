@@ -5,6 +5,9 @@
 ''' </summary>
 Public Class RulesAnalizer
     Inherits Ra2IniAnalizer
+
+    Public Overrides ReadOnly Property Name As String = "Rules"
+
     ''' <summary>
     ''' 分析结果,包括基类提供的语法检查
     ''' </summary>

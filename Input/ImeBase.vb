@@ -22,6 +22,7 @@ Public MustInherit Class ImeBase
         Dim Selected = SelectText(False, StartPos)
         SelectAndSetText(StartPos, Selected.Length, CompleteText)
     End Sub
+    Dim LockViewList As New Object
     Public Async Sub ViewList()
         ImeListBinding = Nothing
         Dim tmp As New List(Of ImeItem)
@@ -29,7 +30,7 @@ Public MustInherit Class ImeBase
         Dim sea = GenerateSearch(Left)
         Await TaskEx.Run(
                       Sub()
-                          SyncLock New Object
+                          SyncLock LockViewList
                               Dim ls = If(Left, LeftVals, RightVals)
                               Dim Que = From i In ls Where i.ToLowerInvariant.StartsWith(sea.ToLowerInvariant) Order By i
                               If Left Then
@@ -74,7 +75,6 @@ Public MustInherit Class ImeBase
                     Exit Do
                 End If
             Loop
-            StartPos += 1
             wrd.Reverse()
             Return New String(wrd.ToArray)
         End If
@@ -82,12 +82,12 @@ Public MustInherit Class ImeBase
     Protected Function GenerateSearch(ByRef IsLeft As Boolean) As String
         Return SelectText(IsLeft, 0)
     End Function
-
+    Dim Lock As New Object
     Protected Sub ReloadSync(Ini As INIAnalizer)
         MainKeys.Clear()
         LeftVals.Clear()
         RightVals.Clear()
-        SyncLock New Object
+        SyncLock Lock
             For Each mk In Ini.Values
                 If Not MainKeys.Contains(mk.Key) Then
                     MainKeys.Add(mk.Key)

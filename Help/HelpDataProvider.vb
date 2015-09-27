@@ -51,7 +51,7 @@ Public Class HelpDataProvider
         ElseIf {"true", "false"}.Contains(Code.ToLowerInvariant)
             Return "表示布尔值" & vbCrLf & "用法1:Structure System.Boolean" & vbCrLf & "用法2:struct System.Boolean;"
         ElseIf Code.ToLowerInvariant = "none"
-            Return "表示空引用" & vbCrLf & "用法1:Const " & Code & " As Object = Nothing" & vbCrLf & "用法2:const object " & Code & " = null;"
+            Return "表示空值或空引用" & vbCrLf & "用法1:Const " & Code & " As Object = Nothing" & vbCrLf & "用法2:const object " & Code & " = null;"
         End If
         Return vbCrLf & "用法1:Dim " & Code & " As " & tp & vbCrLf & "用法2:" & cs & " " & Code & ";"
     End Function

@@ -87,7 +87,18 @@ Namespace AnalysisHelper
             Return Not {ChrW(10), ChrW(13), "="c, ";"c}.Contains(Text)
         End Function
         <Extension>
-        Public Function SelectWord(Text As String, index As Integer) As String
+        Public Function IsValidSingleWordValueChar(Text As Char) As Boolean
+            Return Char.IsLetterOrDigit(Text) OrElse Text = "{"c OrElse Text = "}"c
+        End Function
+        <Extension>
+        Public Function IsValidTemplatedWordValueChar(Text As Char) As Boolean
+            Return Char.IsLetterOrDigit(Text) OrElse Text = "<"c OrElse Text = ">"c OrElse Text = "_"c OrElse Text = "-"c
+        End Function
+        <Extension>
+        Public Function SelectWord(Text As String, index As Integer, Optional Filter As Func(Of Char, Boolean) = Nothing) As String
+            If Filter Is Nothing Then
+                Filter = AddressOf IsValidValueChar
+            End If
             Dim StartPos As Integer = index
             If String.IsNullOrEmpty(Text) Then
                 Return String.Empty
@@ -99,21 +110,25 @@ Namespace AnalysisHelper
                 Return String.Empty
             Else
                 Dim wrd As New List(Of Char)
+                Dim Terminating = False
                 Do Until StartPos = 0
                     StartPos -= 1
                     Dim ch = Text.Chars(StartPos)
-                    If ch.IsValidValueChar Then
+                    If Filter(ch) AndAlso Not Terminating Then
+                        If ch = "<" Then Terminating = True
                         wrd.Add(ch)
                     Else
                         Exit Do
                     End If
                 Loop
+                Terminating = False
                 wrd.Reverse()
                 Dim LeftPart As New String(wrd.ToArray)
                 Dim RightPart As New StringBuilder
                 Do Until index >= Text.Length
                     Dim ch = Text.Chars(index)
-                    If ch.IsValidValueChar Then
+                    If Filter(ch) AndAlso Not Terminating Then
+                        If ch = ">" Then Terminating = True
                         RightPart.Append(ch)
                     Else
                         Exit Do

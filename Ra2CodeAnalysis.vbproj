@@ -79,49 +79,78 @@
     <Import Include="Windows.UI.Xaml.Media.Imaging" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AIAnalizer.vb" />
-    <Compile Include="AIHelpProvider.vb" />
-    <Compile Include="ArtAnalizer.vb" />
-    <Compile Include="ArtHelpProvider.vb" />
-    <Compile Include="CodeColorBase.vb" />
-    <Compile Include="CodeColorBlock.vb" />
-    <Compile Include="CodeColors.vb" />
-    <Compile Include="CrashAnalizer.vb" />
-    <Compile Include="CrashItem.vb" />
-    <Compile Include="DataGridDisplayNameAttribute.vb" />
-    <Compile Include="IniNamespace.vb" />
-    <Compile Include="IniNamespaceFile.vb" />
-    <Compile Include="IniNamespaceItem.vb" />
-    <Compile Include="IRegisterable.vb" />
-    <Compile Include="KeyTreeNode.vb" />
-    <Compile Include="MainKeyTreeNode.vb" />
-    <Compile Include="MainKeyTreeNodeWriter.vb" />
-    <Compile Include="ExpressionCalculator.vb" />
-    <Compile Include="Extensions.vb" />
-    <Compile Include="HelpDataProvider.vb" />
-    <Compile Include="IHelpProvider.vb" />
-    <Compile Include="IniTreeNode.vb" />
-    <Compile Include="IniImagingAnalizer.vb" />
-    <Compile Include="ImeBase.vb" />
-    <Compile Include="INIAnalizeInfo.vb" />
-    <Compile Include="INIAnalizer.vb" />
-    <Compile Include="INIAnalizeResult.vb" />
-    <Compile Include="QuickFix.vb" />
-    <Compile Include="QuickFixSuggestion.vb" />
-    <Compile Include="Ra2IniAnalizer.vb" />
-    <Compile Include="RegisterTreeNode.vb" />
-    <Compile Include="ResetableDelayTask.vb" />
-    <Compile Include="RulesAnalizer.vb" />
+    <Compile Include="Analysis\AIAnalizer.vb" />
+    <Compile Include="Document\DocumentCategories.vb" />
+    <Compile Include="Document\IniCommentSyntaxTrivia.vb" />
+    <Compile Include="Document\IniControlCharacterSyntaxTrivia.vb" />
+    <Compile Include="ViewModels\DocumentsViewModel.vb" />
+    <Compile Include="Document\IniCommentSyntax.vb" />
+    <Compile Include="Document\IniKeyValuePairSyntax.vb" />
+    <Compile Include="Document\IniMainKeySyntax.vb" />
+    <Compile Include="Document\IniNewlineSyntaxTrivia.vb" />
+    <Compile Include="Document\IniRecordBlock.vb" />
+    <Compile Include="Document\IniWhitespaceSyntaxTrivia.vb" />
+    <Compile Include="Document\IniSyntax.vb" />
+    <Compile Include="Document\IniSyntaxTrivia.vb" />
+    <Compile Include="Document\IniWordSyntaxTrivia.vb" />
+    <Compile Include="Help\AIHelpProvider.vb" />
+    <Compile Include="Analysis\AnalizerManager.vb" />
+    <Compile Include="Analysis\AnalizeSourceViewModel.vb" />
+    <Compile Include="Analysis\ArtAnalizer.vb" />
+    <Compile Include="Help\ArtHelpProvider.vb" />
+    <Compile Include="Colorize\CodeColorBase.vb" />
+    <Compile Include="Colorize\CodeColorBlock.vb" />
+    <Compile Include="Colorize\CodeColors.vb" />
+    <Compile Include="Input\CodeSnippet.vb" />
+    <Compile Include="Utility\DocumentExtensions.vb" />
+    <Compile Include="ViewModels\CodeSnippetGroup.vb" />
+    <Compile Include="ViewModels\CodeSnippetsViewModel.vb" />
+    <Compile Include="Analysis\CrashAnalizer.vb" />
+    <Compile Include="Analysis\CrashItem.vb" />
+    <Compile Include="Utility\DataGridDisplayNameAttribute.vb" />
+    <Compile Include="ViewModels\FindSymbolResult.vb" />
+    <Compile Include="Document\IniBlock.vb" />
+    <Compile Include="Document\IniCommentBlock.vb" />
+    <Compile Include="Document\IniDocument.vb" />
+    <Compile Include="Help\IniNamespace.vb" />
+    <Compile Include="Help\IniNamespaceFile.vb" />
+    <Compile Include="Help\IniNamespaceItem.vb" />
+    <Compile Include="Input\IniValueMainKeyRenamer.vb" />
+    <Compile Include="Imaging\IRegisterable.vb" />
+    <Compile Include="Imaging\KeyTreeNode.vb" />
+    <Compile Include="Imaging\MainKeyTreeNode.vb" />
+    <Compile Include="Imaging\MainKeyTreeNodeWriter.vb" />
+    <Compile Include="Utility\ExpressionCalculator.vb" />
+    <Compile Include="Utility\TextExtensions.vb" />
+    <Compile Include="Help\HelpDataProvider.vb" />
+    <Compile Include="Help\IHelpProvider.vb" />
+    <Compile Include="Imaging\IniTreeNode.vb" />
+    <Compile Include="Imaging\IniImagingAnalizer.vb" />
+    <Compile Include="Input\ImeBase.vb" />
+    <Compile Include="Analysis\INIAnalizeInfo.vb" />
+    <Compile Include="Analysis\INIAnalizer.vb" />
+    <Compile Include="Analysis\INIAnalizeResult.vb" />
+    <Compile Include="Utility\Parallel.vb" />
+    <Compile Include="Utility\ParameterizedProperty.vb" />
+    <Compile Include="Input\QuickFix.vb" />
+    <Compile Include="Input\QuickFixSuggestion.vb" />
+    <Compile Include="Analysis\Ra2IniAnalizer.vb" />
+    <Compile Include="Imaging\RegisterTreeNode.vb" />
+    <Compile Include="Input\RenameOptions.vb" />
+    <Compile Include="Utility\ResetableDelayTask.vb" />
+    <Compile Include="Analysis\RulesAnalizer.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
-    <Compile Include="RulesHelpProvider.vb" />
-    <Compile Include="SubValueTreeNode.vb" />
-    <Compile Include="Synchronization.vb" />
-    <Compile Include="ValueConverter.vb" />
-    <Compile Include="ValueTreeNode.vb" />
-    <Compile Include="WidenIniAnalysisInfo.vb" />
-    <Compile Include="WritableKeyValuePair.vb" />
+    <Compile Include="Help\RulesHelpProvider.vb" />
+    <Compile Include="Imaging\SubValueTreeNode.vb" />
+    <Compile Include="Tools\SymbolFinder.vb" />
+    <Compile Include="Imaging\Synchronization.vb" />
+    <Compile Include="Utility\ValueConverter.vb" />
+    <Compile Include="Imaging\ValueTreeNode.vb" />
+    <Compile Include="ViewModels\WidenIniAnalysisInfo.vb" />
+    <Compile Include="Utility\WritableKeyValuePair.vb" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -131,16 +160,20 @@
     <Reference Include="Microsoft.Threading.Tasks.Extensions">
       <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\portable-net40+sl4+win8+wp71+wpa81\Microsoft.Threading.Tasks.Extensions.dll</HintPath>
     </Reference>
-    <Reference Include="System.IO">
-      <HintPath>..\packages\Microsoft.Bcl.1.1.9\lib\portable-net40+sl5+win8+wp8+wpa81\System.IO.dll</HintPath>
+    <Reference Include="System.IO, Version=1.5.11.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\WpfRa2YrEdit\packages\Microsoft.Bcl.1.1.10\lib\portable-net40+sl5+win8+wp8+wpa81\System.IO.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="System.Runtime">
-      <HintPath>..\packages\Microsoft.Bcl.1.1.9\lib\portable-net40+sl5+win8+wp8+wpa81\System.Runtime.dll</HintPath>
+    <Reference Include="System.Runtime, Version=2.6.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\WpfRa2YrEdit\packages\Microsoft.Bcl.1.1.10\lib\portable-net40+sl5+win8+wp8+wpa81\System.Runtime.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="System.Threading.Tasks">
-      <HintPath>..\packages\Microsoft.Bcl.1.1.9\lib\portable-net40+sl5+win8+wp8+wpa81\System.Threading.Tasks.dll</HintPath>
+    <Reference Include="System.Threading.Tasks, Version=2.6.10.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\WpfRa2YrEdit\packages\Microsoft.Bcl.1.1.10\lib\portable-net40+sl5+win8+wp8+wpa81\System.Threading.Tasks.dll</HintPath>
+      <Private>True</Private>
     </Reference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.VisualBasic.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

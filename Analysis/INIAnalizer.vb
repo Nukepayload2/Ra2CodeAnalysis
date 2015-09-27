@@ -90,6 +90,7 @@ Public Class INIAnalizer
         End SyncLock
     End Sub
     Sub New(INIText As String)
+        INIText = If(INIText, "")
         Load(INIText)
         Debug.WriteLine(Me.GetType.Name & " Initialized.")
     End Sub

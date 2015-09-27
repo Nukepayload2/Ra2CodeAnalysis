@@ -11,6 +11,8 @@ Public Class AIAnalizer
         Me.rules = rules
     End Sub
 
+    Public Overrides ReadOnly Property Name As String = "AI"
+
     Public Overrides Function Check() As INIAnalizeResult
         Dim AdvResult As New INIAnalizeResult
         SyncLock Result

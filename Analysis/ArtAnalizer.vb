@@ -2,6 +2,7 @@
 
 Public Class ArtAnalizer
     Inherits Ra2IniAnalizer
+    Public Overrides ReadOnly Property Name As String = "Art"
     Dim rules As RulesAnalizer
     Sub New(INIText As StreamReader, rules As RulesAnalizer)
         MyBase.New(INIText)
@@ -11,7 +12,6 @@ Public Class ArtAnalizer
         MyBase.New(INIText)
         Me.rules = rules
     End Sub
-
     Public Overrides Function Check() As INIAnalizeResult
         Dim AdvResult As New INIAnalizeResult
         SyncLock Result

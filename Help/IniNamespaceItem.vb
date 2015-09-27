@@ -5,12 +5,12 @@
         KeyName = Key
         Usage = New List(Of DescTypePair) From {New DescTypePair(Desc, TpName)}
     End Sub
-    Public Class DescTypePair
-        Public Description As String
-        Public TypeName As String
-        Sub New(Desc As String, TpName As String)
-            Description = Desc
-            TypeName = TpName
-        End Sub
-    End Class
+End Class
+Public Class DescTypePair
+    Public Description As String
+    Public TypeName As String
+    Sub New(Desc As String, TpName As String)
+        Description = Desc
+        TypeName = TpName
+    End Sub
 End Class

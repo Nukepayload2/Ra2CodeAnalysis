@@ -6,7 +6,7 @@
         Return GetHelpTextWithUsage(code, RulesHelp, RulesTypes)
     End Function
 
-    Dim RulesTypes As New Dictionary(Of String, String) From {{"EnableAIBuildLimitation", "Boolean"},
+    Private Shared RulesTypes As New Dictionary(Of String, String) From {{"EnableAIBuildLimitation", "Boolean"},
 {"UIName", "String"},
 {"Name", "String"},
 {"BasedOn", "String"},
@@ -260,7 +260,6 @@
 {"MaxLowPowerProductionSpeed", "Single"},
 {"LowPowerPenaltyModifier", "Integer"},
 {"GDIGateOne", "String"},
-{"GDIGateTwo", "String"},
 {"WallTower", "String"},
 {"Shipyard", "IEnumerable(Of String)"},
 {"NodGateOne", "String"},
@@ -1715,7 +1714,7 @@
 {"Mine.Cloakable", "Boolean"},
 {"AutoFire", "Boolean"}
 }
-    Dim RulesHelp As New Dictionary(Of String, String) From {{"Accelerates", "可以设置为""ture""或者""false""来决定这个单位移动式是否慢慢加速至Speed定义的速度"},
+    Public Shared RulesHelp As New Dictionary(Of String, String) From {{"Accelerates", "可以设置为""ture""或者""false""来决定这个单位移动式是否慢慢加速至Speed定义的速度"},
         {"AccelerationFactor", "填数值。这个代码要配合Accelerates=使用，指定单位运动中加速的百分比，用小数表示，如设置为"".1""。"},
 {"Adjacent", "填数值。这个代码指定建筑距离扩展建筑的距离。这里的扩展建筑指像基地、战车工厂等可以扩张自己建造领地的建筑。"},
 {"Agent", "填yes或no。这个代码指定步兵单位是否为间谍单位。如果想要让该单位具有""渗透""建筑物的功能，就要与Infiltrate=yes这段代码连用。注意：当设定了Agent=yes后，就不能再加入Assaulter=yes了。"},
@@ -2325,12 +2324,11 @@
 {"MinLowPowerProductionSpeed", "低电量时制造速度为原倍"},
 {"MaxLowPowerProductionSpeed", "中电量(黄色)制造速度为原倍"},
 {"LowPowerPenaltyModifier", "电力惩罚倍数"},
-{"GDIGateOne", "苏军门1"},
-{"GDIGateTwo=", "苏军门2"},
+{"GDIGateOne", "阵营2门1"},
+{"GDIGateTwo", "阵营2门2"},
 {"WallTower", "墙上的塔"},
 {"Shipyard", "定义船厂"},
 {"NodGateOne", "苏军门1"},
-{"NodGateTwo=", "苏军门2"},
 {"NodRegularPower", "苏军基础电力设施"},
 {"NodAdvancedPower", "苏军拓展电力设施"},
 {"GDIPowerPlant", "盟军基础电力设施"},
@@ -2999,7 +2997,6 @@
 {"FourthDisguise", "第四阵营"},
 {"SovietBaseDefenseCounts", "苏联基地防御数量"},
 {"FourthBaseDefenseCounts", "第4阵营基地防御数量"},
-{"GDIGateTwo", "第一阵营闸门"},
 {"NodGateTwo", "第二阵营闸门"},
 {"IceBreakingWeight", "<已过时>超过这个重量就会破冰"},
 {"MyEffectivenessCoefficientDefault", "目标有效系数"},
@@ -3084,7 +3081,6 @@
 {"ImmuneToPoison", "免疫毒弹头"},
 {"TypeImmune", "类型免疫"},
 {"SecretHouses", "秘密建筑物"},
-{"Cloakable", "隐形的，用于潜艇，隐形坦克等"},
 {"OmniCrushResistant", "不被碾压"},
 {"Bounty", "一般奖励"},
 {"VeteranBounty", "老兵奖励"},
