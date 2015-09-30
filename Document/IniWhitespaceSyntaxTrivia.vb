@@ -1,5 +1,5 @@
 ﻿Namespace Document
-    Public Class IniSpaceSyntaxTrivia
+    Public Class IniWhitepaceSyntaxTrivia
         Inherits IniSyntaxTrivia
 
         Public Overrides ReadOnly Property ColorARGB As Integer = CodeColors.Transparent

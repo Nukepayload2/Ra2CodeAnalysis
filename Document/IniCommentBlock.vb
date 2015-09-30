@@ -9,11 +9,7 @@ Namespace Document
 
         Public Overrides Property Text As String
             Get
-                Dim sb As New StringBuilder
-                For Each blk In Children
-                    sb.AppendLine(blk.Text)
-                Next
-                Return sb.ToString
+                Return Children.JoinText(Function(s) s.Text)
             End Get
             Set
                 If Children.Count = 0 Then

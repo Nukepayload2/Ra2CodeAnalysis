@@ -7,11 +7,7 @@ Namespace Document
     Public Class IniDocument(Of TObservable As {IList(Of IniBlock), New})
         Public Overridable Property Text As String
             Get
-                Dim sb As New StringBuilder
-                For Each blk In Children
-                    sb.AppendLine(blk.Text)
-                Next
-                Return sb.ToString
+                Return Children.JoinLine(Function(s) s.Text)
             End Get
             Set(value As String)
                 ReloadBlocks(value)
@@ -19,7 +15,6 @@ Namespace Document
         End Property
         Protected Function GetNewBlocks(Value$) As TObservable
             Dim NewBlocks As New TObservable
-            NewBlocks.Clear()
             Dim ln = Value.Split({vbCrLf}, StringSplitOptions.None)
             Dim StartIndexCounter = 0
             If ln.Length >= 1 Then
@@ -78,18 +73,7 @@ Namespace Document
         End Function
         Public Sub ReloadBlocks(Value$)
             Dim Blk = GetNewBlocks(Value)
-            If Blk.Count = Children.Count Then
-                For i = 0 To Blk.Count - 1
-                    If Children(i).Text <> Blk(i).Text Then
-                        Children(i) = Blk(i)
-                    End If
-                Next
-            Else
-                Children.Clear()
-                For Each b In Blk
-                    Children.Add(b)
-                Next
-            End If
+            Children.ReloadContent(Blk, Function(s) s.Text)
         End Sub
         Public Property Children As New TObservable
         Sub New()

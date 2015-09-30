@@ -83,6 +83,9 @@
     <Compile Include="Document\DocumentCategories.vb" />
     <Compile Include="Document\IniCommentSyntaxTrivia.vb" />
     <Compile Include="Document\IniControlCharacterSyntaxTrivia.vb" />
+    <Compile Include="Document\IniRecordSyntax.vb" />
+    <Compile Include="Document\IniWrongSyntax.vb" />
+    <Compile Include="Document\IniWrongSyntaxTrivia.vb" />
     <Compile Include="ViewModels\DocumentsViewModel.vb" />
     <Compile Include="Document\IniCommentSyntax.vb" />
     <Compile Include="Document\IniKeyValuePairSyntax.vb" />
