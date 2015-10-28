@@ -1,16 +1,39 @@
 ﻿Imports System.Text
 
 Namespace Document
+    Friend Module LoadSetting
+        Public CurrentLoadOption As DocumentLoadOptions
+    End Module
     ''' <summary>
     ''' 表示完整的Ini文档信息
     ''' </summary>
     Public Class IniDocument(Of TObservable As {IList(Of IniBlock), New})
+        Public Property Children As New TObservable
+        Dim _Text$ = ""
+        Sub New()
+            CurrentLoadOption = DocumentLoadOptions.FullAnalysis
+        End Sub
+        Sub New(Text$, Optional LoadOption As DocumentLoadOptions = DocumentLoadOptions.FullAnalysis)
+            Me.Text = Text
+            CurrentLoadOption = LoadOption
+        End Sub
         Public Overridable Property Text As String
             Get
-                Return Children.JoinLine(Function(s) s.Text)
+                Select Case CurrentLoadOption
+                    Case DocumentLoadOptions.Store
+                        Return _Text
+                    Case Else
+                        Return Children.JoinLine(Function(s) s.Text)
+                End Select
             End Get
             Set(value As String)
-                ReloadBlocks(value)
+                Select Case CurrentLoadOption
+                    Case DocumentLoadOptions.Store
+                        _Text = value
+                        Children.Clear()
+                    Case Else
+                        ReloadBlocks(value)
+                End Select
             End Set
         End Property
         Protected Function GetNewBlocks(Value$) As TObservable
@@ -29,8 +52,8 @@ Namespace Document
                     If BlockIsComment Then
                         If Not CurComment Then
                             If CurBlk.Length > 0 Then CurBlk.Remove(CurBlk.Length - 2, 2)
-                            StartIndexCounter += CurBlk.Length
                             NewBlocks.Add(New IniCommentBlock(CurBlk.ToString, StartIndexCounter))
+                            StartIndexCounter += CurBlk.Length
                             CurBlk.Clear()
                             BlockIsComment = False
                         End If
@@ -44,8 +67,8 @@ Namespace Document
                                 Dim PeekIsRecord = ltp.Split(";"c)(0).Contains("=")
                                 If PeekIsRecordStart Then
                                     If CurBlk.Length > 0 Then CurBlk.Remove(CurBlk.Length - 2, 2)
-                                    StartIndexCounter += CurBlk.Length
                                     NewBlocks.Add(New IniRecordBlock(CurBlk.ToString, StartIndexCounter))
+                                    StartIndexCounter += CurBlk.Length
                                     CurBlk.Clear()
                                     CurBlk.AppendLine(ln(i))
                                     BlockIsComment = True
@@ -74,13 +97,6 @@ Namespace Document
         Public Sub ReloadBlocks(Value$)
             Dim Blk = GetNewBlocks(Value)
             Children.ReloadContent(Blk, Function(s) s.Text)
-        End Sub
-        Public Property Children As New TObservable
-        Sub New()
-
-        End Sub
-        Sub New(Text$)
-            Me.Text = Text
         End Sub
     End Class
 End Namespace

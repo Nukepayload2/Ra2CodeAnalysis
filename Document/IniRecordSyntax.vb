@@ -19,15 +19,14 @@ Namespace Document
                 Dim Comment = If(NonComment.Length = Value.Length, "", Value.Substring(NonComment.Length))
                 For i = 0 To NonComment.Length - 2
                     Dim ch = NonComment(i)
-                    If Char.IsSymbol(ch) Then
+                    If Char.IsSymbol(ch) OrElse Char.IsPunctuation(ch) Then
                         If sb.Length > 0 Then
                             If IsWhiteSpace Then
                                 Children.Add(New IniWhitepaceSyntaxTrivia(sb.ToString, i - sb.Length))
-                                sb.Clear()
                             Else
                                 Children.Add(New IniWordSyntaxTrivia(sb.ToString, i - sb.Length))
-                                sb.Clear()
                             End If
+                            sb.Clear()
                         End If
                         Children.Add(New IniControlCharacterSyntaxTrivia(ch.ToString, i))
                     ElseIf ch = vbCr
@@ -50,6 +49,9 @@ Namespace Document
                     End If
                 Next
                 i = NonComment.Length - 1
+                If Not String.IsNullOrWhiteSpace(NonComment(i)) Then
+                    sb.Append(NonComment(i))
+                End If
                 If sb.Length > 0 Then
                     If IsWhiteSpace Then
                         Children.Add(New IniWhitepaceSyntaxTrivia(sb.ToString, i - sb.Length))

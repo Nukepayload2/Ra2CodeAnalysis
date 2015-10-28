@@ -12,7 +12,7 @@
             Set
                 Select Case Children.Count
                     Case 0
-                        Children.Add(New IniWrongSyntaxTrivia(Value, 0))
+                        Children.Add(New IniCommentSyntaxTrivia(Value, 0))
                     Case 1
                         If Value.EndsWith(vbCrLf) Then
                             Value = Value.Substring(0, Value.Length - 2)

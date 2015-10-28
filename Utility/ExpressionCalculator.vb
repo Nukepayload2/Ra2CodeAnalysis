@@ -46,7 +46,11 @@ Namespace AnalysisHelper
                     Return BitToInt64(hi Or lo)
                 End Function}
         }
-
+        Public ReadOnly Property SupportedOperators As ICollection(Of String)
+            Get
+                Return Ops.Keys
+            End Get
+        End Property
         Protected Overridable Function CalculateBlock(Num2 As Decimal, Num1 As Decimal, OpCode As String) As Decimal
             If OpCode.Length > 1 Then OpCode = OpCode.ToLowerInvariant
             If Not Ops.ContainsKey(OpCode) Then

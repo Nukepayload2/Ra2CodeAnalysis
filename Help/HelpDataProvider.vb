@@ -11,7 +11,7 @@ Public Class HelpDataProvider
     End Function
 
     Dim vbcs As New Dictionary(Of String, String) From {{"String", "string"}, {"Integer", "int"},
-        {"Single", "float"}, {"Boolean", "bool"}, {"Structure", "struct"}}
+        {"Single", "float"}, {"Boolean", "bool"}, {"Structure", "struct"}, {"Object", "object"}}
     ''' <summary>
     ''' 格式化用法为vb代码和c#代码
     ''' </summary>
@@ -156,7 +156,7 @@ Public Class HelpDataProvider
     Public Function TempAnalizeUsage(Value As String) As String
         Dim rig = Value
         If String.IsNullOrEmpty(rig) OrElse rig.ToLower = "none" Then
-            Return "INullable"
+            Return "Object"
         End If
         If rig.Contains(",") Then
             Dim spa = rig.Split(","c)

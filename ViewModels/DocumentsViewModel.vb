@@ -4,6 +4,8 @@
         Public ReadOnly Property ArtDocument As IniDocument(Of TObservable)
         Public ReadOnly Property AIDocument As IniDocument(Of TObservable)
         Public ReadOnly Property Ra2Document As IniDocument(Of TObservable)
+        Public ReadOnly Property Help As New HelpProviderManager
+        Public ReadOnly Property HelpUtil As New HelpDataProvider
         WithEvents ViewSource As AnalizeSourceViewModel
         Sub New(ViewSource As AnalizeSourceViewModel)
             Me.ViewSource = ViewSource

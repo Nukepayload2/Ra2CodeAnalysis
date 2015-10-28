@@ -1,4 +1,8 @@
-﻿Public Class ParameterizedProperty(Of T)
+﻿''' <summary>
+''' 用于传递属性和为值获取和设置提供通知
+''' </summary>
+''' <typeparam name="T"></typeparam>
+Public Class ParameterizedProperty(Of T)
     Public ReadOnly Property Getter As Func(Of T)
     Public ReadOnly Property Setter As Action(Of T)
     Public ReadOnly Property IsReadOnly As Boolean

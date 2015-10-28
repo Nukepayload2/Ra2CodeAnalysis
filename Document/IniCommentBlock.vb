@@ -9,13 +9,22 @@ Namespace Document
 
         Public Overrides Property Text As String
             Get
-                Return Children.JoinText(Function(s) s.Text)
+                If CurrentLoadOption = DocumentLoadOptions.SeparateBlocksOnly Then
+                    Return _Text
+                Else
+                    Return Children.JoinText(Function(s) s.Text)
+                End If
             End Get
             Set
-                If Children.Count = 0 Then
-                    Children.Add(New IniCommentSyntax(Value, 0))
+                If CurrentLoadOption = DocumentLoadOptions.SeparateBlocksOnly Then
+                    _Text = Value
+                    Children.Clear()
                 Else
-                    Children.Item(0).Text = Value
+                    If Children.Count = 0 Then
+                        Children.Add(New IniCommentSyntax(Value, 0))
+                    Else
+                        Children.Item(0).Text = Value
+                    End If
                 End If
             End Set
         End Property

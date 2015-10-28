@@ -48,7 +48,16 @@ Public MustInherit Class ImeBase
                               End If
                           End SyncLock
                       End Sub)
-        ImeListBinding = tmp
+        Dim OldItems = TryCast(ImeListBinding, List(Of ImeItem))
+        If OldItems IsNot Nothing AndAlso OldItems.Count = tmp.Count Then
+            For i = 0 To OldItems.Count - 1
+                If OldItems(i).Word <> tmp(i).Word Then
+                    OldItems(i) = tmp(i)
+                End If
+            Next
+        Else
+            ImeListBinding = tmp
+        End If
         ListVisible = True
     End Sub
     Protected Function SelectText(ByRef IsLeft As Boolean, ByRef StartPos As Integer) As String

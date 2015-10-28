@@ -2,7 +2,7 @@
     Public Class IniWhitepaceSyntaxTrivia
         Inherits IniSyntaxTrivia
 
-        Public Overrides ReadOnly Property ColorARGB As Integer = CodeColors.Transparent
+        Public Overrides ReadOnly Property ColorARGB As Integer = CodeColors.Black
         Sub New(Text As String, StartIndex%)
             MyBase.New(Text, StartIndex)
         End Sub

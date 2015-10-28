@@ -81,11 +81,13 @@
   <ItemGroup>
     <Compile Include="Analysis\AIAnalizer.vb" />
     <Compile Include="Document\DocumentCategories.vb" />
+    <Compile Include="Document\DocumentLoadOptions.vb" />
     <Compile Include="Document\IniCommentSyntaxTrivia.vb" />
     <Compile Include="Document\IniControlCharacterSyntaxTrivia.vb" />
     <Compile Include="Document\IniRecordSyntax.vb" />
     <Compile Include="Document\IniWrongSyntax.vb" />
     <Compile Include="Document\IniWrongSyntaxTrivia.vb" />
+    <Compile Include="Help\HelpProviderManager.vb" />
     <Compile Include="ViewModels\DocumentsViewModel.vb" />
     <Compile Include="Document\IniCommentSyntax.vb" />
     <Compile Include="Document\IniKeyValuePairSyntax.vb" />
@@ -98,7 +100,7 @@
     <Compile Include="Document\IniWordSyntaxTrivia.vb" />
     <Compile Include="Help\AIHelpProvider.vb" />
     <Compile Include="Analysis\AnalizerManager.vb" />
-    <Compile Include="Analysis\AnalizeSourceViewModel.vb" />
+    <Compile Include="ViewModels\AnalizeSourceViewModel.vb" />
     <Compile Include="Analysis\ArtAnalizer.vb" />
     <Compile Include="Help\ArtHelpProvider.vb" />
     <Compile Include="Colorize\CodeColorBase.vb" />

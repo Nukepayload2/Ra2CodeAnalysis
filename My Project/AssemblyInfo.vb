@@ -27,5 +27,5 @@ Imports System.Reflection
 ' 方法是按如下所示使用“*”: 
 ' <Assembly: AssemblyVersion("1.0.*")> 
 
-<Assembly: AssemblyVersion("1.6.93.0")>
-<Assembly: AssemblyFileVersion("1.6.93.0")>
+<Assembly: AssemblyVersion("1.6.145.0")>
+<Assembly: AssemblyFileVersion("1.6.145.0")>
