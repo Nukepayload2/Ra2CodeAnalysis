@@ -7,7 +7,7 @@ Namespace AnalysisHelper
     Public Module Extensions
         <Extension>
         Public Function GetText(Root As IEnumerable(Of Imaging.MainKeyTreeNode), Generator As Type) As String
-            Dim sb As New StringBuilder(";<生成的代码(生成器:=" + If(Generator?.FullName, "null") + ",版本:=" + If(TryCast(Attribute.GetCustomAttribute(Generator.Assembly, GetType(AssemblyFileVersionAttribute)), AssemblyFileVersionAttribute)?.Version, "null").ToString + ")>" & vbCrLf)
+            Dim sb As New StringBuilder(";<生成的代码(生成器:=" + If(Generator?.FullName, "null") + ",版本:=" + If(Generator.Assembly.GetCustomAttribute(Of AssemblyFileVersionAttribute)?.Version, "null").ToString + ")>" & vbCrLf)
             For Each s In Root
                 sb.AppendLine(s.ToString)
             Next

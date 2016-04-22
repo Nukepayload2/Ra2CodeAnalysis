@@ -7,7 +7,7 @@ Public Class AIHelpProvider
         Return GetHelpTextWithUsage(code, AIHelp, AITypes)
     End Function
 
-    Private Shared AIHelp As New Dictionary(Of String, String) From {{"VeteranLevel", "<否决的> 地图文件中指定此小队出现在地图时的兵种等级"},
+    Public Shared AIHelp As New Dictionary(Of String, String) From {{"VeteranLevel", "<否决的> 地图文件中指定此小队出现在地图时的兵种等级"},
 {"MindControlDecision", "<不明确> 遭心灵控制后的动作，0自动，1加入控制者作战小队，2送入部队回收厂，3送入生化反应炉，4搜索敌人，5什么也不做"},
 {"Loadable", "<不明确> 可装载"},
 {"Full", "<不明确> <否决的> 创建小队成员的时候，如果小队中有运载工具，其他成员是否应该位于运载工具的内部"},

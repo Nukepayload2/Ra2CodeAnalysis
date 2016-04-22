@@ -7,7 +7,7 @@ Public Class ArtHelpProvider
         Return GetHelpTextWithUsage(code, ArtHelp, ArtTypes)
     End Function
 
-    Private Shared ArtHelp As New Dictionary(Of String, String) From {{"Cameo", "指定该单位使用哪个SHP文件作为图标（就是你点的那个东西来建造它）。如果该对象没有图标， 游戏默认使用""Missing " + vbCrLf +
+    Public Shared ArtHelp As New Dictionary(Of String, String) From {{"Cameo", "指定该单位使用哪个SHP文件作为图标（就是你点的那个东西来建造它）。如果该对象没有图标， 游戏默认使用""Missing " + vbCrLf +
 "Cameo""图标作为它的图标（就是那个红警2样的图标）。每个图标都必须是SHP格式，并且调色盘要求是红警2的cameo.pal文件。另外，图标的大小要求是60*48像素，即宽60像素，高48像素。"},
 {"AltCameo", "指定当该单位升级之后使用的图标。升级是指玩家使用间谍渗透对方的兵营或战车工厂之后，单位所产生的变化。规则和Cameo=标签相同。"},
 {"Voxel", "指定该单位的图像是否是vxl（就是说这个单位是不是使用vxl文件作为图形）。游戏会将它和SHP文件区分对待。某些标签是否起作用取决于这个标签是否设置为""yes""（就是说如果这个标签决定某些涉及vxl的标签是否有效。假如被设置成""no""，那么即使你为那些有关vxl的标签赋了值也无效）。"},

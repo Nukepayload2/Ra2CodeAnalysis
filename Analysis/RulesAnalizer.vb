@@ -42,7 +42,7 @@ Public Class RulesAnalizer
                     Dim wpchk As Action = Sub()
                                               If Values.ContainsKey(r.Value.Item1) Then
                                                   UsedWeapons.Add(r.Value.Item1)
-                                              ElseIf r.Value.Item1.ToLower <> "none"
+                                              ElseIf r.Value.Item1.ToLower <> "none" Then
                                                   AdvResult.Fault.Add(New INIAnalizeInfo(r.Value.Item2, "武器未定义,可导致单位无法开火或建造时发生AccessViolation", r.Value.Item1, Record.Key))
                                               End If
                                           End Sub

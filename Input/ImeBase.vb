@@ -1,5 +1,6 @@
 ﻿Imports System.Text
 Imports Nukepayload2.Ra2CodeAnalysis.AnalysisHelper
+
 Public Class ImeItem
     Public Property Word As String
     Sub New(Wrd As String)
@@ -80,7 +81,7 @@ Public MustInherit Class ImeBase
                 If ch = "=" OrElse ch = "," Then IsLeft = False
                 If ch.IsRegisterableChar Then
                     wrd.Add(ch)
-                ElseIf ch <> " "
+                ElseIf ch <> " " Then
                     Exit Do
                 End If
             Loop
