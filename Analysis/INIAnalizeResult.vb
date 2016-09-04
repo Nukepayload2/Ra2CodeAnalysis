@@ -1,13 +1,13 @@
 ﻿
 Public Class INIAnalizeResult
-    Public ReadOnly Message As New List(Of INIAnalizeInfo)
-    Public ReadOnly Warning As New List(Of INIAnalizeInfo)
-    Public ReadOnly Fault As New List(Of INIAnalizeInfo)
+    Public ReadOnly Message As New List(Of INIAnalyzeInfo)
+    Public ReadOnly Warning As New List(Of INIAnalyzeInfo)
+    Public ReadOnly Fault As New List(Of INIAnalyzeInfo)
 
     Sub New()
 
     End Sub
-    Sub New(Msg As List(Of INIAnalizeInfo), Warn As List(Of INIAnalizeInfo), Fau As List(Of INIAnalizeInfo))
+    Sub New(Msg As List(Of INIAnalyzeInfo), Warn As List(Of INIAnalyzeInfo), Fau As List(Of INIAnalyzeInfo))
         Message = Msg
         Warning = Warn
         Fault = Fau

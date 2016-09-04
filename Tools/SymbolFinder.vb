@@ -1,8 +1,8 @@
 ﻿Imports Nukepayload2.Ra2CodeAnalysis.AnalysisHelper
 
 Public Class SymbolFinder
-    Public Async Function Find(MatchText As String, Rules As RulesAnalizer, Art As ArtAnalizer, AI As AIAnalizer) As Task(Of IEnumerable(Of FindSymbolResult))
-        Dim Results = Await ForEachAsync(Of Ra2IniAnalizer, IEnumerable(Of FindSymbolResult))({Rules, Art, AI},
+    Public Async Function Find(MatchText As String, Rules As RulesAnalyzer, Art As ArtAnalyzer, AI As AIAnalyzer) As Task(Of IEnumerable(Of FindSymbolResult))
+        Dim Results = Await ForEachAsync(Of Ra2IniAnalyzer, IEnumerable(Of FindSymbolResult))({Rules, Art, AI},
                  Function(ini)
                      Dim ls As New List(Of FindSymbolResult)
                      For Each mk In ini.Values

@@ -1,4 +1,4 @@
-﻿Public Class CrashAnalizer
+﻿Public Class CrashAnalyzer
     Enum TSPlatformVersions
         TiberianSun203
         FireStrom

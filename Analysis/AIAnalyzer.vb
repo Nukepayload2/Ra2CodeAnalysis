@@ -1,12 +1,12 @@
 ﻿Imports Nukepayload2.Ra2CodeAnalysis.AnalysisHelper
-Public Class AIAnalizer
-    Inherits Ra2IniAnalizer
-    Dim rules As RulesAnalizer
-    Sub New(INIText As StreamReader, rules As RulesAnalizer)
+Public Class AIAnalyzer
+    Inherits Ra2IniAnalyzer
+    Dim rules As RulesAnalyzer
+    Sub New(INIText As StreamReader, rules As RulesAnalyzer)
         MyBase.New(INIText)
         Me.rules = rules
     End Sub
-    Sub New(INIText As String, rules As RulesAnalizer)
+    Sub New(INIText As String, rules As RulesAnalyzer)
         MyBase.New(INIText)
         Me.rules = rules
     End Sub
@@ -28,7 +28,7 @@ Public Class AIAnalizer
                     For Each r In Record.Value
                         Dim vals = r.Value.Item1.Split(","c)
                         If vals.Count <> 18 Then
-                            AdvResult.Fault.Add(New INIAnalizeInfo(r.Value.Item2, "AI触发参数数量错误,可导致运行时AccessViolation异常", r.Value.Item1, "AITriggerTypes"))
+                            AdvResult.Fault.Add(New INIAnalyzeInfo(r.Value.Item2, "AI触发参数数量错误,可导致运行时AccessViolation异常", r.Value.Item1, "AITriggerTypes"))
                         Else
                             ValueRegistryCheck("TeamTypes", "AI触发使用了未注册的作战小队1,可导致运行时AccessViolation异常", "AITriggerTypes", vals(1), r.Value.Item2, AdvResult.Fault, Me)
                             If Not vals(2).Trim.StartsWith("<") Then
@@ -55,27 +55,27 @@ Public Class AIAnalizer
                                     Try
                                         Dim tmp = CUInt(vs.Key)
                                     Catch ex As OverflowException
-                                        AdvResult.Fault.Add(New INIAnalizeInfo(r.Value.Item2, "特遣小队成员ID严重超出规定范围， 可能导致AI行为混乱或崩溃", r.Value.Item1, Record.Key))
+                                        AdvResult.Fault.Add(New INIAnalyzeInfo(r.Value.Item2, "特遣小队成员ID严重超出规定范围， 可能导致AI行为混乱或崩溃", r.Value.Item1, Record.Key))
                                         Continue For
                                     End Try
                                     If CUInt(vs.Key) > 6 Then
-                                        AdvResult.Warning.Add(New INIAnalizeInfo(r.Value.Item2, "特遣小队成员ID大于6， 此成员会被忽略", r.Value.Item1, Record.Key))
+                                        AdvResult.Warning.Add(New INIAnalyzeInfo(r.Value.Item2, "特遣小队成员ID大于6， 此成员会被忽略", r.Value.Item1, Record.Key))
                                     Else
                                         Dim team = vs.Value.Item1.Split(","c)
                                         If team.Count <> 2 Then
-                                            AdvResult.Fault.Add(New INIAnalizeInfo(r.Value.Item2, "特遣小队成员格式无效， 应为数量, 单位， 可能导致运行时AccessViolation异常", r.Value.Item1, Record.Key))
+                                            AdvResult.Fault.Add(New INIAnalyzeInfo(r.Value.Item2, "特遣小队成员格式无效， 应为数量, 单位， 可能导致运行时AccessViolation异常", r.Value.Item1, Record.Key))
                                         ElseIf team(0).IsUInteger Then
                                             If Not RulesUnitsCache.Contains(team(1)) Then
-                                                AdvResult.Fault.Add(New INIAnalizeInfo(r.Value.Item2, "特遣小队成员单位未注册， 可能导致运行时AccessViolation异常", r.Value.Item1, Record.Key))
+                                                AdvResult.Fault.Add(New INIAnalyzeInfo(r.Value.Item2, "特遣小队成员单位未注册， 可能导致运行时AccessViolation异常", r.Value.Item1, Record.Key))
                                             End If
                                         Else
-                                            AdvResult.Fault.Add(New INIAnalizeInfo(r.Value.Item2, "特遣小队成员数量格式无效， 应为正整数， 可能导致运行时AccessViolation异常", r.Value.Item1, Record.Key))
+                                            AdvResult.Fault.Add(New INIAnalyzeInfo(r.Value.Item2, "特遣小队成员数量格式无效， 应为正整数， 可能导致运行时AccessViolation异常", r.Value.Item1, Record.Key))
                                         End If
                                     End If
                                 End If
                             Next
                         Else
-                            AdvResult.Warning.Add(New INIAnalizeInfo(r.Value.Item2, "特遣注册了， 但是没有定义， 此注册会被忽略", r.Value.Item1, Record.Key))
+                            AdvResult.Warning.Add(New INIAnalyzeInfo(r.Value.Item2, "特遣注册了， 但是没有定义， 此注册会被忽略", r.Value.Item1, Record.Key))
                         End If
                     Next
                 ElseIf Record.Key = "ScriptTypes"
@@ -89,18 +89,18 @@ Public Class AIAnalizer
                                         If s(0).Trim = "49" AndAlso s(1).Trim = "0" Then
                                             Has490 = True
                                         ElseIf s(0).Trim = "16"
-                                            AdvResult.Warning.Add(New INIAnalizeInfo(r.Value.Item2, "AI.ini的脚本中使用指令16(巡逻路径点)，可能导致AI行为异常", r.Value.Item1, "ScriptTypes"))
+                                            AdvResult.Warning.Add(New INIAnalyzeInfo(r.Value.Item2, "AI.ini的脚本中使用指令16(巡逻路径点)，可能导致AI行为异常", r.Value.Item1, "ScriptTypes"))
                                         End If
                                     Else
-                                        AdvResult.Fault.Add(New INIAnalizeInfo(r.Value.Item2, "脚本内容的两个值格式错误，可能导致运行时AccessViolation异常", r.Value.Item1, "ScriptTypes"))
+                                        AdvResult.Fault.Add(New INIAnalyzeInfo(r.Value.Item2, "脚本内容的两个值格式错误，可能导致运行时AccessViolation异常", r.Value.Item1, "ScriptTypes"))
                                     End If
                                 End If
                             Next
                             If Not Has490 Then
-                                AdvResult.Warning.Add(New INIAnalizeInfo(r.Value.Item2, "脚本没有49,0，可能导致AI行为异常", r.Value.Item1, "ScriptTypes"))
+                                AdvResult.Warning.Add(New INIAnalyzeInfo(r.Value.Item2, "脚本没有49,0，可能导致AI行为异常", r.Value.Item1, "ScriptTypes"))
                             End If
                         Else
-                            AdvResult.Warning.Add(New INIAnalizeInfo(r.Value.Item2, "脚本注册了，但是没有定义，此注册会被忽略", r.Value.Item1, "ScriptTypes"))
+                            AdvResult.Warning.Add(New INIAnalyzeInfo(r.Value.Item2, "脚本注册了，但是没有定义，此注册会被忽略", r.Value.Item1, "ScriptTypes"))
                         End If
                     Next
                 Else
@@ -116,7 +116,7 @@ Public Class AIAnalizer
                 End If
             Next
         Catch ex As KeyNotFoundException
-            AdvResult.Fault.Add(New INIAnalizeInfo(0, "关键的主键或键未找到,可能在运行时发生AccessViolation异常", "(未收集)", "(未收集)"))
+            AdvResult.Fault.Add(New INIAnalyzeInfo(0, "关键的主键或键未找到,可能在运行时发生AccessViolation异常", "(未收集)", "(未收集)"))
         End Try
 
         Return AdvResult

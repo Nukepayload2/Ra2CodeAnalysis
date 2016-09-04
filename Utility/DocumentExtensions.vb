@@ -31,7 +31,7 @@ Public Module DocumentExtensions
         Return sb.ToString
     End Function
     ''' <summary>
-    ''' 如果数目一样则改写,不一样就删掉从新添加。
+    ''' 如果数目一样则改写,不一样就删掉重新添加。
     ''' </summary>
     ''' <typeparam name="T"></typeparam>
     ''' <param name="Dest"></param>

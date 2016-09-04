@@ -29,12 +29,12 @@ Public Class INIAnalizer
         If Not String.IsNullOrEmpty(tx) Then
             If tx.StartsWith("[") Then
                 If tx.Length = 1 Then
-                    Result.Fault.Add(New INIAnalizeInfo(ln, "语法错误：空的主键", tx, curMK))
+                    Result.Fault.Add(New INIAnalyzeInfo(ln, "语法错误：空的主键", tx, curMK))
                     Return
                 End If
                 curMK = tx.Substring(1, tx.Length - 2).Trim
                 If String.IsNullOrWhiteSpace(curMK) Then
-                    Result.Fault.Add(New INIAnalizeInfo(ln, "语法错误：空的主键", tx, curMK))
+                    Result.Fault.Add(New INIAnalyzeInfo(ln, "语法错误：空的主键", tx, curMK))
                 End If
                 If Not Values.ContainsKey(curMK) Then
                     Values.Add(curMK, New Dictionary(Of String, Tuple(Of String, Integer)))
@@ -45,12 +45,12 @@ Public Class INIAnalizer
                     Dim left = tx.Substring(0, spl).Trim
                     Dim rig = tx.Substring(spl + 1, tx.Length - 1 - spl).Trim
                     If String.IsNullOrEmpty(left) Then
-                        Result.Warning.Add(New INIAnalizeInfo(ln, "空的左值(键)，此记录会被忽略", tx, curMK))
+                        Result.Warning.Add(New INIAnalyzeInfo(ln, "空的左值(键)，此记录会被忽略", tx, curMK))
                         'ElseIf String.IsNullOrEmpty(rig) Then
                         '    Result.Message.Add(New INIAnalizeInfo(ln, "空的右值(值)，此记录可能无效", tx, curMK))
                     Else
                         If Values(curMK).ContainsKey(left) Then
-                            Result.Warning.Add(New INIAnalizeInfo(ln, "重复注册，此记录会被忽略", tx, curMK))
+                            Result.Warning.Add(New INIAnalyzeInfo(ln, "重复注册，此记录会被忽略", tx, curMK))
                             If ConflictValues.ContainsKey(curMK) Then
                                 ConflictValues(curMK).Add(New KeyValuePair(Of String, String)(left, rig))
                             Else
@@ -61,10 +61,10 @@ Public Class INIAnalizer
                         End If
                     End If
                 Else
-                    Result.Warning.Add(New INIAnalizeInfo(ln, "内容无效：记录应包括在主键内", tx, "(没有主键)"))
+                    Result.Warning.Add(New INIAnalyzeInfo(ln, "内容无效：记录应包括在主键内", tx, "(没有主键)"))
                 End If
             Else
-                Result.Warning.Add(New INIAnalizeInfo(ln, "内容无效：注释应该以;开头", tx, curMK))
+                Result.Warning.Add(New INIAnalyzeInfo(ln, "内容无效：注释应该以;开头", tx, curMK))
             End If
         End If
     End Sub
@@ -112,7 +112,7 @@ Public Class INIAnalizer
     Public Overrides Function ToString() As String
         Dim sb As New Text.StringBuilder
         sb.AppendLine(";由Nukepayload2.Ra2CodeAnalysis生成")
-        SyncLock New Object 'Protect Values
+        SyncLock Me  'Protect Values
             For Each ks In Values.Keys
                 sb.AppendLine()
                 sb.AppendLine("[" & ks & "]")

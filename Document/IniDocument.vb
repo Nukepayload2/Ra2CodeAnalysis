@@ -5,7 +5,7 @@ Namespace Document
         Public CurrentLoadOption As DocumentLoadOptions
     End Module
     ''' <summary>
-    ''' 表示完整的Ini文档信息
+    ''' 表示完整的Ini文档信息, 以便使用 Linq 对它进行分析。
     ''' </summary>
     Public Class IniDocument(Of TObservable As {IList(Of IniBlock), New})
         Public Property Children As New TObservable

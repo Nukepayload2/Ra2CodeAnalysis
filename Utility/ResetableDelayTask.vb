@@ -5,7 +5,7 @@ Public Class ResetableDelayTask
     Public ReadOnly Property IsStopped As Boolean = False
     Dim CurrentDelay As Integer = 0
     Public Sub Reset()
-        SyncLock New Object
+        SyncLock Me
             CurrentDelay = 0
         End SyncLock
     End Sub
@@ -14,16 +14,16 @@ Public Class ResetableDelayTask
             Reset()
             Return
         End If
-        SyncLock New Object
+        SyncLock Me
             _IsStopped = True
         End SyncLock
         Do While CurrentDelay < DelayMilsec
-            Await TaskEx.Delay(16)
+            Await Task.Delay(16)
             If Not IsStopped Then Return
             Interlocked.Add(CurrentDelay, 16)
         Loop
-        Await TaskEx.Run(ac)
-        SyncLock New Object
+        Await Task.Run(ac)
+        SyncLock Me
             _IsStopped = False
         End SyncLock
     End Function

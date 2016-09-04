@@ -71,7 +71,7 @@ Public Class HelpDataProvider
     Public Function TempAnalizeFormatUsage(Key As String, Value As String) As String
         Return FormatUsage(Key, TempAnalizeUsage(Value))
     End Function
-    Public Function GetRulesUsageForIme(Word As String, Helper As RulesHelpProvider, ini As RulesAnalizer) As String
+    Public Function GetRulesUsageForIme(Word As String, Helper As RulesHelpProvider, ini As RulesAnalyzer) As String
         Dim hlp = Helper.GetHelpText(Word)
         If String.IsNullOrEmpty(hlp) Then
             hlp = DeepAnalizeFormatUsage(Word, Word, ini)
@@ -121,7 +121,7 @@ Public Class HelpDataProvider
     Public Function DeepAnalizeType(Value As String, ini As INIAnalizer, textcomp As Boolean, Optional CsOverloadTemp As Object = Nothing) As String
         Return String.Empty
     End Function
-    Public Function DeepAnalizeType(Value As String, ini As RulesAnalizer, Optional CsOverloadTemp As Object = Nothing) As String
+    Public Function DeepAnalizeType(Value As String, ini As RulesAnalyzer, Optional CsOverloadTemp As Object = Nothing) As String
         Dim tp = TempAnalizeUsage(Value)
         If tp = "String" Then
             For Each mkv In ini.Values
@@ -130,7 +130,7 @@ Public Class HelpDataProvider
                         If v.Trim = Value Then
                             If kv.Key.IsNumeric Then
                                 Return mkv.Key
-                            ElseIf RulesAnalizer.IsWeaponKey(kv.Key)
+                            ElseIf RulesAnalyzer.IsWeaponKey(kv.Key)
                                 Return "Weapon"
                             Else
                                 For Each Name In {"Warhead", "Projectile", "MetallicDebris", "DeadBodies"}
@@ -147,10 +147,10 @@ Public Class HelpDataProvider
         Return tp
     End Function
     <Obsolete("这个重载版本已经过时了,它将不会工作")>
-    Public Function DeepAnalizeFormatUsage(Key As String, Value As String, ini As RulesAnalizer, textcomp As Boolean, Optional CsOverloadTemp As Object = Nothing) As String
+    Public Function DeepAnalizeFormatUsage(Key As String, Value As String, ini As RulesAnalyzer, textcomp As Boolean, Optional CsOverloadTemp As Object = Nothing) As String
         Return String.Empty
     End Function
-    Public Function DeepAnalizeFormatUsage(Key As String, Value As String, ini As RulesAnalizer, Optional CsOverloadTemp As Object = Nothing) As String
+    Public Function DeepAnalizeFormatUsage(Key As String, Value As String, ini As RulesAnalyzer, Optional CsOverloadTemp As Object = Nothing) As String
         Return FormatUsage(Value, DeepAnalizeType(Value, ini))
     End Function
     Public Function TempAnalizeUsage(Value As String) As String
@@ -185,8 +185,8 @@ Public Class HelpDataProvider
                 Return "Boolean"
             ElseIf rig.Replace("%", "").IsInteger
                 Return "Percentage"
-            ElseIf rig.StartsWith("{") AndAlso rig.EndsWith("}") AndAlso rig.Contains("-")
-                Return "ClassID"
+            ElseIf rig.StartsWith("{") AndAlso rig.EndsWith("}") AndAlso rig.Contains("-") Then
+                Return "Guid"
             Else
                 Return "String"
             End If

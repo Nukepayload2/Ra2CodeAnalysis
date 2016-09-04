@@ -842,7 +842,7 @@
 {"VoiceFeedback", "String"},
 {"VoiceSpecialAttack", "String"},
 {"DieSound", "String"},
-{"Locomotor", "ClassID"},
+{"Locomotor", "Guid"},
 {"PhysicalSize", "Integer"},
 {"MovementZone", "String"},
 {"ThreatPosed", "Integer"},

@@ -3,8 +3,8 @@
 ''' <summary>
 ''' 分析Rules.ini或它的等效ini
 ''' </summary>
-Public Class RulesAnalizer
-    Inherits Ra2IniAnalizer
+Public Class RulesAnalyzer
+    Inherits Ra2IniAnalyzer
 
     Public Overrides ReadOnly Property Name As String = "Rules"
 
@@ -43,7 +43,7 @@ Public Class RulesAnalizer
                                               If Values.ContainsKey(r.Value.Item1) Then
                                                   UsedWeapons.Add(r.Value.Item1)
                                               ElseIf r.Value.Item1.ToLower <> "none" Then
-                                                  AdvResult.Fault.Add(New INIAnalizeInfo(r.Value.Item2, "武器未定义,可导致单位无法开火或建造时发生AccessViolation", r.Value.Item1, Record.Key))
+                                                  AdvResult.Fault.Add(New INIAnalyzeInfo(r.Value.Item2, "武器未定义,可导致单位无法开火或建造时发生AccessViolation", r.Value.Item1, Record.Key))
                                               End If
                                           End Sub
                     Select Case r.Key
@@ -91,10 +91,10 @@ Public Class RulesAnalizer
                             Dim spl = r.Value.Item1.Split(","c)
                             If 0 = Aggregate c In From s In spl Where Not s.Contains("%") Into Count Then
                                 If spl.Count <> 11 Then
-                                    AdvResult.Fault.Add(New INIAnalizeInfo(r.Value.Item2, "弹头百分比数量错误,可能导致运行时AccessViolation异常", r.Value.Item1, Record.Key))
+                                    AdvResult.Fault.Add(New INIAnalyzeInfo(r.Value.Item2, "弹头百分比数量错误,可能导致运行时AccessViolation异常", r.Value.Item1, Record.Key))
                                 End If
                             Else
-                                AdvResult.Fault.Add(New INIAnalizeInfo(r.Value.Item2, "弹头百分比有语法错误,可能导致运行时AccessViolation异常", r.Value.Item1, Record.Key))
+                                AdvResult.Fault.Add(New INIAnalyzeInfo(r.Value.Item2, "弹头百分比有语法错误,可能导致运行时AccessViolation异常", r.Value.Item1, Record.Key))
                             End If
                         Case "ShrapnelWeapon", "AirburstWeapon"
                             LoadWeapons.Add(New Tuple(Of String, Tuple(Of String, Integer))(Record.Key, r.Value))
@@ -114,7 +114,7 @@ Public Class RulesAnalizer
             Dim lo = From l In LoadWeapons Distinct
             For Each wea In lo
                 If Not wp.Contains(wea.Item2.Item1) Then
-                    AdvResult.Fault.Add(New INIAnalizeInfo(wea.Item2.Item2, "武器未挂载,可能导致运行时AccessViolation异常", wea.Item2.Item1, wea.Item1))
+                    AdvResult.Fault.Add(New INIAnalyzeInfo(wea.Item2.Item2, "武器未挂载,可能导致运行时AccessViolation异常", wea.Item2.Item1, wea.Item1))
                 End If
             Next
             For Each w In wp
@@ -126,27 +126,27 @@ Public Class RulesAnalizer
                             Dim Rec = If({"Projectile", "Warhead"}.Contains(BasicKey), AdvResult.Fault, AdvResult.Warning)
                             If wpref.ContainsKey(BasicKey) Then
                                 If String.IsNullOrWhiteSpace(wpref(BasicKey).Item1) Then
-                                    AdvResult.Fault.Add(New INIAnalizeInfo(fir.Value.Item2, $"武器的{BasicKey}值为空,可能导致运行时AccessViolation异常", BasicKey, w))
+                                    AdvResult.Fault.Add(New INIAnalyzeInfo(fir.Value.Item2, $"武器的{BasicKey}值为空,可能导致运行时AccessViolation异常", BasicKey, w))
                                 End If
                                 Select Case BasicKey
                                     Case "Warhead", "Projectile"
                                         If Not Values.ContainsKey(w) AndAlso w.ToLower <> "none" Then
-                                            AdvResult.Fault.Add(New INIAnalizeInfo(fir.Value.Item2, $"武器的{BasicKey}值不存在于rules中,可能导致运行时AccessViolation异常", BasicKey, w))
+                                            AdvResult.Fault.Add(New INIAnalyzeInfo(fir.Value.Item2, $"武器的{BasicKey}值不存在于rules中,可能导致运行时AccessViolation异常", BasicKey, w))
                                         End If
                                 End Select
                             Else
-                                Rec.Add(New INIAnalizeInfo(fir.Value.Item2, $"武器没有{BasicKey},可能导致运行时AccessViolation异常", BasicKey, w))
+                                Rec.Add(New INIAnalyzeInfo(fir.Value.Item2, $"武器没有{BasicKey},可能导致运行时AccessViolation异常", BasicKey, w))
                             End If
                         Next
                     Else
-                        AdvResult.Fault.Add(New INIAnalizeInfo(0, $"武器{w}为空,可能导致运行时AccessViolation异常", w, w))
+                        AdvResult.Fault.Add(New INIAnalyzeInfo(0, $"武器{w}为空,可能导致运行时AccessViolation异常", w, w))
                     End If
                 Else
-                    AdvResult.Fault.Add(New INIAnalizeInfo(0, $"Internal Check Error: 没有武器{w},注册信息,但是当作已经注册的武器", w, w))
+                    AdvResult.Fault.Add(New INIAnalyzeInfo(0, $"Internal Check Error: 没有武器{w},注册信息,但是当作已经注册的武器", w, w))
                 End If
             Next
         Catch ex As KeyNotFoundException
-            AdvResult.Fault.Add(New INIAnalizeInfo(0, "关键的键或主键没有找到,可导致运行时AccessViolation异常", "(未收集)", "(无)"))
+            AdvResult.Fault.Add(New INIAnalyzeInfo(0, "关键的键或主键没有找到,可导致运行时AccessViolation异常", "(未收集)", "(无)"))
         End Try
 
         Debug.WriteLine("Mission Accomplished")

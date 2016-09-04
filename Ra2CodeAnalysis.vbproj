@@ -11,8 +11,8 @@
     <AssemblyName>Ra2CodeAnalysis</AssemblyName>
     <DefaultLanguage>zh-CN</DefaultLanguage>
     <ProjectTypeGuids>{14182A97-F7F0-4C62-8B27-98AA8AE2109A};{F184B08F-C81C-45F6-A57F-5ABD9991F28F}</ProjectTypeGuids>
-    <TargetFrameworkProfile>Profile328</TargetFrameworkProfile>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Profile151</TargetFrameworkProfile>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
   </PropertyGroup>
@@ -80,7 +80,7 @@
     <Import Include="Windows.UI.Xaml.Media.Imaging" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Analysis\AIAnalizer.vb" />
+    <Compile Include="Analysis\AIAnalyzer.vb" />
     <Compile Include="Document\DocumentCategories.vb" />
     <Compile Include="Document\DocumentLoadOptions.vb" />
     <Compile Include="Document\IniCommentSyntaxTrivia.vb" />
@@ -88,8 +88,19 @@
     <Compile Include="Document\IniRecordSyntax.vb" />
     <Compile Include="Document\IniWrongSyntax.vb" />
     <Compile Include="Document\IniWrongSyntaxTrivia.vb" />
+    <Compile Include="Entities\EntityClassLibraryGenerator.vb" />
+    <Compile Include="Entities\GeneratedCodeFile.vb" />
+    <Compile Include="Entities\NamedIniAnalyzer.vb" />
+    <Compile Include="Entities\VBClassBuilder.vb" />
+    <Compile Include="Entities\VBInterfaceBuilder.vb" />
+    <Compile Include="Entities\VBNamespaceBuilder.vb" />
+    <Compile Include="Entities\VBPropertyDeclaration.vb" />
+    <Compile Include="Entities\VBPropertyDeclarationSilm.vb" />
+    <Compile Include="Entities\VBTypeBuilder.vb" />
+    <Compile Include="Entities\VBTypeCategory.vb" />
+    <Compile Include="Entities\VBProjectWriter.vb" />
     <Compile Include="Help\HelpProviderManager.vb" />
-    <Compile Include="Utility\AssemblyExtensions.vb" />
+    <Compile Include="Linq\StringExtension.vb" />
     <Compile Include="ViewModels\DocumentsViewModel.vb" />
     <Compile Include="Document\IniCommentSyntax.vb" />
     <Compile Include="Document\IniKeyValuePairSyntax.vb" />
@@ -103,7 +114,7 @@
     <Compile Include="Help\AIHelpProvider.vb" />
     <Compile Include="Analysis\AnalizerManager.vb" />
     <Compile Include="ViewModels\AnalizeSourceViewModel.vb" />
-    <Compile Include="Analysis\ArtAnalizer.vb" />
+    <Compile Include="Analysis\ArtAnalyzer.vb" />
     <Compile Include="Help\ArtHelpProvider.vb" />
     <Compile Include="Colorize\CodeColorBase.vb" />
     <Compile Include="Colorize\CodeColorBlock.vb" />
@@ -112,7 +123,7 @@
     <Compile Include="Utility\DocumentExtensions.vb" />
     <Compile Include="ViewModels\CodeSnippetGroup.vb" />
     <Compile Include="ViewModels\CodeSnippetsViewModel.vb" />
-    <Compile Include="Analysis\CrashAnalizer.vb" />
+    <Compile Include="Analysis\CrashAnalyzer.vb" />
     <Compile Include="Analysis\CrashItem.vb" />
     <Compile Include="Utility\DataGridDisplayNameAttribute.vb" />
     <Compile Include="ViewModels\FindSymbolResult.vb" />
@@ -134,18 +145,18 @@
     <Compile Include="Imaging\IniTreeNode.vb" />
     <Compile Include="Imaging\IniImagingAnalizer.vb" />
     <Compile Include="Input\ImeBase.vb" />
-    <Compile Include="Analysis\INIAnalizeInfo.vb" />
+    <Compile Include="Analysis\INIAnalyzeInfo.vb" />
     <Compile Include="Analysis\INIAnalizer.vb" />
     <Compile Include="Analysis\INIAnalizeResult.vb" />
     <Compile Include="Utility\Parallel.vb" />
     <Compile Include="Utility\ParameterizedProperty.vb" />
     <Compile Include="Input\QuickFix.vb" />
     <Compile Include="Input\QuickFixSuggestion.vb" />
-    <Compile Include="Analysis\Ra2IniAnalizer.vb" />
+    <Compile Include="Analysis\Ra2IniAnalyzer.vb" />
     <Compile Include="Imaging\RegisterTreeNode.vb" />
     <Compile Include="Input\RenameOptions.vb" />
     <Compile Include="Utility\ResetableDelayTask.vb" />
-    <Compile Include="Analysis\RulesAnalizer.vb" />
+    <Compile Include="Analysis\RulesAnalyzer.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="Help\RulesHelpProvider.vb" />
     <Compile Include="Imaging\SubValueTreeNode.vb" />
@@ -160,7 +171,12 @@
     <None Include="app.config" />
     <None Include="project.json" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\vs2015\Nukepayload2.CodeAnalysis\Nukepayload2.CodeAnalysis.vbproj">
+      <Project>{11d14cb7-c9fe-4044-aba0-9be40efbc301}</Project>
+      <Name>Nukepayload2.CodeAnalysis</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.VisualBasic.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

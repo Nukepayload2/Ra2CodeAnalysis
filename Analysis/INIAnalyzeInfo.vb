@@ -1,4 +1,4 @@
-﻿Public Class INIAnalizeInfo
+﻿Public Class INIAnalyzeInfo
     <DataGridDisplayName("行号")>
     Public ReadOnly Property LineNumber As Integer
     <DataGridDisplayName("描述")>

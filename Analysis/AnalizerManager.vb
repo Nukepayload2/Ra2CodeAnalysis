@@ -2,9 +2,9 @@
 
 Public Class AnalizerManager
     WithEvents DataSource As AnalizeSourceViewModel
-    Public ReadOnly Property Rules As RulesAnalizer
-    Public ReadOnly Property Art As ArtAnalizer
-    Public ReadOnly Property AI As AIAnalizer
+    Public ReadOnly Property Rules As RulesAnalyzer
+    Public ReadOnly Property Art As ArtAnalyzer
+    Public ReadOnly Property AI As AIAnalyzer
     Public ReadOnly Property Ra2 As INIAnalizer
     Public ReadOnly Property Updating As Boolean
     Dim _UpdateDelay As New TimeSpan(0, 0, 1)
@@ -37,7 +37,7 @@ Public Class AnalizerManager
             Return False
         Else
             _Updating = True
-            Await TaskEx.WhenAll(EnsureRulesUpdatedAsync(), EnsureArtUpdatedAsync(), EnsureAIUpdatedAsync(), EnsureRa2UpdatedAsync())
+            Await Task.WhenAll(EnsureRulesUpdatedAsync(), EnsureArtUpdatedAsync(), EnsureAIUpdatedAsync(), EnsureRa2UpdatedAsync())
             UpdateDelay = UpdateDelay
             _Updating = False
             Return True
@@ -45,9 +45,9 @@ Public Class AnalizerManager
     End Function
     Sub New(DataSource As AnalizeSourceViewModel)
         With DataSource
-            Rules = New RulesAnalizer(.RulesText)
-            Art = New ArtAnalizer(.ArtText, Rules)
-            AI = New AIAnalizer(.AIText, Rules)
+            Rules = New RulesAnalyzer(.RulesText)
+            Art = New ArtAnalyzer(.ArtText, Rules)
+            AI = New AIAnalyzer(.AIText, Rules)
             Ra2 = New INIAnalizer(.RA2Text)
         End With
         Me.DataSource = DataSource
