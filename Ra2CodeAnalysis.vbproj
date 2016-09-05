@@ -89,7 +89,10 @@
     <Compile Include="Document\IniWrongSyntax.vb" />
     <Compile Include="Document\IniWrongSyntaxTrivia.vb" />
     <Compile Include="Entities\EntityClassLibraryGenerator.vb" />
+    <Compile Include="Entities\EntityInferContext.vb" />
     <Compile Include="Entities\GeneratedCodeFile.vb" />
+    <Compile Include="Entities\VBPropertyAssignmentDeclaration.vb" />
+    <Compile Include="Utility\IndentStringBuilder.vb" />
     <Compile Include="Entities\NamedIniAnalyzer.vb" />
     <Compile Include="Entities\VBClassBuilder.vb" />
     <Compile Include="Entities\VBInterfaceBuilder.vb" />
@@ -99,8 +102,10 @@
     <Compile Include="Entities\VBTypeBuilder.vb" />
     <Compile Include="Entities\VBTypeCategory.vb" />
     <Compile Include="Entities\VBProjectWriter.vb" />
+    <Compile Include="Help\HelpProvider.vb" />
     <Compile Include="Help\HelpProviderManager.vb" />
     <Compile Include="Linq\StringExtension.vb" />
+    <EmbeddedResource Include="Primitives\Percentage.vb" />
     <Compile Include="ViewModels\DocumentsViewModel.vb" />
     <Compile Include="Document\IniCommentSyntax.vb" />
     <Compile Include="Document\IniKeyValuePairSyntax.vb" />
@@ -112,7 +117,7 @@
     <Compile Include="Document\IniSyntaxTrivia.vb" />
     <Compile Include="Document\IniWordSyntaxTrivia.vb" />
     <Compile Include="Help\AIHelpProvider.vb" />
-    <Compile Include="Analysis\AnalizerManager.vb" />
+    <Compile Include="Analysis\AnalyzerManager.vb" />
     <Compile Include="ViewModels\AnalizeSourceViewModel.vb" />
     <Compile Include="Analysis\ArtAnalyzer.vb" />
     <Compile Include="Help\ArtHelpProvider.vb" />

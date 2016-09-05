@@ -1,6 +1,7 @@
 ﻿Imports Nukepayload2.Ra2CodeAnalysis.AnalysisHelper
 
 Public Class HelpDataProvider
+
     Protected Function GetHelpTextFromDic(code As String, dic As Dictionary(Of String, String)) As String
         If String.IsNullOrEmpty(code) Then Return "(空)"
         If dic.ContainsKey(code) Then
@@ -15,8 +16,8 @@ Public Class HelpDataProvider
     ''' <summary>
     ''' 格式化用法为vb代码和c#代码
     ''' </summary>
-    ''' <param name="Code"></param>
-    ''' <param name="tp"></param>
+    ''' <param name="Code">用于推断基本类型的代码</param>
+    ''' <param name="tp">推断出的类型</param>
     ''' <returns></returns>
     Public Function FormatUsage(Code As String, tp As String, Optional DisableTypeJudgeFormat As Boolean = True) As String
         Dim cs As String
@@ -38,19 +39,19 @@ Public Class HelpDataProvider
         End If
         If Code.IsInteger Then
             Return "整数常量" & vbCrLf & "用法1:Structure System.Int32" & vbCrLf & "用法2:struct System.Int32;"
-        ElseIf Code.IsNumeric
+        ElseIf Code.IsNumeric Then
             Return "小数常量" & vbCrLf & "用法1:Structure System.Single" & vbCrLf & "用法2:struct System.Single;"
-        ElseIf Code.Replace("%", "").IsNumeric
+        ElseIf Code.Replace("%", "").IsNumeric Then
             Return "百分数常量" & vbCrLf & "用法1:Structure Nukepayload2.CodeAnalysis.Percentage" & vbCrLf & "用法2:struct Nukepayload2.CodeAnalysis.Percentage;"
-        ElseIf Code.Chars(0).IsNumeric
+        ElseIf Code.Chars(0).IsNumeric Then
             Code = "_" & Code
-        ElseIf Code.Contains(".")
+        ElseIf Code.Contains(".") Then
             Code = Code.Replace("."c, "_"c)
-        ElseIf {"yes", "no"}.Contains(Code.ToLowerInvariant)
+        ElseIf {"yes", "no"}.Contains(Code.ToLowerInvariant) Then
             Return "布尔值常量" & vbCrLf & "用法1:Const " & Code & " As " & tp & " = " & If(Code.ToLowerInvariant = "yes", "True", "False") & vbCrLf & "用法2:const " & cs & " " & Code & " = " & If(Code.ToLowerInvariant = "yes", "true", "false") & ";"
-        ElseIf {"true", "false"}.Contains(Code.ToLowerInvariant)
+        ElseIf {"true", "false"}.Contains(Code.ToLowerInvariant) Then
             Return "表示布尔值" & vbCrLf & "用法1:Structure System.Boolean" & vbCrLf & "用法2:struct System.Boolean;"
-        ElseIf Code.ToLowerInvariant = "none"
+        ElseIf Code.ToLowerInvariant = "none" Then
             Return "表示空值或空引用" & vbCrLf & "用法1:Const " & Code & " As Object = Nothing" & vbCrLf & "用法2:const object " & Code & " = null;"
         End If
         Return vbCrLf & "用法1:Dim " & Code & " As " & tp & vbCrLf & "用法2:" & cs & " " & Code & ";"
@@ -130,7 +131,7 @@ Public Class HelpDataProvider
                         If v.Trim = Value Then
                             If kv.Key.IsNumeric Then
                                 Return mkv.Key
-                            ElseIf RulesAnalyzer.IsWeaponKey(kv.Key)
+                            ElseIf RulesAnalyzer.IsWeaponKey(kv.Key) Then
                                 Return "Weapon"
                             Else
                                 For Each Name In {"Warhead", "Projectile", "MetallicDebris", "DeadBodies"}
@@ -166,12 +167,13 @@ Public Class HelpDataProvider
                     If Not tp.Trim.IsInteger Then Return "IEnumerable(Of String)"
                 Next
                 Return "IEnumerable(Of Integer)"
-            ElseIf sp.IsFraction
+            ElseIf sp.IsFraction Then
+
                 For Each tp In spa
                     If Not tp.Trim.IsFraction Then Return "IEnumerable(Of String)"
                 Next
                 Return "IEnumerable(Of Single)"
-            ElseIf sp.Replace("%", "").IsInteger
+            ElseIf sp.Replace("%", "").IsInteger Then
                 Return "IEnumerable(Of Percentage)"
             Else
                 Return "IEnumerable(Of String)"
@@ -179,11 +181,11 @@ Public Class HelpDataProvider
         Else
             If rig.IsInteger Then
                 Return "Integer"
-            ElseIf rig.IsFraction
+            ElseIf rig.IsFraction Then
                 Return "Single"
-            ElseIf {"true", "false", "yes", "no"}.Contains(rig.ToLowerInvariant)
+            ElseIf {"true", "false", "yes", "no"}.Contains(rig.ToLowerInvariant) Then
                 Return "Boolean"
-            ElseIf rig.Replace("%", "").IsInteger
+            ElseIf rig.Replace("%", "").IsInteger Then
                 Return "Percentage"
             ElseIf rig.StartsWith("{") AndAlso rig.EndsWith("}") AndAlso rig.Contains("-") Then
                 Return "Guid"
@@ -192,4 +194,5 @@ Public Class HelpDataProvider
             End If
         End If
     End Function
+
 End Class

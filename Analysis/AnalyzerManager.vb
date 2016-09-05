@@ -1,6 +1,6 @@
 ﻿Imports System.Threading
 
-Public Class AnalizerManager
+Public Class AnalyzerManager
     WithEvents DataSource As AnalizeSourceViewModel
     Public ReadOnly Property Rules As RulesAnalyzer
     Public ReadOnly Property Art As ArtAnalyzer
@@ -48,7 +48,7 @@ Public Class AnalizerManager
             Rules = New RulesAnalyzer(.RulesText)
             Art = New ArtAnalyzer(.ArtText, Rules)
             AI = New AIAnalyzer(.AIText, Rules)
-            Ra2 = New INIAnalizer(.RA2Text)
+            Ra2 = New INIAnalizer(.Ra2Text)
         End With
         Me.DataSource = DataSource
     End Sub

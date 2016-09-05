@@ -29,7 +29,7 @@ Public MustInherit Class ImeBase
         Dim tmp As New List(Of ImeItem)
         Dim Left As Boolean = False
         Dim sea = GenerateSearch(Left)
-        Await TaskEx.Run(
+        Await Task.Run(
                       Sub()
                           SyncLock LockViewList
                               Dim ls = If(Left, LeftVals, RightVals)
@@ -117,7 +117,7 @@ Public MustInherit Class ImeBase
         End SyncLock
     End Sub
     Public Async Function Reload(Ini As INIAnalizer) As Task
-        Await TaskEx.Run(Sub() ReloadSync(Ini))
+        Await Task.Run(Sub() ReloadSync(Ini))
     End Function
     Sub New(Ini As INIAnalizer)
         ReloadSync(Ini)

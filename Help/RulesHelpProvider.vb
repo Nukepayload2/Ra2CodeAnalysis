@@ -1,8 +1,7 @@
 ﻿Public Class RulesHelpProvider
-    Inherits HelpDataProvider
-    Implements IHelpProvider
+    Inherits HelpProvider
 
-    Public Function GetHelpText(code As String) As String Implements IHelpProvider.GetHelpText
+    Public Overrides Function GetHelpText(code As String) As String
         Return GetHelpTextWithUsage(code, RulesHelp, RulesTypes)
     End Function
 

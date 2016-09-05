@@ -69,7 +69,7 @@ Public Class INIAnalizer
         End If
     End Sub
     Public Async Function ReloadAsync(IniText As String) As Task
-        Await TaskEx.Run(Sub() Reload(IniText))
+        Await Task.Run(Sub() Reload(IniText))
     End Function
     Public Sub Reload(IniText As String)
         Values.Clear()

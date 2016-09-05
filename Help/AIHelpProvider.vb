@@ -1,9 +1,8 @@
 ﻿
 Public Class AIHelpProvider
-    Inherits HelpDataProvider
-    Implements IHelpProvider
+    Inherits HelpProvider
 
-    Public Function GetHelpText(code As String) As String Implements IHelpProvider.GetHelpText
+    Public Overrides Function GetHelpText(code As String) As String
         Return GetHelpTextWithUsage(code, AIHelp, AITypes)
     End Function
 

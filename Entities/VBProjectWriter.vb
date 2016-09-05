@@ -1,4 +1,7 @@
-﻿Imports Nukepayload2.Ra2CodeAnalysis.Linq
+﻿Imports System.Reflection
+Imports System.Text
+Imports Nukepayload2.Ra2CodeAnalysis.AnalysisHelper
+Imports Nukepayload2.Ra2CodeAnalysis.Linq
 
 Public Class VBProjectWriter
 
@@ -128,7 +131,18 @@ Imports System.Reflection
         Return New GeneratedCodeFile(fileName, content)
     End Function
 
-    Public Function WriteIniGroup(primary As NamedIniAnalyzer, others As IEnumerable(Of NamedIniAnalyzer)) As IEnumerable(Of GeneratedCodeFile)
+    ''' <summary>
+    ''' 获取嵌入的类型以便解析某些ini文件
+    ''' </summary>
+    Public Async Function GetEmbeddedCodeFileAsync() As Task(Of GeneratedCodeFile)
+        Dim content As String
+        Using strm = Me.GetType.GetTypeInfo.Assembly.GetManifestResourceStream("Nukepayload2.Ra2CodeAnalysis.Percentage.vb"), sr = New StreamReader(strm, Encoding.UTF8)
+            content = Await sr.ReadToEndAsync()
+        End Using
+        Return New GeneratedCodeFile("Percentage", content)
+    End Function
+
+    Public Function WriteRa2IniGroup(data As IEnumerable(Of NamedIniAnalyzer)) As IEnumerable(Of GeneratedCodeFile)
 
     End Function
 End Class
