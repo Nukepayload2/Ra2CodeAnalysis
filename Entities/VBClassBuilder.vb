@@ -7,9 +7,8 @@ Public Class VBClassBuilder
         MyBase.New(nsBuilder, VBTypeCategory.ClassType, name, indent)
     End Sub
 
-    Public Property PropertyNameIndex As New HashSet(Of String)
-    Public Property Properties As New List(Of VBPropertyDeclaration)
-    Public Property ExtraPropertyInitialization As New List(Of VBPropertyAssignmentDeclaration)
+    Public Property Properties As New Dictionary(Of String, VBPropertyDeclaration)
+    Public Property BasePropertyInitialization As New List(Of VBPropertyAssignmentDeclaration)
     Public Property ImplementInterfaces As New List(Of VBInterfaceBuilder)
     Public Property InheritsClass As VBClassBuilder
 
@@ -21,11 +20,11 @@ Public Class VBClassBuilder
         If InheritsClass IsNot Nothing Then
             sb.IndentAppend("Inherits ").Append(InheritsClass.Name)
         End If
-        For Each prop In Properties
+        For Each prop In Properties.Values
             sb.IndentAppendLine(prop.ToString)
         Next
         sb.IndentAppend("Sub New()").IncreaseIndent()
-        For Each prop In ExtraPropertyInitialization
+        For Each prop In BasePropertyInitialization
             sb.IndentAppend(prop.PropertyBasicInformation.Name)
             prop.PropertyBasicInformation.WriteInitializeExpression(sb, prop.InitialValue)
         Next

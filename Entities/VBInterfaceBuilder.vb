@@ -8,12 +8,11 @@
         PossibleBaseClass = New VBClassBuilder(nsBuilder, name + "Base", indent)
     End Sub
 
-    Public ReadOnly Property PropertyNameIndex As New HashSet(Of String)
-    Public ReadOnly Property Properties As New List(Of VBPropertyDeclarationSilm)
+    Public ReadOnly Property Properties As New Dictionary(Of String, VBPropertyDeclarationSilm)
     Public Property PossibleBaseClass As VBClassBuilder
     Public Overrides Sub EndBlock()
         Dim sb = nsBuilder.sb
-        For Each prop In Properties
+        For Each prop In Properties.Values
             sb.IndentAppendLine(prop.ToString)
         Next
         MyBase.EndBlock()

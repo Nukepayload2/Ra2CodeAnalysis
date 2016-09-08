@@ -1,8 +1,8 @@
 ﻿
 Public Class INIAnalizeResult
-    Public ReadOnly Message As New List(Of INIAnalyzeInfo)
-    Public ReadOnly Warning As New List(Of INIAnalyzeInfo)
-    Public ReadOnly Fault As New List(Of INIAnalyzeInfo)
+    Public ReadOnly Property Message As New List(Of INIAnalyzeInfo)
+    Public ReadOnly Property Warning As New List(Of INIAnalyzeInfo)
+    Public ReadOnly Property Fault As New List(Of INIAnalyzeInfo)
 
     Sub New()
 

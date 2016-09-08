@@ -81,6 +81,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Analysis\AIAnalyzer.vb" />
+    <Compile Include="Collections\IndexedList.vb" />
     <Compile Include="Document\DocumentCategories.vb" />
     <Compile Include="Document\DocumentLoadOptions.vb" />
     <Compile Include="Document\IniCommentSyntaxTrivia.vb" />
@@ -91,6 +92,8 @@
     <Compile Include="Entities\EntityClassLibraryGenerator.vb" />
     <Compile Include="Entities\EntityInferContext.vb" />
     <Compile Include="Entities\GeneratedCodeFile.vb" />
+    <Compile Include="Entities\IniFileItem.vb" />
+    <Compile Include="Entities\ProjectBasicInformation.vb" />
     <Compile Include="Entities\VBPropertyAssignmentDeclaration.vb" />
     <Compile Include="Utility\IndentStringBuilder.vb" />
     <Compile Include="Entities\NamedIniAnalyzer.vb" />
@@ -106,6 +109,7 @@
     <Compile Include="Help\HelpProviderManager.vb" />
     <Compile Include="Linq\StringExtension.vb" />
     <EmbeddedResource Include="Primitives\Percentage.vb" />
+    <Compile Include="ViewModels\CodeGenerateLogViewModel.vb" />
     <Compile Include="ViewModels\DocumentsViewModel.vb" />
     <Compile Include="Document\IniCommentSyntax.vb" />
     <Compile Include="Document\IniKeyValuePairSyntax.vb" />
@@ -169,6 +173,10 @@
     <Compile Include="Imaging\Synchronization.vb" />
     <Compile Include="Utility\ValueConverter.vb" />
     <Compile Include="Imaging\ValueTreeNode.vb" />
+    <Compile Include="ViewModels\IniFilesViewModel.vb" />
+    <Compile Include="ViewModels\ProjectGenerateViewModel.vb" />
+    <Compile Include="ViewModels\ProjectSetupViewModel.vb" />
+    <Compile Include="ViewModels\SingleInstance.vb" />
     <Compile Include="ViewModels\WidenIniAnalysisInfo.vb" />
     <Compile Include="Utility\WritableKeyValuePair.vb" />
   </ItemGroup>

@@ -14,18 +14,22 @@
     ''' </summary>
     Public Property TypeNameOverride As VBTypeBuilder
     ''' <summary>
+    ''' 它是否有多组指向实体的值 
+    ''' </summary>
+    Public Property IsQueryable As Boolean
+    ''' <summary>
     ''' 实际生成的属性类型
     ''' </summary>
     Public ReadOnly Property RuntimeTypeName$
         Get
-            Return If(TypeNameOverride Is Nothing, TypeName, TypeNameOverride.Name)
+            Return If(TypeNameOverride Is Nothing, TypeName, "IQueryable(Of " + TypeNameOverride.Name + ")")
         End Get
     End Property
     ''' <summary>
-    ''' 将声明转换为 VB 代码
+    ''' 将声明转换为 VB 代码, 可在接口中使用。
     ''' </summary>
     Public Overrides Function ToString() As String
-        Return $"Public Property {Name} As {RuntimeTypeName}"
+        Return $"Property {Name} As {RuntimeTypeName}"
     End Function
 
     ''' <summary>

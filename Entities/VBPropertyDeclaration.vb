@@ -60,7 +60,7 @@ Public Class VBPropertyDeclaration
         sb.Append($"Public {If(isForeignKey, "Overridable ", "")}Property {BasicInformation.Name} As ")
         Dim declTypeName = className
         If ImplementsInterface IsNot Nothing Then
-            Dim foundProp = Aggregate p In ImplementsInterface.Properties Where p.Name = BasicInformation.Name Into FirstOrDefault
+            Dim foundProp = ImplementsInterface.Properties(BasicInformation.Name)
             If foundProp IsNot Nothing Then
                 declTypeName = foundProp.RuntimeTypeName
             End If
@@ -81,7 +81,6 @@ Public Class VBPropertyDeclaration
             sb.AppendLine($"'''<summary>{HelpText.Replace(vbCr, "").Replace(vbLf, "").Replace("<", "&lt;").Replace(">", "&gt;").Replace("&", "&amp;")}</summary>").Append(" "c, Indent.Value)
         End If
     End Sub
-
 
     Public ReadOnly Property HasInitializeExpr As Boolean
         Get
