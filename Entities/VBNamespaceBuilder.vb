@@ -1,13 +1,14 @@
 ﻿Imports System.Text
 
 Public Class VBNamespaceBuilder
-
-    Sub New(sb As StringBuilder, name$, indent As StrongBox(Of Integer))
-        Me.sb = New IndentStringBuilder(sb, indent)
+    Dim name As String
+    Sub New(sb As IndentStringBuilder, name$)
+        Me.sb = sb
+        Me.name = name
     End Sub
 
-    Public Sub BeginBlock(sb As IndentStringBuilder, name As String)
-        sb.IndentAppendLine(name).IncreaseIndent()
+    Public Sub BeginBlock()
+        sb.IndentAppend("Namespace ").AppendLine(name).IncreaseIndent()
     End Sub
 
     Friend sb As IndentStringBuilder

@@ -46,8 +46,6 @@ Public Class INIAnalizer
                     Dim rig = tx.Substring(spl + 1, tx.Length - 1 - spl).Trim
                     If String.IsNullOrEmpty(left) Then
                         Result.Warning.Add(New INIAnalyzeInfo(ln, "空的左值(键)，此记录会被忽略", tx, curMK))
-                        'ElseIf String.IsNullOrEmpty(rig) Then
-                        '    Result.Message.Add(New INIAnalizeInfo(ln, "空的右值(值)，此记录可能无效", tx, curMK))
                     Else
                         If Values(curMK).ContainsKey(left) Then
                             Result.Warning.Add(New INIAnalyzeInfo(ln, "重复注册，此记录会被忽略", tx, curMK))

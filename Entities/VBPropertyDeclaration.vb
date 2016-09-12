@@ -1,8 +1,8 @@
 ﻿Imports System.Text
 
 Public Class VBPropertyDeclaration
-    Sub New(indent As StrongBox(Of Integer), helpText As String, isObsolete As Boolean, basicInformation As VBPropertyDeclarationSilm, initialValue As String, isPrimaryKey As Boolean)
-        Me.Indent = indent
+    Sub New(sb As IndentStringBuilder, helpText As String, isObsolete As Boolean, basicInformation As VBPropertyDeclarationSilm, initialValue As String, isPrimaryKey As Boolean)
+        Me.sb = sb
         Me.HelpText = helpText
         Me.IsObsolete = isObsolete
         Me.BasicInformation = basicInformation
@@ -10,7 +10,7 @@ Public Class VBPropertyDeclaration
         Me.IsPrimaryKey = isPrimaryKey
     End Sub
 
-    Public Property Indent As StrongBox(Of Integer)
+    Dim sb As IndentStringBuilder
     ''' <summary>
     ''' 显示帮助文本（如果有的话）
     ''' </summary>
@@ -38,26 +38,24 @@ Public Class VBPropertyDeclaration
     ''' <summary>
     ''' 将声明转换为 VB 代码
     ''' </summary>
-    Public Overrides Function ToString() As String
-        Dim sb As New StringBuilder(100)
-        WriteXmlComment(sb)
-        WriteAttribute(sb)
-        WriteClassDecl(sb)
-        WriteImplements(sb)
-        BasicInformation.WriteInitializeExpression(New IndentStringBuilder(sb, Indent), InitialValue)
-        Return sb.ToString
-    End Function
+    Public Sub WriteCode()
+        WriteXmlComment()
+        WriteAttribute()
+        WriteClassDecl()
+        WriteImplements()
+        BasicInformation.WriteInitializeExpression(New IndentStringBuilder, InitialValue)
+    End Sub
 
-    Private Sub WriteImplements(sb As StringBuilder)
+    Private Sub WriteImplements()
         If ImplementsInterface IsNot Nothing Then
             sb.Append(" Implements ").Append(ImplementsInterface.Name).Append("."c).Append(BasicInformation.Name)
         End If
     End Sub
 
-    Private Sub WriteClassDecl(sb As StringBuilder)
+    Private Sub WriteClassDecl()
         Dim isForeignKey = BasicInformation.TypeNameOverride IsNot Nothing
         Dim className = BasicInformation.RuntimeTypeName
-        sb.Append($"Public {If(isForeignKey, "Overridable ", "")}Property {BasicInformation.Name} As ")
+        sb.IndentAppend($"Public {If(isForeignKey, "Overridable ", "")}Property {BasicInformation.Name} As ")
         Dim declTypeName = className
         If ImplementsInterface IsNot Nothing Then
             Dim foundProp = ImplementsInterface.Properties(BasicInformation.Name)
@@ -68,17 +66,19 @@ Public Class VBPropertyDeclaration
         sb.Append(declTypeName)
     End Sub
 
-    Private Sub WriteAttribute(sb As StringBuilder)
+    Private Sub WriteAttribute()
         If IsPrimaryKey Then
-            sb.Append("<Key>")
+            sb.IndentAppendLine("<Key>")
         ElseIf IsObsolete Then
-            sb.Append("<Obsolete>")
+            sb.IndentAppendLine("<Obsolete>")
         End If
     End Sub
 
-    Private Sub WriteXmlComment(sb As StringBuilder)
+    Private Sub WriteXmlComment()
         If Not String.IsNullOrEmpty(HelpText) Then
-            sb.AppendLine($"'''<summary>{HelpText.Replace(vbCr, "").Replace(vbLf, "").Replace("<", "&lt;").Replace(">", "&gt;").Replace("&", "&amp;")}</summary>").Append(" "c, Indent.Value)
+            sb.IndentAppendLine("'''<summary>")
+            sb.IndentAppend("'''").AppendLine(HelpText.Replace(vbCr, "").Replace(vbLf, "").Replace("&", "&amp;").Replace("<", "&lt;").Replace(">", "&gt;"))
+            sb.IndentAppendLine("'''</summary>")
         End If
     End Sub
 

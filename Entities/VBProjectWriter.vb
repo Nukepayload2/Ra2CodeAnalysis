@@ -1,6 +1,5 @@
 ﻿Imports System.Reflection
 Imports System.Text
-Imports Nukepayload2.Ra2CodeAnalysis.AnalysisHelper
 Imports Nukepayload2.Ra2CodeAnalysis.Linq
 
 Public Class VBProjectWriter
@@ -12,8 +11,9 @@ Public Class VBProjectWriter
     ''' <summary>
     ''' 生成与 .NET Standard 1.2 等价目标的 VB 14 类库项目文件
     ''' </summary>
-    ''' <param name="FileNames">生成的文件名（不含拓展名，包含相对项目的路径）</param>
-    Public Function GeneratePcl44Proj(FileNames As IEnumerable(Of String)) As GeneratedCodeFile
+    ''' <param name="CodeFileNames">生成的代码文件名（可以省略.vb拓展名）</param>
+    Public Function GeneratePcl44Proj(CodeFileNames As IEnumerable(Of String)) As GeneratedCodeFile
+        CodeFileNames = CodeFileNames.Concat({"My Project\AssemblyInfo.vb"})
         Dim xdoc =
 $"<?xml version=""1.0"" encoding=""utf-8""?>
 <Project ToolsVersion=""14.0"" DefaultTargets=""Build"" xmlns=""http://schemas.microsoft.com/developer/msbuild/2003"">
@@ -83,7 +83,7 @@ $"<?xml version=""1.0"" encoding=""utf-8""?>
         <Import Include=""System.ComponentModel.DataAnnotations""/>
     </ItemGroup>
     <ItemGroup>
-{Aggregate f In FileNames Select $"<Compile Include=""{f}.vb""/>" Into Join(8)}
+{Aggregate f In CodeFileNames Select $"<Compile Include=""{If(f.EndsWith(".vb"), f, f + ".vb")}""/>" Into Join(8)}
         <Compile Include=""My Project\AssemblyInfo.vb""/>
     </ItemGroup>
     <ItemGroup>
@@ -95,7 +95,7 @@ $"<?xml version=""1.0"" encoding=""utf-8""?>
     End Function
 
     Public Function GenerateAssemblyInfo() As GeneratedCodeFile
-        Dim fileName = "My Project\AssemblyInfo.vb"
+        Dim fileName = "AssemblyInfo.vb"
         Dim content = $"Imports System
 Imports System.Resources
 Imports System.Reflection
@@ -107,7 +107,7 @@ Imports System.Reflection
 '查看程序集特性的值
 
 <Assembly: AssemblyTitle(""{ProjectName}"")> 
-<Assembly: AssemblyDescription("""")> 
+<Assembly: AssemblyDescription(""由 Nukepayload2.Ra2CodeAnalysis 生成"")> 
 <Assembly: AssemblyCompany("""")> 
 <Assembly: AssemblyProduct(""{ProjectName}"")> 
 <Assembly: AssemblyCopyright(""版权所有(C)  2016"")> 
@@ -139,10 +139,39 @@ Imports System.Reflection
         Using strm = Me.GetType.GetTypeInfo.Assembly.GetManifestResourceStream("Nukepayload2.Ra2CodeAnalysis.Percentage.vb"), sr = New StreamReader(strm, Encoding.UTF8)
             content = Await sr.ReadToEndAsync()
         End Using
-        Return New GeneratedCodeFile("Percentage", content)
+        Return New GeneratedCodeFile("Percentage.vb", content)
     End Function
 
-    Public Function WriteRa2IniGroup(data As IEnumerable(Of NamedIniAnalyzer)) As IEnumerable(Of GeneratedCodeFile)
+    Public Function GeneratePackageConfig() As GeneratedCodeFile
+        Return New GeneratedCodeFile("packages.config", "<?xml version=""1.0"" encoding=""utf-8""?>
+<packages>
+  <package id=""System.ComponentModel.Annotations"" version=""4.1.0"" targetFramework=""portable46-net451+win81"" />
+</packages>")
+    End Function
 
+    Public Function GenerateVBFileFromIni(d As NamedIniAnalyzer) As GeneratedCodeFile
+        Dim hlp As HelpProvider = New EmptyHelpProvider
+        Select Case d.FileNameWithoutExt.ToLower
+            Case "rules", "rulesmd"
+                hlp = New RulesHelpProvider
+            Case "art", "artmd"
+                hlp = New ArtHelpProvider
+            Case "ai", "aimd"
+                hlp = New AIHelpProvider
+        End Select
+        Dim sb As New IndentStringBuilder
+        Dim entityContext As New EntityInferContext(d, hlp, sb)
+        Dim ns As New VBNamespaceBuilder(sb, d.FileNameWithoutExt)
+        ns.BeginBlock()
+        For Each itf In entityContext.InterfaceIndex.Values
+            itf.BeginBlock()
+            itf.EndBlock()
+        Next
+        For Each cls In entityContext.ClassIndex.Values
+            cls.BeginBlock()
+            cls.EndBlock()
+        Next
+        ns.EndBlock()
+        Return New GeneratedCodeFile(d.FileNameWithoutExt + ".vb", sb.ToString)
     End Function
 End Class

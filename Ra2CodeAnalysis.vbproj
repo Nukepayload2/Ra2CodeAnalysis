@@ -89,12 +89,12 @@
     <Compile Include="Document\IniRecordSyntax.vb" />
     <Compile Include="Document\IniWrongSyntax.vb" />
     <Compile Include="Document\IniWrongSyntaxTrivia.vb" />
-    <Compile Include="Entities\EntityClassLibraryGenerator.vb" />
     <Compile Include="Entities\EntityInferContext.vb" />
     <Compile Include="Entities\GeneratedCodeFile.vb" />
     <Compile Include="Entities\IniFileItem.vb" />
     <Compile Include="Entities\ProjectBasicInformation.vb" />
     <Compile Include="Entities\VBPropertyAssignmentDeclaration.vb" />
+    <Compile Include="Help\EmptyHelpProvider.vb" />
     <Compile Include="Utility\IndentStringBuilder.vb" />
     <Compile Include="Entities\NamedIniAnalyzer.vb" />
     <Compile Include="Entities\VBClassBuilder.vb" />

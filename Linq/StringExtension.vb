@@ -21,7 +21,7 @@ Namespace Linq
         Public Function Join(source As IEnumerable(Of String), separator As Func(Of String, String)) As String
             Dim sb As New StringBuilder
             For Each blk In source
-                sb.Append(blk).Append(separator)
+                sb.Append(blk).Append(separator(blk))
             Next
             Dim len = separator(String.Empty).Length
             If len > 0 Then sb.Remove(sb.Length - len, len)

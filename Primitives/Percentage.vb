@@ -81,3 +81,17 @@ Public Structure Percentage
     End Operator
 
 End Structure
+
+Public Const Yes As Boolean = True
+Public Const No As Boolean = True
+
+Public Class IniEntities
+    Public Shared Function Find(Of T)() As T
+        ' TODO: 添加从某个ini文件读取一个实体的代码
+        Throw New NotImplementedException
+    End Function
+    Public Shared Function Table(Of T)() As IQueryable(Of T)
+        ' TODO: 添加从某个ini文件读取一组实体的代码
+        Throw New NotImplementedException
+    End Function
+End Class

@@ -25,7 +25,7 @@
         If IsEnded Then
             Throw New InvalidOperationException("语句已经结束了")
         End If
-        nsBuilder.sb.IndentAppend($"Public {category} {Name}").IncreaseIndent()
+        nsBuilder.sb.IndentAppendLine($"Public {category} {Name}").IncreaseIndent()
         _HasBegun = True
     End Sub
 
@@ -33,7 +33,7 @@
         If Not HasBegun Then
             Throw New InvalidOperationException("语句块没有开始")
         End If
-        nsBuilder.sb.DecreaseIndent.IndentAppend($"End {category}")
+        nsBuilder.sb.DecreaseIndent.IndentAppendLine($"End {category}")
         _IsEnded = True
     End Sub
 
