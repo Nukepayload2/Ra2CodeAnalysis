@@ -81,9 +81,10 @@ Public Structure Percentage
     End Operator
 
 End Structure
-
-Public Const Yes As Boolean = True
-Public Const No As Boolean = True
+Module Constants
+    Public Const Yes As Boolean = True
+    Public Const No As Boolean = True
+End Module
 
 Public Class IniEntities
     Public Shared Function Find(Of T)() As T

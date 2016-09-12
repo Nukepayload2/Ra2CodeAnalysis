@@ -1,5 +1,5 @@
 ﻿
-Public Class INIAnalizeResult
+Public Class INIAnalyzeResult
     Public ReadOnly Property Message As New List(Of INIAnalyzeInfo)
     Public ReadOnly Property Warning As New List(Of INIAnalyzeInfo)
     Public ReadOnly Property Fault As New List(Of INIAnalyzeInfo)
@@ -15,8 +15,8 @@ Public Class INIAnalizeResult
     ''' <summary>
     ''' 返回被合并的两个结果
     ''' </summary> 
-    Public Function Concat(AnotherResult As INIAnalizeResult) As INIAnalizeResult
-        Dim tmp As New INIAnalizeResult(Message, Warning, Fault)
+    Public Function Concat(AnotherResult As INIAnalyzeResult) As INIAnalyzeResult
+        Dim tmp As New INIAnalyzeResult(Message, Warning, Fault)
         tmp.Message.AddRange(AnotherResult.Message)
         tmp.Warning.AddRange(AnotherResult.Warning)
         tmp.Fault.AddRange(AnotherResult.Fault)

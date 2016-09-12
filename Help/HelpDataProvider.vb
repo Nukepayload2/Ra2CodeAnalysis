@@ -79,14 +79,14 @@ Public Class HelpDataProvider
         End If
         Return hlp
     End Function
-    Public Function GetUsageForIme(Word As String, Helper As IHelpProvider, ini As INIAnalizer) As String
+    Public Function GetUsageForIme(Word As String, Helper As IHelpProvider, ini As INIAnalyzer) As String
         Dim hlp = Helper.GetHelpText(Word)
         If String.IsNullOrEmpty(hlp) Then
             hlp = DeepAnalizeFormatUsage(Word, Word, ini)
         End If
         Return hlp
     End Function
-    Public Function DeepAnalizeType(Value As String, ini As INIAnalizer) As String
+    Public Function DeepAnalizeType(Value As String, ini As INIAnalyzer) As String
         Dim tp = TempAnalizeUsage(Value)
         If tp = "String" Then
             For Each mkv In ini.Values
@@ -115,11 +115,11 @@ Public Class HelpDataProvider
         End If
         Return tp
     End Function
-    Public Function DeepAnalizeFormatUsage(Key As String, Value As String, ini As INIAnalizer) As String
+    Public Function DeepAnalizeFormatUsage(Key As String, Value As String, ini As INIAnalyzer) As String
         Return FormatUsage(Value, DeepAnalizeType(Value, ini))
     End Function
     <Obsolete("这个重载版本已经过时了,它将不会工作")>
-    Public Function DeepAnalizeType(Value As String, ini As INIAnalizer, textcomp As Boolean, Optional CsOverloadTemp As Object = Nothing) As String
+    Public Function DeepAnalizeType(Value As String, ini As INIAnalyzer, textcomp As Boolean, Optional CsOverloadTemp As Object = Nothing) As String
         Return String.Empty
     End Function
     Public Function DeepAnalizeType(Value As String, ini As RulesAnalyzer, Optional CsOverloadTemp As Object = Nothing) As String

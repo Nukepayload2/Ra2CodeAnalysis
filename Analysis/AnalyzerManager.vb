@@ -5,7 +5,7 @@ Public Class AnalyzerManager
     Public ReadOnly Property Rules As RulesAnalyzer
     Public ReadOnly Property Art As ArtAnalyzer
     Public ReadOnly Property AI As AIAnalyzer
-    Public ReadOnly Property Ra2 As INIAnalizer
+    Public ReadOnly Property Ra2 As INIAnalyzer
     Public ReadOnly Property Updating As Boolean
     Dim _UpdateDelay As New TimeSpan(0, 0, 1)
     Public Property UpdateDelay As TimeSpan
@@ -48,7 +48,7 @@ Public Class AnalyzerManager
             Rules = New RulesAnalyzer(.RulesText)
             Art = New ArtAnalyzer(.ArtText, Rules)
             AI = New AIAnalyzer(.AIText, Rules)
-            Ra2 = New INIAnalizer(.Ra2Text)
+            Ra2 = New INIAnalyzer(.Ra2Text)
         End With
         Me.DataSource = DataSource
     End Sub

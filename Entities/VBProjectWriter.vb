@@ -13,7 +13,6 @@ Public Class VBProjectWriter
     ''' </summary>
     ''' <param name="CodeFileNames">生成的代码文件名（可以省略.vb拓展名）</param>
     Public Function GeneratePcl44Proj(CodeFileNames As IEnumerable(Of String)) As GeneratedCodeFile
-        CodeFileNames = CodeFileNames.Concat({"My Project\AssemblyInfo.vb"})
         Dim xdoc =
 $"<?xml version=""1.0"" encoding=""utf-8""?>
 <Project ToolsVersion=""14.0"" DefaultTargets=""Build"" xmlns=""http://schemas.microsoft.com/developer/msbuild/2003"">

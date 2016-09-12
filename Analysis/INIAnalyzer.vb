@@ -1,17 +1,17 @@
 ﻿''' <summary>
 ''' 对未拓展的Ini进行分析
 ''' </summary>
-Public Class INIAnalizer
+Public Class INIAnalyzer
     ''' <summary>
     ''' 不加载任何信息。只能在关于类型的情况使用
     ''' </summary>
     Sub New()
 
     End Sub
-    Public Overridable Function Check() As INIAnalizeResult
+    Public Overridable Function Check() As INIAnalyzeResult
         Return Result
     End Function
-    Public Overridable ReadOnly Property Result As New INIAnalizeResult
+    Public Overridable ReadOnly Property Result As New INIAnalyzeResult
     ''' <summary>
     ''' 主键，键和值。如果主键重复注册则合并，如果键重复注册则进入ConflictValues。
     ''' </summary>

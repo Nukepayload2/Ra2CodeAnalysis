@@ -8,7 +8,7 @@ Public Class IniNamespace
     Public Const AI = "http://schemas.nukepayload2.com/ra2codeanalysis/ai"
     Public Const Art = "http://schemas.nukepayload2.com/ra2codeanalysis/art"
 
-    Sub New(INITree As IEnumerable(Of MainKeyTreeNode), ini As INIAnalizer, HelpProvider As IHelpProvider)
+    Sub New(INITree As IEnumerable(Of MainKeyTreeNode), ini As INIAnalyzer, HelpProvider As IHelpProvider)
         Dim hd As New HelpDataProvider
         Dim KeyNames As New List(Of String)
         For Each mk In INITree

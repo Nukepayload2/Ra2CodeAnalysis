@@ -7,4 +7,5 @@
     Public Property FilePath As String
     Public Property FileName As String
     Public Property CachedContent As String
+    Public Property CachedAnalyzer As NamedIniAnalyzer
 End Class

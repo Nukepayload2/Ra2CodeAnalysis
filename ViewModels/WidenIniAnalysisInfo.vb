@@ -22,7 +22,7 @@ Public Class WidenIniAnalysisInfo
         AI
         Ra2
     End Enum
-    Public Shared Function GetWidenIniAnalysisInfo(Result As INIAnalizeResult, FileName As String, Optional AggOpt As Integer = ErrorFilters.All) As IEnumerable(Of WidenIniAnalysisInfo)
+    Public Shared Function GetWidenIniAnalysisInfo(Result As INIAnalyzeResult, FileName As String, Optional AggOpt As Integer = ErrorFilters.All) As IEnumerable(Of WidenIniAnalysisInfo)
         Dim tmp As New List(Of WidenIniAnalysisInfo)
         If CBool(AggOpt And ErrorFilters.Message) Then
             For Each tp In Result.Message

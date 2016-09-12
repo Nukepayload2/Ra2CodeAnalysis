@@ -2,9 +2,9 @@
 ''' 包含专门分析Ra2/Ts/Fs/Yr平台的Ini的函数
 ''' </summary>
 Public MustInherit Class Ra2IniAnalyzer
-    Inherits INIAnalizer
+    Inherits INIAnalyzer
     Public MustOverride ReadOnly Property Name As String
-    Public MustOverride Overrides Function Check() As INIAnalizeResult
+    Public MustOverride Overrides Function Check() As INIAnalyzeResult
     Sub New(INIText As StreamReader)
         MyBase.New(INIText)
     End Sub
@@ -18,7 +18,7 @@ Public MustInherit Class Ra2IniAnalyzer
             End If
         Next
     End Sub
-    Protected Sub ValueRegistryCheck(RegistryMainKeyName As String, FailText As String, MainKeyOfCheck As String, Value As String, LineNumber As Integer, lst As IList(Of INIAnalyzeInfo), ExternalValuesSource As INIAnalizer, Optional SecondaryMainKey As String = Nothing)
+    Protected Sub ValueRegistryCheck(RegistryMainKeyName As String, FailText As String, MainKeyOfCheck As String, Value As String, LineNumber As Integer, lst As IList(Of INIAnalyzeInfo), ExternalValuesSource As INIAnalyzer, Optional SecondaryMainKey As String = Nothing)
         If 0 = Aggregate c In From v In ExternalValuesSource.Values(RegistryMainKeyName) Where v.Value.Item1 = Value Into Count Then
             If String.IsNullOrEmpty(SecondaryMainKey) Then
                 lst.Add(New INIAnalyzeInfo(LineNumber, FailText, Value, MainKeyOfCheck))
@@ -72,7 +72,7 @@ Public MustInherit Class Ra2IniAnalyzer
             End If
         Next
     End Sub
-    Protected Sub EachValueRegistryCheck(r As KeyValuePair(Of String, Tuple(Of String, Integer)), ls As List(Of INIAnalyzeInfo), MK As String, Tx As String, FindMKey As String, ExternalValuesSource As INIAnalizer, Optional SecondaryMainKey As String = Nothing)
+    Protected Sub EachValueRegistryCheck(r As KeyValuePair(Of String, Tuple(Of String, Integer)), ls As List(Of INIAnalyzeInfo), MK As String, Tx As String, FindMKey As String, ExternalValuesSource As INIAnalyzer, Optional SecondaryMainKey As String = Nothing)
         For Each val In r.Value.Item1.Split(","c)
             If String.IsNullOrEmpty(val) Then
                 ls.Add(New INIAnalyzeInfo(r.Value.Item2, "语法错误：','前后应为数值", r.Value.Item1, MK))

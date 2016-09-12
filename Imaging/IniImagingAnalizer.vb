@@ -7,7 +7,7 @@ Namespace Imaging
     ''' 用于产生分析图的ini分析器。Values保存着撤销全部更改的结果。
     ''' </summary>
     Public Class IniImagingAnalizer
-        Inherits INIAnalizer
+        Inherits INIAnalyzer
         Sub New(IniText As String)
             MyBase.New(IniText)
         End Sub

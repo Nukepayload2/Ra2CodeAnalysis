@@ -13,8 +13,8 @@ Public Class AIAnalyzer
 
     Public Overrides ReadOnly Property Name As String = "AI"
 
-    Public Overrides Function Check() As INIAnalizeResult
-        Dim AdvResult As New INIAnalizeResult
+    Public Overrides Function Check() As INIAnalyzeResult
+        Dim AdvResult As New INIAnalyzeResult
         SyncLock Result
             AdvResult = AdvResult.Concat(Result)
         End SyncLock

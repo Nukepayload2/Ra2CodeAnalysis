@@ -12,7 +12,7 @@ Public Class RulesAnalyzer
     ''' 分析结果,包括基类提供的语法检查
     ''' </summary>
     ''' <returns></returns>
-    Public Overrides Function Check() As INIAnalizeResult
+    Public Overrides Function Check() As INIAnalyzeResult
         Return CheckInternal()
     End Function
     Sub New(INIText As StreamReader)
@@ -24,8 +24,8 @@ Public Class RulesAnalyzer
     Public Shared Function IsWeaponKey(Key As String) As Boolean
         Return {"OccupyWeapon", "EliteOccupyWeapon", "Primary", "Secondary", "ElitePrimary", "EliteSecondary", "DeathWeapon"}.Contains(Key) OrElse Key.StartsWith("Weapon") OrElse Key.StartsWith("EliteWeapon")
     End Function
-    Protected Function CheckInternal() As INIAnalizeResult
-        Dim AdvResult As New INIAnalizeResult
+    Protected Function CheckInternal() As INIAnalyzeResult
+        Dim AdvResult As New INIAnalyzeResult
         SyncLock Result
             AdvResult = AdvResult.Concat(Result)
         End SyncLock

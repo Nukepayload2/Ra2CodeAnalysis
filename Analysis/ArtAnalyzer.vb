@@ -12,8 +12,8 @@ Public Class ArtAnalyzer
         MyBase.New(INIText)
         Me.rules = rules
     End Sub
-    Public Overrides Function Check() As INIAnalizeResult
-        Dim AdvResult As New INIAnalizeResult
+    Public Overrides Function Check() As INIAnalyzeResult
+        Dim AdvResult As New INIAnalyzeResult
         SyncLock Result
             AdvResult = AdvResult.Concat(Result)
         End SyncLock

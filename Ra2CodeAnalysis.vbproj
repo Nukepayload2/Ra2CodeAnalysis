@@ -155,8 +155,8 @@
     <Compile Include="Imaging\IniImagingAnalizer.vb" />
     <Compile Include="Input\ImeBase.vb" />
     <Compile Include="Analysis\INIAnalyzeInfo.vb" />
-    <Compile Include="Analysis\INIAnalizer.vb" />
-    <Compile Include="Analysis\INIAnalizeResult.vb" />
+    <Compile Include="Analysis\INIAnalyzer.vb" />
+    <Compile Include="Analysis\INIAnalyzeResult.vb" />
     <Compile Include="Utility\Parallel.vb" />
     <Compile Include="Utility\ParameterizedProperty.vb" />
     <Compile Include="Input\QuickFix.vb" />

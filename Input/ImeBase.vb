@@ -93,7 +93,7 @@ Public MustInherit Class ImeBase
         Return SelectText(IsLeft, 0)
     End Function
     Dim Lock As New Object
-    Protected Sub ReloadSync(Ini As INIAnalizer)
+    Protected Sub ReloadSync(Ini As INIAnalyzer)
         MainKeys.Clear()
         LeftVals.Clear()
         RightVals.Clear()
@@ -116,10 +116,10 @@ Public MustInherit Class ImeBase
             Next
         End SyncLock
     End Sub
-    Public Async Function Reload(Ini As INIAnalizer) As Task
+    Public Async Function Reload(Ini As INIAnalyzer) As Task
         Await Task.Run(Sub() ReloadSync(Ini))
     End Function
-    Sub New(Ini As INIAnalizer)
+    Sub New(Ini As INIAnalyzer)
         ReloadSync(Ini)
     End Sub
 End Class
