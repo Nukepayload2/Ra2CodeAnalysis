@@ -3,6 +3,14 @@
 Public Class IndentStringBuilder
     Dim sb As New StringBuilder
     Dim indent As New StrongBox(Of Integer)
+    Public Property Length As Integer
+        Get
+            Return sb.Length
+        End Get
+        Set(value As Integer)
+            sb.Length = value
+        End Set
+    End Property
     Public Function IncreaseIndent() As IndentStringBuilder
         indent.Value += 4
         Return Me
@@ -37,5 +45,9 @@ Public Class IndentStringBuilder
     End Function
     Public Overrides Function ToString() As String
         Return sb.ToString
+    End Function
+    Public Function Remove(start As Integer, len As Integer) As IndentStringBuilder
+        sb.Remove(start, len)
+        Return Me
     End Function
 End Class

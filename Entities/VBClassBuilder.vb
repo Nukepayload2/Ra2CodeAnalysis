@@ -9,7 +9,7 @@ Public Class VBClassBuilder
 
     Public Property Properties As New Dictionary(Of String, VBPropertyDeclaration)
     Public Property BasePropertyInitialization As New HashSet(Of VBPropertyAssignmentDeclaration)(New VBPropertyAssignmentDeclarationNameComparer)
-    Public Property ImplementInterfaces As New List(Of VBInterfaceBuilder)
+    Public Property ImplementInterfaces As New HashSet(Of VBInterfaceBuilder)
     Public Property InheritsClass As VBClassBuilder
 
     Public Overrides Sub EndBlock()
@@ -24,12 +24,15 @@ Public Class VBClassBuilder
             prop.WriteCode()
             sb.AppendLine()
         Next
-        sb.IndentAppendLine("Sub New()").IncreaseIndent()
-        For Each prop In BasePropertyInitialization
-            sb.IndentAppend(prop.PropertyBasicInformation.Name)
-            prop.PropertyBasicInformation.WriteInitializeExpression(sb, prop.InitialValue)
-        Next
-        sb.DecreaseIndent.IndentAppendLine("End Sub")
+        If BasePropertyInitialization.Count > 0 Then
+            sb.IndentAppendLine("Sub New()").IncreaseIndent()
+            For Each prop In BasePropertyInitialization
+                sb.IndentAppend(prop.PropertyBasicInformation.Name)
+                prop.PropertyBasicInformation.WriteInitializeExpression(sb, prop.InitialValue, True)
+                sb.AppendLine()
+            Next
+            sb.DecreaseIndent.IndentAppendLine("End Sub")
+        End If
         MyBase.EndBlock()
     End Sub
 End Class

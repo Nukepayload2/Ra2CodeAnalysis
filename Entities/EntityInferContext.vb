@@ -20,14 +20,23 @@ Public Class EntityInferContext
         CorrectMemberName()
     End Sub
     ''' <summary>
-    ''' 清除与基类重复的声明，同时更新类型推断
+    ''' 清除与基类重复的声明，同时更新类型推断和数据
     ''' </summary>
     Private Sub CleanClass()
         For Each cls In ClassIndex.Values
             Dim baseClass = cls.InheritsClass
+            Dim curProperties = cls.Properties
             If baseClass IsNot Nothing Then
                 Dim baseProperties = baseClass.Properties
-                Dim curProperties = cls.Properties
+                If cls.ImplementInterfaces.Count > 0 Then
+                    For Each impl In cls.ImplementInterfaces
+                        baseClass.ImplementInterfaces.Add(impl)
+                        For Each prop In impl.Properties
+                            baseClass.Properties(prop.Key).ImplementsInterface.Add(impl)
+                        Next
+                    Next
+                    cls.ImplementInterfaces.Clear()
+                End If
                 For Each prop In baseProperties
                     Dim curKey = prop.Key
                     If curProperties.ContainsKey(curKey) Then
@@ -53,6 +62,15 @@ Public Class EntityInferContext
                         curProperties.Remove(curKey)
                     End If
                 Next
+            Else
+                Dim vals = NamedAnalyzer.Analyzer.Values
+                If vals.ContainsKey(cls.Name) Then
+                    Dim clsData = vals(cls.Name)
+                    For Each curProp In curProperties
+                        Dim data = clsData(curProp.Key)
+                        curProp.Value.InitialValue = SurroundInitExpr(data.Item1, curProp.Value.BasicInformation.RuntimeTypeName)
+                    Next
+                End If
             End If
         Next
     End Sub
@@ -60,16 +78,23 @@ Public Class EntityInferContext
     Private Sub CorrectMemberName()
         For Each itf In InterfaceIndex.Values
             itf.Name = RenameForVBName(itf.Name)
+            Dim newProps As New Dictionary(Of String, VBPropertyDeclarationSilm)
             For Each prop In itf.Properties.Values
                 prop.Name = RenameForVBName(prop.Name)
+                newProps.Add(prop.Name, prop)
             Next
+            itf.Properties = newProps
         Next
         For Each cls In ClassIndex.Values
             cls.Name = RenameForVBName(cls.Name)
+            Dim newProps As New Dictionary(Of String, VBPropertyDeclaration)
             For Each prop In cls.Properties.Values
                 prop.BasicInformation.Name = RenameForVBName(prop.BasicInformation.Name)
+                newProps.Add(prop.BasicInformation.Name, prop)
             Next
+            cls.Properties = newProps
         Next
+
     End Sub
 
     Private Shared Function RenameForVBName(name As String) As String
@@ -97,7 +122,7 @@ Public Class EntityInferContext
                         Dim firstProperties = firstClass.Properties
                         For Each newProp In From p In mergeClass.Properties Where Not firstProperties.ContainsKey(p.Key)
                             Dim prop = newProp.Value
-                            prop.ImplementsInterface = firstInterface
+                            prop.ImplementsInterface.Add(firstInterface)
                             firstProperties.Add(newProp.Key, prop)
                         Next
                         impl.PossibleBaseClass = firstClass
@@ -107,7 +132,9 @@ Public Class EntityInferContext
             End If
         Next
     End Sub
-
+    ''' <summary>
+    ''' 通过值提取接口
+    ''' </summary>
     Private Sub InferNewInterface()
         For Each cls In ClassData
             Dim cdata = cls.Item2
@@ -163,7 +190,7 @@ Public Class EntityInferContext
                     If curItf.Properties.ContainsKey(curDel.Name) Then
                         curItf.Properties.Remove(curDel.Name)
                     End If
-                    curItf.PossibleBaseClass.Properties(curDel.Name).ImplementsInterface = Nothing
+                    curItf.PossibleBaseClass.Properties(curDel.Name).ImplementsInterface.Clear()
                 Next
             Next
         Next
@@ -241,8 +268,10 @@ Public Class EntityInferContext
         Select Case typeName
             Case "String"
                 Return """" + initValue + """"
-            Case "Percentage", "Guid"
+            Case "Guid"
                 Return $"New {typeName}(""{initValue}"")"
+            Case "Percentage"
+                Return $"Percentage.Parse(""{initValue}"")"
             Case Else
                 Return initValue
         End Select

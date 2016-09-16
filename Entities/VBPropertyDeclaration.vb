@@ -34,7 +34,7 @@ Public Class VBPropertyDeclaration
     ''' <summary>
     ''' 添加 Implements 语句
     ''' </summary>
-    Public Property ImplementsInterface As VBInterfaceBuilder
+    Public Property ImplementsInterface As New HashSet(Of VBInterfaceBuilder)
     ''' <summary>
     ''' 将声明转换为 VB 代码
     ''' </summary>
@@ -42,13 +42,18 @@ Public Class VBPropertyDeclaration
         WriteXmlComment()
         WriteAttribute()
         WriteClassDecl()
+        BasicInformation.WriteInitializeExpression(sb, InitialValue, False)
         WriteImplements()
-        BasicInformation.WriteInitializeExpression(New IndentStringBuilder, InitialValue)
+        sb.AppendLine()
     End Sub
 
     Private Sub WriteImplements()
-        If ImplementsInterface IsNot Nothing Then
-            sb.Append(" Implements ").Append(ImplementsInterface.Name).Append("."c).Append(BasicInformation.Name)
+        If ImplementsInterface.Count > 0 Then
+            sb.Append(" Implements ")
+            For Each itf In ImplementsInterface
+                sb.Append(itf.Name).Append("."c).Append(BasicInformation.Name).Append(", ")
+            Next
+            sb.Remove(sb.Length - 2, 2)
         End If
     End Sub
 
@@ -57,11 +62,14 @@ Public Class VBPropertyDeclaration
         Dim className = BasicInformation.RuntimeTypeName
         sb.IndentAppend($"Public {If(isForeignKey, "Overridable ", "")}Property {BasicInformation.Name} As ")
         Dim declTypeName = className
-        If ImplementsInterface IsNot Nothing Then
-            Dim foundProp = ImplementsInterface.Properties(BasicInformation.Name)
-            If foundProp IsNot Nothing Then
-                declTypeName = foundProp.RuntimeTypeName
-            End If
+        If ImplementsInterface.Count > 0 Then
+            For Each itf In ImplementsInterface
+                Dim foundProp = itf.Properties(BasicInformation.Name)
+                If foundProp IsNot Nothing Then
+                    declTypeName = foundProp.RuntimeTypeName
+                    Exit For
+                End If
+            Next
         End If
         sb.Append(declTypeName)
     End Sub

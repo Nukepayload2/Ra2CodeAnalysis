@@ -8,7 +8,7 @@
         PossibleBaseClass = New VBClassBuilder(nsBuilder, name + "Base", indent)
     End Sub
 
-    Public ReadOnly Property Properties As New Dictionary(Of String, VBPropertyDeclarationSilm)
+    Public Property Properties As New Dictionary(Of String, VBPropertyDeclarationSilm)
     Public Property PossibleBaseClass As VBClassBuilder
     Public Overrides Sub EndBlock()
         Dim sb = nsBuilder.sb

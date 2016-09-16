@@ -35,27 +35,31 @@
     ''' 写入初始化表达式（赋值语句）
     ''' </summary>
     ''' <param name="sb">要写入的目标</param>
-    Public Sub WriteInitializeExpression(sb As IndentStringBuilder, InitialValue As String)
+    Public Sub WriteInitializeExpression(sb As IndentStringBuilder, InitialValue As String, writeIfNothing As Boolean)
         Dim isForeignKey = TypeNameOverride IsNot Nothing
         Dim className = RuntimeTypeName
         If isForeignKey Then
             If IsQueryable Then
                 If InitialValue Is Nothing Then
-                    sb.AppendLine($" = IniEntities.Table(Of {TypeNameOverride.Name})({{{InitialValue}}})")
+                    sb.Append($" = Nothing")
                 Else
-                    sb.AppendLine(InitialValue.Replace(" ", "").Replace("{", " = {New ").Replace(",", ", New "))
+                    sb.Append(InitialValue.Replace(" ", "").Replace("{", " = {New ").Replace(",", ", New "))
                 End If
             Else
                 If TypeOf TypeNameOverride Is VBInterfaceBuilder Then
-                    sb.AppendLine($" = IniEntities.Find(Of {TypeNameOverride.Name})({{{InitialValue}}})")
+                    If InitialValue Is Nothing Then
+                        sb.Append(" = Nothing")
+                    Else
+                        sb.Append($" = New {InitialValue}")
+                    End If
                 Else
-                    sb.Append(" = New ").AppendLine(className)
+                    sb.Append(" = New ").Append(className)
                 End If
             End If
         ElseIf Not String.IsNullOrEmpty(InitialValue) Then
-            sb.Append(" = ").AppendLine(InitialValue)
+            sb.Append(" = ").Append(InitialValue)
         Else
-            sb.AppendLine(" = Nothing")
+            If writeIfNothing Then sb.Append(" = Nothing")
         End If
     End Sub
 End Class
