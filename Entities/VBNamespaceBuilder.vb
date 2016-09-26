@@ -1,14 +1,14 @@
 ﻿Imports System.Text
 
 Public Class VBNamespaceBuilder
-    Dim name As String
+    Public Property Name As String
     Sub New(sb As IndentStringBuilder, name$)
         Me.sb = sb
-        Me.name = name
+        Me.Name = name
     End Sub
 
     Public Sub BeginBlock()
-        sb.IndentAppend("Namespace ").AppendLine(name).IncreaseIndent()
+        sb.IndentAppend("Namespace ").AppendLine(Name).IncreaseIndent()
     End Sub
 
     Friend sb As IndentStringBuilder

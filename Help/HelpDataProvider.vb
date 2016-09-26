@@ -163,16 +163,15 @@ Public Class HelpDataProvider
             Dim spa = rig.Split(","c)
             Dim sp = spa.First.Trim
             If sp.IsInteger Then
-                For Each tp In spa
+                For Each tp In spa.Skip(1)
                     If Not tp.Trim.IsInteger Then Return "IEnumerable(Of String)"
                 Next
-                Return "IEnumerable(Of Integer)"
+                Return $"IEnumerable(Of {FilterIntegerTypes(sp)})"
             ElseIf sp.IsFraction Then
-
-                For Each tp In spa
+                For Each tp In spa.Skip(1)
                     If Not tp.Trim.IsFraction Then Return "IEnumerable(Of String)"
                 Next
-                Return "IEnumerable(Of Single)"
+                Return $"IEnumerable(Of {FilterFractionTypes(sp)})"
             ElseIf sp.Replace("%", "").IsInteger Then
                 Return "IEnumerable(Of Percentage)"
             Else
@@ -180,9 +179,9 @@ Public Class HelpDataProvider
             End If
         Else
             If rig.IsInteger Then
-                Return "Integer"
+                Return FilterIntegerTypes(rig)
             ElseIf rig.IsFraction Then
-                Return "Single"
+                Return FilterFractionTypes(rig)
             ElseIf {"true", "false", "yes", "no"}.Contains(rig.ToLowerInvariant) Then
                 Return "Boolean"
             ElseIf rig.Replace("%", "").IsInteger Then
@@ -195,4 +194,31 @@ Public Class HelpDataProvider
         End If
     End Function
 
+    Private Shared Function FilterFractionTypes(rig As String) As String
+        Dim sng = 0F, dbl = 0#, dec = 0D
+        If Single.TryParse(rig, sng) AndAlso Double.TryParse(rig, dbl) AndAlso Decimal.TryParse(rig, dec) Then
+            Dim sdbl = dbl.ToString
+            If sdbl = sng.ToString Then
+                Return "Single"
+            ElseIf dec.ToString = sdbl Then
+                Return "Double"
+            Else
+                Return "Decimal"
+            End If
+        Else
+            Return "String"
+        End If
+    End Function
+
+    Private Shared Function FilterIntegerTypes(rig As String) As String
+        If Integer.TryParse(rig, 0) Then
+            Return "Integer"
+        ElseIf Long.TryParse(rig, 0) Then
+            Return "Long"
+        ElseIf ULong.TryParse(rig, 0) Then
+            Return "ULong"
+        Else
+            Return "String"
+        End If
+    End Function
 End Class

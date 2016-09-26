@@ -50,16 +50,32 @@ Public Class EntityInferContext
                                            Where tp.PropertyBasicInformation.Name = basicInformation.Name
                                            Into FirstOrDefault
                             If initExpr IsNot Nothing Then
-                                initExpr.InitialValue = initExpr.InitialValue.Replace("""", "")
-                                If initExpr.InitialValue.Contains(",") Then
-                                    initExpr.PropertyBasicInformation.IsQueryable = True
-                                ElseIf ClassIndex.ContainsKey(initExpr.InitialValue) Then
-                                    initExpr.PropertyBasicInformation.TypeNameOverride = ClassIndex(initExpr.InitialValue)
+                                Dim init = initExpr.InitialValue
+                                If init.StartsWith("""") AndAlso init.EndsWith("""") Then
+                                    initExpr.InitialValue = init.Substring(1, init.Length - 2)
+                                    If initExpr.InitialValue.Contains(",") Then
+                                        initExpr.PropertyBasicInformation.IsQueryable = True
+                                    ElseIf ClassIndex.ContainsKey(initExpr.InitialValue) Then
+                                        Dim refCls = ClassIndex(initExpr.InitialValue)
+                                        If refCls Is cls Then
+                                            initExpr.InitialValue = init
+                                            initExpr.PropertyBasicInformation.TypeNameOverride = Nothing
+                                        Else
+                                            initExpr.PropertyBasicInformation.TypeNameOverride = refCls
+                                        End If
+                                    End If
+                                Else
+                                    initExpr.InitialValue = $"{NamespaceBuilder.Name}Context.{initExpr.PropertyBasicInformation.RuntimeTypeName}.Find({init})"
                                 End If
                             End If
                         End If
                         '删除多余的属性定义
                         curProperties.Remove(curKey)
+                    Else
+                        If prop.Value.IsPrimaryKey Then
+                            Dim baseProp = prop.Value
+                            cls.BasePropertyInitialization.Add(New VBPropertyAssignmentDeclaration(baseProp.BasicInformation, SurroundInitExpr(cls.Name, "String")))
+                        End If
                     End If
                 Next
             Else
@@ -270,8 +286,16 @@ Public Class EntityInferContext
                 Return """" + initValue + """"
             Case "Guid"
                 Return $"New {typeName}(""{initValue}"")"
-            Case "Percentage"
-                Return $"Percentage.Parse(""{initValue}"")"
+            Case "Percentage", "BigInteger"
+                Return $"{typeName}.Parse(""{initValue}"")"
+            Case "Single"
+                Return initValue & "F"
+            Case "Long"
+                Return initValue & "L"
+            Case "ULong"
+                Return initValue & "UL"
+            Case "Decimal"
+                Return initValue & "D"
             Case Else
                 Return initValue
         End Select
