@@ -8,12 +8,6 @@ Imports System.Reflection
 
 ' 检查程序集特性的值
 
-<Assembly: AssemblyTitle("Ra2CodeAnalysis")> 
-<Assembly: AssemblyDescription("红警2INI代码分析核心")> 
-<Assembly: AssemblyCompany("Nukepayload2")> 
-<Assembly: AssemblyProduct("Ra2CodeAnalysis")> 
-<Assembly: AssemblyCopyright("版权所有© Nukepayload2 2015")> 
-<Assembly: AssemblyTrademark("Nukepayload2")> 
 <Assembly: NeutralResourcesLanguage("zh-Hans")>
 
 ' 程序集的版本信息由以下四个值组成: 
@@ -26,6 +20,3 @@ Imports System.Reflection
 ' 可以指定所有这些值，也可以使用“生成号”和“修订号”的默认值，
 ' 方法是按如下所示使用“*”: 
 ' <Assembly: AssemblyVersion("1.0.*")> 
-
-<Assembly: AssemblyVersion("1.8.9.0")>
-<Assembly: AssemblyFileVersion("1.8.9.0")>

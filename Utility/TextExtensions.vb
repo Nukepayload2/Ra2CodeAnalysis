@@ -2,6 +2,7 @@
 Imports System.Text
 Imports System.Text.RegularExpressions
 Imports Nukepayload2.Ra2CodeAnalysis.Imaging
+Imports Ra2CodeAnalysis.Imaging
 
 Namespace AnalysisHelper
     Public Module Extensions

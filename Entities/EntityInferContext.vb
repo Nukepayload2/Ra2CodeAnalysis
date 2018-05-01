@@ -176,7 +176,7 @@ Public Class EntityInferContext
                     End If
                 Next
                 Dim helptext = TrimHelp(HelpProvider.GetHelpText(key))
-                cls.Item1.Properties.Add(key, New VBPropertyDeclaration(NamespaceBuilder.sb, helptext, helptext.Contains("<已"), New VBPropertyDeclarationSilm(key, HelpProvider.TempAnalizeUsage(values)) With {.TypeNameOverride = itf, .IsQueryable = valueArray.Length > 1}, Nothing, False))
+                cls.Item1.Properties.Add(key, New VBPropertyDeclaration(NamespaceBuilder.BaseStringBuilder, helptext, helptext.Contains("<已"), New VBPropertyDeclarationSilm(key, HelpProvider.TempAnalizeUsage(values)) With {.TypeNameOverride = itf, .IsQueryable = valueArray.Length > 1}, Nothing, False))
             Next
         Next
     End Sub
@@ -224,7 +224,7 @@ Public Class EntityInferContext
             '可能的基类的主键
             Dim itfName = curItf.Name
             Dim pkSilm As New VBPropertyDeclarationSilm(itfName + "Id", "String")
-            Dim pk As New VBPropertyDeclaration(NamespaceBuilder.sb, $"用于在Ini中索引{itfName}数据", False, pkSilm, Nothing, True)
+            Dim pk As New VBPropertyDeclaration(NamespaceBuilder.BaseStringBuilder, $"用于在Ini中索引{itfName}数据", False, pkSilm, Nothing, True)
             curBase.Properties.Add(pkSilm.Name, pk)
             If itf.Item2 Is Nothing Then Continue For
             '查阅接口记录注册了哪些类
@@ -257,7 +257,7 @@ Public Class EntityInferContext
                 '向接口添加冗余的临时属性
                 curItf.Properties.Add(key, declSilm)
                 '向可能的基类添加属性
-                Dim decl As New VBPropertyDeclaration(NamespaceBuilder.sb, helpText, helpText.Contains("<已"), declSilm, Nothing, False)
+                Dim decl As New VBPropertyDeclaration(NamespaceBuilder.BaseStringBuilder, helpText, helpText.Contains("<已"), declSilm, Nothing, False)
                 curBase.Properties.Add(key, decl)
             End If
         Next

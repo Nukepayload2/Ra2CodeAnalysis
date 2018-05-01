@@ -1,4 +1,4 @@
-﻿Imports Nukepayload2.Ra2CodeAnalysis
+﻿Imports Nukepayload2.CodeAnalysis
 
 Public Class ProjectSetupViewModel
     Inherits SingleInstance(Of ProjectSetupViewModel)

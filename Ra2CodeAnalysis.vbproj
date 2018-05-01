@@ -1,57 +1,11 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <MinimumVisualStudioVersion>10.0</MinimumVisualStudioVersion>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{103245E0-D118-4626-AD5F-6580D8B46B8E}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <TargetFramework>netstandard1.4</TargetFramework>
     <RootNamespace>Nukepayload2.Ra2CodeAnalysis</RootNamespace>
-    <AssemblyName>Ra2CodeAnalysis</AssemblyName>
-    <DefaultLanguage>zh-CN</DefaultLanguage>
-    <ProjectTypeGuids>{14182A97-F7F0-4C62-8B27-98AA8AE2109A};{F184B08F-C81C-45F6-A57F-5ABD9991F28F}</ProjectTypeGuids>
-    <TargetFrameworkProfile>Profile151</TargetFrameworkProfile>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
+    <AssemblyName>Nukepayload2.Ra2CodeAnalysis</AssemblyName>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <DefineDebug>true</DefineDebug>
-    <DefineTrace>true</DefineTrace>
-    <DefineConstants>
-    </DefineConstants>
-    <OutputPath>bin\Debug</OutputPath>
-    <DocumentationFile>Ra2CodeAnalysis.xml</DocumentationFile>
-    <NoWarn>40057,42016,41999,42020,42021,42022</NoWarn>
-    <WarningsAsErrors>42017,42018,42019,42032,42036</WarningsAsErrors>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <DefineDebug>false</DefineDebug>
-    <DefineTrace>true</DefineTrace>
-    <DefineConstants>
-    </DefineConstants>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release</OutputPath>
-    <DocumentationFile>Ra2CodeAnalysis.xml</DocumentationFile>
-    <NoWarn>40057,42016,41999,42020,42021,42022</NoWarn>
-    <WarningsAsErrors>42017,42018,42019,42032,42036</WarningsAsErrors>
-  </PropertyGroup>
-  <PropertyGroup>
-    <OptionExplicit>On</OptionExplicit>
-  </PropertyGroup>
-  <PropertyGroup>
-    <OptionCompare>Binary</OptionCompare>
-  </PropertyGroup>
-  <PropertyGroup>
-    <OptionStrict>On</OptionStrict>
-  </PropertyGroup>
-  <PropertyGroup>
-    <OptionInfer>On</OptionInfer>
-  </PropertyGroup>
+
   <ItemGroup>
     <Import Include="Microsoft.VisualBasic" />
     <Import Include="System" />
@@ -79,130 +33,12 @@
     <Import Include="Windows.UI.Xaml.Media" />
     <Import Include="Windows.UI.Xaml.Media.Imaging" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Analysis\AIAnalyzer.vb" />
-    <Compile Include="Collections\IndexedList.vb" />
-    <Compile Include="Document\DocumentCategories.vb" />
-    <Compile Include="Document\DocumentLoadOptions.vb" />
-    <Compile Include="Document\IniCommentSyntaxTrivia.vb" />
-    <Compile Include="Document\IniControlCharacterSyntaxTrivia.vb" />
-    <Compile Include="Document\IniRecordSyntax.vb" />
-    <Compile Include="Document\IniWrongSyntax.vb" />
-    <Compile Include="Document\IniWrongSyntaxTrivia.vb" />
-    <Compile Include="Entities\EntityInferContext.vb" />
-    <Compile Include="Entities\GeneratedCodeFile.vb" />
-    <Compile Include="Entities\IniFileItem.vb" />
-    <Compile Include="Entities\ProjectBasicInformation.vb" />
-    <Compile Include="Entities\VBPropertyAssignmentDeclaration.vb" />
-    <Compile Include="Help\EmptyHelpProvider.vb" />
-    <Compile Include="Utility\IndentStringBuilder.vb" />
-    <Compile Include="Entities\NamedIniAnalyzer.vb" />
-    <Compile Include="Entities\VBClassBuilder.vb" />
-    <Compile Include="Entities\VBInterfaceBuilder.vb" />
-    <Compile Include="Entities\VBNamespaceBuilder.vb" />
-    <Compile Include="Entities\VBPropertyDeclaration.vb" />
-    <Compile Include="Entities\VBPropertyDeclarationSilm.vb" />
-    <Compile Include="Entities\VBTypeBuilder.vb" />
-    <Compile Include="Entities\VBTypeCategory.vb" />
-    <Compile Include="Entities\VBProjectWriter.vb" />
-    <Compile Include="Help\HelpProvider.vb" />
-    <Compile Include="Help\HelpProviderManager.vb" />
-    <Compile Include="Linq\StringExtension.vb" />
-    <EmbeddedResource Include="Primitives\Percentage.vb" />
-    <Compile Include="ViewModels\CodeGenerateLogViewModel.vb" />
-    <Compile Include="ViewModels\DocumentsViewModel.vb" />
-    <Compile Include="Document\IniCommentSyntax.vb" />
-    <Compile Include="Document\IniKeyValuePairSyntax.vb" />
-    <Compile Include="Document\IniMainKeySyntax.vb" />
-    <Compile Include="Document\IniNewlineSyntaxTrivia.vb" />
-    <Compile Include="Document\IniRecordBlock.vb" />
-    <Compile Include="Document\IniWhitespaceSyntaxTrivia.vb" />
-    <Compile Include="Document\IniSyntax.vb" />
-    <Compile Include="Document\IniSyntaxTrivia.vb" />
-    <Compile Include="Document\IniWordSyntaxTrivia.vb" />
-    <Compile Include="Help\AIHelpProvider.vb" />
-    <Compile Include="Analysis\AnalyzerManager.vb" />
-    <Compile Include="ViewModels\AnalizeSourceViewModel.vb" />
-    <Compile Include="Analysis\ArtAnalyzer.vb" />
-    <Compile Include="Help\ArtHelpProvider.vb" />
-    <Compile Include="Colorize\CodeColorBase.vb" />
-    <Compile Include="Colorize\CodeColorBlock.vb" />
-    <Compile Include="Colorize\CodeColors.vb" />
-    <Compile Include="Input\CodeSnippet.vb" />
-    <Compile Include="Utility\DocumentExtensions.vb" />
-    <Compile Include="ViewModels\CodeSnippetGroup.vb" />
-    <Compile Include="ViewModels\CodeSnippetsViewModel.vb" />
-    <Compile Include="Analysis\CrashAnalyzer.vb" />
-    <Compile Include="Analysis\CrashItem.vb" />
-    <Compile Include="Utility\DataGridDisplayNameAttribute.vb" />
-    <Compile Include="ViewModels\FindSymbolResult.vb" />
-    <Compile Include="Document\IniBlock.vb" />
-    <Compile Include="Document\IniCommentBlock.vb" />
-    <Compile Include="Document\IniDocument.vb" />
-    <Compile Include="Help\IniNamespace.vb" />
-    <Compile Include="Help\IniNamespaceFile.vb" />
-    <Compile Include="Help\IniNamespaceItem.vb" />
-    <Compile Include="Input\IniValueMainKeyRenamer.vb" />
-    <Compile Include="Imaging\IRegisterable.vb" />
-    <Compile Include="Imaging\KeyTreeNode.vb" />
-    <Compile Include="Imaging\MainKeyTreeNode.vb" />
-    <Compile Include="Imaging\MainKeyTreeNodeWriter.vb" />
-    <Compile Include="Utility\ExpressionCalculator.vb" />
-    <Compile Include="Utility\TextExtensions.vb" />
-    <Compile Include="Help\HelpDataProvider.vb" />
-    <Compile Include="Help\IHelpProvider.vb" />
-    <Compile Include="Imaging\IniTreeNode.vb" />
-    <Compile Include="Imaging\IniImagingAnalizer.vb" />
-    <Compile Include="Input\ImeBase.vb" />
-    <Compile Include="Analysis\INIAnalyzeInfo.vb" />
-    <Compile Include="Analysis\INIAnalyzer.vb" />
-    <Compile Include="Analysis\INIAnalyzeResult.vb" />
-    <Compile Include="Utility\Parallel.vb" />
-    <Compile Include="Utility\ParameterizedProperty.vb" />
-    <Compile Include="Input\QuickFix.vb" />
-    <Compile Include="Input\QuickFixSuggestion.vb" />
-    <Compile Include="Analysis\Ra2IniAnalyzer.vb" />
-    <Compile Include="Imaging\RegisterTreeNode.vb" />
-    <Compile Include="Input\RenameOptions.vb" />
-    <Compile Include="Utility\ResetableDelayTask.vb" />
-    <Compile Include="Analysis\RulesAnalyzer.vb" />
-    <Compile Include="My Project\AssemblyInfo.vb" />
-    <Compile Include="Help\RulesHelpProvider.vb" />
-    <Compile Include="Imaging\SubValueTreeNode.vb" />
-    <Compile Include="Tools\SymbolFinder.vb" />
-    <Compile Include="Imaging\Synchronization.vb" />
-    <Compile Include="Utility\ValueConverter.vb" />
-    <Compile Include="Imaging\ValueTreeNode.vb" />
-    <Compile Include="ViewModels\IniFilesViewModel.vb" />
-    <Compile Include="ViewModels\ProjectGenerateViewModel.vb" />
-    <Compile Include="ViewModels\ProjectSetupViewModel.vb" />
-    <Compile Include="ViewModels\SingleInstance.vb" />
-    <Compile Include="ViewModels\WidenIniAnalysisInfo.vb" />
-    <Compile Include="Utility\WritableKeyValuePair.vb" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-    <None Include="project.json" />
-  </ItemGroup>
+  
   <ItemGroup>
     <ProjectReference Include="..\..\..\vs2015\Nukepayload2.CodeAnalysis\Nukepayload2.CodeAnalysis.vbproj">
       <Project>{11d14cb7-c9fe-4044-aba0-9be40efbc301}</Project>
       <Name>Nukepayload2.CodeAnalysis</Name>
     </ProjectReference>
   </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.VisualBasic.targets" />
-  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets'))" />
-  </Target>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+  
 </Project>
